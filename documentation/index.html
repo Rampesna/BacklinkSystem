@@ -1,0 +1,961 @@
+<!doctype html>
+<html lang="en" style="scroll-behavior: smooth;">
+
+<head>
+<title>Oculux | Documentation</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="description" content="Oculux Bootstrap 4x admin is super flexible, powerful, clean &amp; modern responsive admin dashboard with unlimited possibilities.">
+<meta name="keywords" content="admin template, Oculux admin template, dashboard template, flat admin template, responsive admin template, web app, Light Dark version">
+<meta name="author" content="GetBootstrap, design by: puffintheme.com">
+
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<!-- VENDOR CSS -->
+<link rel="stylesheet" href="../public/assets/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../public/assets/vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../public/assets/vendor/animate-css/vivify.min.css">
+
+<link rel="stylesheet" href="../public/assets/vendor/light-gallery/css/lightgallery.css">
+
+<!-- MAIN CSS -->
+<link rel="stylesheet" href="../public/assets/css/site.min.css">
+
+<!-- for demo only -->
+<style>
+    .card .body{font-size: 15px;}
+    .main_features li{padding: 5px 0;}
+    .prettyprint{color: #ffffff;}
+    #Credits li{line-height: 30px;}
+    .lightGallery img{border: 1px solid #484a4e;}
+</style>
+
+</head>
+<body class="theme-green font-krub">
+
+<!-- Page Loader -->
+<div class="page-loader-wrapper">
+    <div class="loader">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+        <div class="bar4"></div>
+        <div class="bar5"></div>
+    </div>
+</div>
+
+<!-- Theme Setting -->
+<div class="themesetting">
+    <a href="javascript:void(0);" class="theme_btn"><i class="icon-magic-wand"></i></a>
+    <div class="card theme_color">
+        <div class="header">
+            <h2>Theme Color</h2>
+        </div>
+        <ul class="choose-skin list-unstyled mb-0">
+            <li data-theme="green"><div class="green"></div></li>
+            <li data-theme="orange"><div class="orange"></div></li>
+            <li data-theme="blush"><div class="blush"></div></li>
+            <li data-theme="cyan" class="active"><div class="cyan"></div></li>
+            <li data-theme="indigo"><div class="indigo"></div></li>
+            <li data-theme="red"><div class="red"></div></li>
+        </ul>
+    </div>
+    <div class="card font_setting">
+        <div class="header">
+            <h2>Font Settings</h2>
+        </div>
+        <div>
+            <div class="fancy-radio mb-2">
+                <label><input name="font" value="font-krub" type="radio" checked><span><i></i>Krub Google font</span></label>
+            </div>
+            <div class="fancy-radio mb-2">
+                <label><input name="font" value="font-montserrat" type="radio"><span><i></i>Montserrat Google font</span></label>
+            </div>
+            <div class="fancy-radio">
+                <label><input name="font" value="font-roboto" type="radio"><span><i></i>Robot Google font</span></label>
+            </div>
+        </div>
+    </div>
+    <div class="card setting_switch">
+        <div class="header">
+            <h2>Settings</h2>
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item">
+                Light Version
+                <div class="float-right">
+                    <label class="switch">
+                        <input type="checkbox" class="lv-btn">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </li>
+            <li class="list-group-item">
+                RTL Version
+                <div class="float-right">
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </li>
+            <li class="list-group-item">
+                Horizontal Henu
+                <div class="float-right">
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </li>
+            <li class="list-group-item">
+                Mini Sidebar
+                <div class="float-right">
+                    <label class="switch">
+                        <input type="checkbox" class="mini-sidebar-btn">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="card">
+        <div class="form-group">
+            <label class="d-block">Traffic this Month <span class="float-right">77%</span></label>
+            <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style="width: 77%;"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="d-block">Server Load <span class="float-right">50%</span></label>
+            <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Overlay For Sidebars -->
+<div class="overlay"></div>
+
+<div id="wrapper">
+
+    <nav class="navbar top-navbar">
+        <div class="container-fluid">
+
+            <div class="navbar-left">
+                <div class="navbar-btn">
+                    <a href="#"><img src="../public/assets/images/icon.svg" alt="Oculux Logo" class="img-fluid logo"></a>
+                    <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown">
+                            <i class="icon-envelope"></i>
+                            <span class="notification-dot bg-green">4</span>
+                        </a>
+                        <ul class="dropdown-menu right_chat email vivify fadeIn">
+                            <li class="header green">You have 4 New eMail</li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="media">
+                                        <div class="avtar-pic w35 bg-red"><span>FC</span></div>
+                                        <div class="media-body">
+                                            <span class="name">James Wert <small class="float-right text-muted">Just now</small></span>
+                                            <span class="message">Update GitHub</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="media">
+                                        <div class="avtar-pic w35 bg-indigo"><span>FC</span></div>
+                                        <div class="media-body">
+                                            <span class="name">Folisise Chosielie <small class="float-right text-muted">12min ago</small></span>
+                                            <span class="message">New Messages</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="media">
+                                        <img class="media-object " src="../public/assets/images/xs/avatar5.jpg" alt="">
+                                        <div class="media-body">
+                                            <span class="name">Louis Henry <small class="float-right text-muted">38min ago</small></span>
+                                            <span class="message">Design bug fix</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="media mb-0">
+                                        <img class="media-object " src="../public/assets/images/xs/avatar2.jpg" alt="">
+                                        <div class="media-body">
+                                            <span class="name">Debra Stewart <small class="float-right text-muted">2hr ago</small></span>
+                                            <span class="message">Fix Bug</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown">
+                            <i class="icon-bell"></i>
+                            <span class="notification-dot bg-azura">4</span>
+                        </a>
+                        <ul class="dropdown-menu feeds_widget vivify fadeIn">
+                            <li class="header blue">You have 4 New Notifications</li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="feeds-left bg-red"><i class="fa fa-check"></i></div>
+                                    <div class="feeds-body">
+                                        <h4 class="title text-danger">Issue Fixed <small class="float-right text-muted">9:10 AM</small></h4>
+                                        <small>WE have fix all Design bug with Responsive</small>
+                                    </div>
+                                </a>
+                            </li>                               
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="feeds-left bg-info"><i class="fa fa-user"></i></div>
+                                    <div class="feeds-body">
+                                        <h4 class="title text-info">New User <small class="float-right text-muted">9:15 AM</small></h4>
+                                        <small>I feel great! Thanks team</small>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="feeds-left bg-orange"><i class="fa fa-question-circle"></i></div>
+                                    <div class="feeds-body">
+                                        <h4 class="title text-warning">Server Warning <small class="float-right text-muted">9:17 AM</small></h4>
+                                        <small>Your connection is not private</small>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="feeds-left bg-green"><i class="fa fa-thumbs-o-up"></i></div>
+                                    <div class="feeds-body">
+                                        <h4 class="title text-success">2 New Feedback <small class="float-right text-muted">9:22 AM</small></h4>
+                                        <small>It will give a smart finishing to your site</small>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown language-menu">
+                        <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown">
+                            <i class="fa fa-language"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item pt-2 pb-2" href="#"><img src="../public/assets/images/flag/us.svg " class="w20 mr-2 rounded-circle"> US English</a>
+                            <a class="dropdown-item pt-2 pb-2" href="#"><img src="../public/assets/images/flag/gb.svg " class="w20 mr-2 rounded-circle"> UK English</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item pt-2 pb-2" href="#"><img src="../public/assets/images/flag/russia.svg " class="w20 mr-2 rounded-circle"> Russian</a>
+                            <a class="dropdown-item pt-2 pb-2" href="#"><img src="../public/assets/images/flag/arabia.svg " class="w20 mr-2 rounded-circle"> Arabic</a>
+                            <a class="dropdown-item pt-2 pb-2" href="#"><img src="../public/assets/images/flag/france.svg " class="w20 mr-2 rounded-circle"> French</a>
+                        </div>
+                    </li>
+                    <li><a href="javascript:void(0);" class="megamenu_toggle icon-menu" title="Mega Menu">Mega</a></li>
+                    <li class="p_social"><a href="#" class="social icon-menu" title="News">Social</a></li>
+                    <li class="p_news"><a href="#" class="news icon-menu" title="News">News</a></li>
+                    <li class="p_blog"><a href="#" class="blog icon-menu" title="Blog">Blog</a></li>
+                </ul>
+            </div>
+            
+            <div class="navbar-right">
+                <div id="navbar-menu">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <form id="navbar-search" class="navbar-form search-form">
+                                <input value="" class="form-control" placeholder="Search here..." type="text">
+                                <button type="button" class="btn btn-default"><i class="icon-magnifier"></i></button>
+                            </form>
+                        </li>                        
+                        <li><a href="javascript:void(0);" class="right_toggle icon-menu" title="Right Menu"><i class="icon-bubbles"></i><span class="notification-dot bg-pink">2</span></a></li>
+                        <li><a href="#" class="icon-menu"><i class="icon-power"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="progress-container"><div class="progress-bar" id="myBar"></div></div>
+    </nav>
+
+    <div id="megamenu" class="megamenu particles_js">
+        <a href="javascript:void(0);" class="megamenu_toggle btn btn-danger"><i class="icon-close"></i></a>
+        <div class="container">            
+            <div class="row clearfix">
+                <div class="col-12">
+                    <ul class="q_links">
+                        <li><a href="app-inbox.html"><i class="icon-envelope"></i><span>Inbox</span></a></li>
+                        <li><a href="app-chat.html"><i class="icon-bubbles"></i><span>Messenger</span></a></li>
+                        <li><a href="app-calendar.html"><i class="icon-calendar"></i><span>Event</span></a></li>
+                        <li><a href="page-profile.html"><i class="icon-user"></i><span>Profile</span></a></li>
+                        <li><a href="page-invoices.html"><i class="icon-printer"></i><span>Invoice</span></a></li>
+                        <li><a href="page-timeline.html"><i class="icon-list"></i><span>Timeline</span></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="card w_card3">
+                        <div class="body">
+                            <div class="text-center"><i class="icon-picture text-info"></i>
+                                <h4 class="m-t-25 mb-0">104 Picture</h4>
+                                <p>Your gallery download complete</p>
+                                <a href="javascript:void(0);" class="btn btn-info btn-round">Download now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="card w_card3">
+                        <div class="body">
+                            <div class="text-center"><i class="icon-diamond text-success"></i>
+                                <h4 class="m-t-25 mb-0">813 Point</h4>
+                                <p>You are doing great job!</p>
+                                <a href="javascript:void(0);" class="btn btn-success btn-round">Read now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="card w_card3">
+                        <div class="body">
+                            <div class="text-center"><i class="icon-social-twitter text-primary"></i>
+                                <h4 class="m-t-25 mb-0">3,756</h4>
+                                <p>New Followers on Twitter</p>
+                                <a href="javascript:void(0);" class="btn btn-primary btn-round">Find more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            Anyone send me a message
+                            <div class="float-right">
+                                <label class="switch">
+                                    <input type="checkbox" checked="">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            Anyone seeing my profile page
+                            <div class="float-right">
+                                <label class="switch">
+                                    <input type="checkbox" checked="">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            Anyone posts a comment on my post
+                            <div class="float-right">
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="particles-js"></div>
+    </div>
+
+    <div id="rightbar" class="rightbar">
+        <div class="slim_scroll">
+            <div class="chat_detail vivify fadeIn delay-100">
+                <ul class="chat-widget clearfix">
+                    <li class="left float-left">
+                        <div class="avtar-pic w35 bg-pink"><span>KG</span></div>
+                        <div class="chat-info">       
+                            <span class="message">Hello, John<br>What is the update on Project X?</span>
+                        </div>
+                    </li>
+                    <li class="right">
+                        <img src="../assets/images/xs/avatar1.jpg" class="rounded" alt="">
+                        <div class="chat-info">
+                            <span class="message">Hi, Alizee<br> It is almost completed. I will send you an email later today.</span>
+                        </div>
+                    </li>
+                    <li class="left float-left">
+                        <div class="avtar-pic w35 bg-pink"><span>KG</span></div>
+                        <div class="chat-info">
+                            <span class="message">That's great. Will catch you in evening.</span>
+                        </div>
+                    </li>
+                    <li class="right">
+                        <img src="../assets/images/xs/avatar1.jpg" class="rounded" alt="">
+                        <div class="chat-info">
+                            <span class="message">Sure we'will have a blast today.</span>
+                        </div>
+                    </li>
+                </ul>
+                <div class="input-group p-t-15">
+                    <textarea rows="3" class="form-control" placeholder="Enter text here..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="left-sidebar" class="sidebar">
+        <div class="navbar-brand">
+            <a href="#"><img src="../public/assets/images/icon.svg" alt="Oculux Logo" class="img-fluid logo"><span>Oculux</span></a>
+            <button type="button" class="btn-toggle-offcanvas btn btn-sm float-right"><i class="lnr lnr-menu fa fa-chevron-circle-left"></i></button>
+        </div>
+        <div class="sidebar-scroll">
+            <div class="user-account">
+                <div class="user_div">
+                    <img src="../public/assets/images/user.png" class="user-photo" alt="User Profile Picture">
+                </div>
+                <div class="dropdown">
+                    <span>Welcome,</span>
+                    <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>Louis Pierce</strong></a>
+                    <ul class="dropdown-menu dropdown-menu-right account vivify flipInY">
+                        <li><a href="#"><i class="icon-user"></i>My Profile</a></li>
+                        <li><a href="#"><i class="icon-envelope-open"></i>Messages</a></li>
+                        <li><a href="javascript:void(0);"><i class="icon-settings"></i>Settings</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="icon-power"></i>Logout</a></li>
+                    </ul>
+                </div>                
+            </div>  
+            <nav id="left-sidebar-nav" class="sidebar-nav">
+                <ul id="main-menu" class="metismenu">
+                    <li class="active"><a href="#documenter_cover"><i class="icon-home"></i><span>Start</span></a></li>
+                    <li><a href="#features"><i class="icon-star"></i><span>Features</span></a></li>
+                    <li><a href="#grunt_file"><i class="icon-tag"></i><span>Grunt File</span></a></li>
+                    <li><a href="#SCSS"><i class="icon-tag"></i><span>SCSS</span></a></li>
+                    <li><a href="#main_content"><i class="icon-arrow-right"></i><span>Main Content</span></a></li>
+                    <li><a href="#folder_structure"><i class="icon-folder-alt"></i><span>Folder Structure</span></a></li>
+                    <li><a href="#javascript"><i class="icon-arrow-right"></i><span>Javascript</span></a></li>
+                    <li><a href="#Credits"><i class="icon-like"></i><span>Credits</span></a></li>
+                    <li><a href="#thank_you"><i class="icon-heart"></i><span>THANK YOU!</span></a></li>
+                    <li><a href="#Gallery"><i class="icon-picture"></i><span>Gallery</span></a></li>
+                </ul>
+            </nav>     
+        </div>
+    </div>    
+
+    <div id="main-content">
+        <div class="block-header">
+            <div class="row clearfix">
+                <div class="col-md-6 col-sm-12">
+                    <h1>Documentation</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                          <li class="breadcrumb-item"><a href="#">Oculux</a></li>
+                          <li class="breadcrumb-item active" aria-current="page">Documentation</li>
+                        </ol>
+                    </nav>
+                </div>            
+                <div class="col-md-6 col-sm-12 text-right hidden-xs">
+                    <a href="javascript:void(0);" class="btn btn-sm btn-primary btn-round" title="">Create Campaign</a>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row clearfix">
+                <div class="col-sm-12">
+                    <div class="card" id="documenter_cover">
+                        <div class="body">
+                            <h4 class="mb-3">Oculux - Minimal Laravel + Bootstrap 4x admin template</h4>
+                            <p>Oculux is a popular open source WebApp template for admin dashboards and admin panels. It’s responsive HTML template, which is based on the Bootstrap 4X framework. It utilizes all of the Bootstrap components in design and re-styles many commonly used plugins to create a consistent design that can be used as a user interface for backend applications.</p>
+                            <ul>
+                                <li>eMail: <strong>puffintheme@gmail.com</strong></li>
+								<li>Created: <strong>01/Feb/2019</strong></li>
+                                <li>Update:  <strong class="text-orange">17/Sept/2019</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 ">
+                    <div class="card" id="overview">
+                        <div class="header">
+                            <h2>Brief Overview</h2>
+                        </div>
+                        <div class="body">
+                            <p>Oculux is a popular Premium WebApp template for admin dashboards and admin panels.</p>
+<p>It's responsive HTML template, which is based on the Bootstrap 4X framework. It utilizes all of the Bootstrap components in design and re-styles many commonly used plugins to create a consistent design that can be used as a user interface for backend applications.</p>
+                            
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6">
+                                    <h6 class="m-t-20">Laravel 5.7</h6>
+                                    <p class="text-muted">Laravel 5.7 is latest version of Laravel framework of PHP to develop web applications following the model–view–controller (MVC) architectural pattern and based on Symfony.</p>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <h6 class="m-t-20">SASS Supported</h6>
+                                    <p class="text-muted">SASS is completely compatible with all versions of CSS. We have included it, so that you can seamlessly use any</p>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <h6 class="m-t-20">Valid & Clean Code</h6>
+                                    <p class="text-muted">Well organized & simple to use code to facilitate your time.</p>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <h6 class="m-t-20 ">Responsive Design</h6>
+                                    <p class="text-muted">All the functions of this Bootstrap 4x Template are guaranteed to run smoothly with beautiful interface in every device like - Desktop, Laptop, iPad, iPhone and Retina Display</p>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <h6 class="m-t-20">Mega Menu and Mobile Menu</h6>
+                                    <p class="text-muted">Excellent mega menu is available to nevigate all the pages. Visitors can access all the pages from this menu</p>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <h6 class="m-t-20">Easy Color Changes</h6>
+                                    <p class="text-muted">Effortlessly change the color of element</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="card" id="features">
+                        <div class="header">
+                            <h2>Main Features</h2>
+                            <ul class="header-dropdown dropdown">                                
+                                <li><a href="javascript:void(0);" class="full-screen"><i class="icon-frame"></i></a></li>
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="javascript:void(0);">Action</a></li>
+                                        <li><a href="javascript:void(0);">Another Action</a></li>
+                                        <li><a href="javascript:void(0);">Something else</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6">
+                                    <ul class="main_features">
+                                        <li><strong><a href="https://getbootstrap.com/" target="_blank">Bootstrap</a> 4x</strong></li>
+                                        <li>Latest <strong><a href="https://jquery.com/" target="_blank">jQuery v3.3.1</a></strong></li>
+                                        <li>Built in <strong><a href="http://sass-lang.com/" target="_blank">SASS</a></strong></li>
+                                        <li>Light and Dark Version</li>                                        
+                                        <li>Fully Responsive</li>
+                                        <li>Ready to used widget</li>
+                                        <li>Detailed Documentation</li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <ul class="main_features">
+                                        <li>Invoice</li>
+                                        <li>User Profile</li>
+                                        <li>Image Gallery</li>
+                                        <li>Timeline</li>
+                                        <li>Summernote</li>
+                                        <li>Markdown</li>                                        
+                                        <li>Many Charts Options</li>                                        
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <ul class="main_features">
+                                        <li>Form Examples</li>
+                                        <li>Form Validation</li>
+                                        <li>Advanced Form Elements</li>
+                                        <li>Form Wizard</li>                                        
+                                        <li>Drag & Drop Upload</li>
+                                        <li>Social</li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <ul class="main_features">                                        
+                                        <li>Input Slider</li>                                        
+                                        <li>Date Picker</li>
+                                        <li>Drag & Drop Upload</li>
+                                        <li>Image Cropping</li>
+                                        <li>Sortable & Nestable</li>
+                                        <li>CKEditor</li>
+                                    </ul>
+                                </div>
+                            </div>                            
+                            <div class="alert alert-danger" role="alert">
+                                <strong>Note:-</strong> jQuery plugin dependencies may relay on used platform and their versions. and
+                                Works well in all latest browsers like Chrome, Firefox, Safari, Microsoft Edge.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="card" id="server_requirements">
+                        <div class="header">
+                            <h2>Server Requirements</h2>
+                        </div>
+                        <div class="body">
+                            <p>Please make sure your server meets the following requirements.</p>
+                            <div class="row clearfix">
+                                <div class="col-lg-6 col-sm-12">
+                                    <ul class="main_features">
+                                        <li>PHP >= 7.1.3</li>
+                                        <li>OpenSSL PHP Extension</li>
+                                        <li>PDO PHP Extension</li>
+                                        <li>Mbstring PHP Extension</li>
+                                        <li>Tokenizer PHP Extension</li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6 col-sm-12">
+                                    <ul class="main_features">
+                                        <li>XML PHP Extension</li>
+                                        <li>Ctype PHP Extension</li>
+                                        <li>JSON PHP Extension</li>
+                                        <li>BCMath PHP Extension</li>
+                                    </ul>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 ">
+                    <div class="card" id="installation">
+                        <div class="header">
+                            <h2>Installation</h2>
+                        </div>
+                        <div class="body">
+                            <p>Please make sure your server meets the following requirements.</p>
+                            <div class="mb-4">
+                                <h6>1. Download</h6>
+                                <p>Download the theme files from your account and place on your server.</p>
+                            </div>
+                            <div class="mb-4">
+                                <h6>2. Composer</h6>
+                                <p>Laravel project dependencies are managed through the PHP Composer tool. The first step is to install the depencencies by navigating into your project in terminal and type following command:
+                                <code>composer install</code></p>
+                            </div>
+                            <div class="mb-4">
+                                <h6>3. NPM/Yarn</h6>
+                                <p>For NPM, you have to run following command from the root of the project in terminal:
+                                <code>npm install</code></p>
+                            </div>
+                            <div class="mb-4">
+                                <h6>4. Change Environment Configuration Files</h6>
+                                <p>This package ships with a .env. file in the root of the project. Change/Update your desired variables in this file.</p>
+                            </div>
+                            <p>Reference: <a href="Reference: https://laravel.com/docs/5.7/installation">https://laravel.com/docs/5.7/installation</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="card" id="grunt_file">
+                        <div class="header">
+                            <h2>Grunt File & Installation <small>The JavaScript Task Runner.</small></h2>
+                        </div>
+                        <div class="body">
+                            <p><strong>Installing Grunt:</strong> Run <code>npm install grunt --save-dev</code> command from your teminal to install grunt within your project.</p>
+                            <p><strong>Grunt Sass:</strong> Run <code>grunt sass</code> command from your project directory. It will compile SASS to CSS for the project. This will read the file `assets/scss/filename.scss` and output a plain-css file to `/assets/css/filename.css`. </p>
+                            <p><strong>Grunt JSHint:</strong> Run <code>grunt jshint</code> command from your project directory. It will checks all *.js files under `assetsjs/filename` for common syntax or coding errors using the JSHint utility.</p>
+                            <p><strong>Grunt Sprite:</strong> Run <code>grunt sprite</code> command from your project directory. </p>                        
+                            <p><strong>Further help:</strong> To get more help on the grunt checkout <a href="https://gruntjs.com/getting-started">Grunt</a></p>
+                            <p><strong>Note:</strong> However, any SASS code you write must be able compile via Grunt as well.It will generate pre-compiled javascript templates. Reads all the *.html files from `assets/js/filename` and outputs `assets/js/filename.templates.js`. Template.js will contains code of UI design and will be change each time you build solution through above command.</p>
+                            <p><a href="https://gruntjs.com/" target="_blank"><strong>Grunt</strong></a> is a JavaScript task runner, a tool used to automatically perform frequent tasks such as minification, compilation, unit testing, and linting. It uses a command-line interface to run custom tasks defined in a file.</p>
+                        </div>                    
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="card" id="SCSS">
+                        <div class="header">
+                            <h2>SCSS Structure</h2>
+                            <ul class="header-dropdown dropdown">                                
+                                <li><a href="javascript:void(0);" class="full-screen"><i class="icon-frame"></i></a></li>
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="javascript:void(0);">Action</a></li>
+                                        <li><a href="javascript:void(0);">Another Action</a></li>
+                                        <li><a href="javascript:void(0);">Something else</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body">
+                            <p>Please note that all Detail main Web Site, you need to set it up on your project <a href="http://sass-lang.com/documentation/file.SASS_REFERENCE.html" class="col-blue" target="_blank">Click Here..</a></p>
+                            <p>main.css is the main CSS file located in assets/css/ folder of the package. Whole CSS file is well indexed with topic and its related code.</p>
+<pre class="prettyprint lang-html linenums">
+&lt;!-- START CONTENT --&gt;
+body {
+    @include transition(all .3s ease-in-out);
+    background-color: $body-color;
+    font-weight: $font-weight-400;
+	font-family: $font-family;
+	font-size: $font-size;
+    color: $font-color;    
+}
+a {
+	&amp;:hover,
+	&amp;:focus {
+		color: $link-color-hover;
+		text-decoration: none;
+	}
+}
+&lt;!-- END CONTENT --&gt;
+</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="card" id="main_content">
+                        <div class="header">
+                            <h2>Main Content</h2>
+                            <ul class="header-dropdown dropdown">                                
+                                <li><a href="javascript:void(0);" class="full-screen"><i class="icon-frame"></i></a></li>
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="javascript:void(0);">Action</a></li>
+                                        <li><a href="javascript:void(0);">Another Action</a></li>
+                                        <li><a href="javascript:void(0);">Something else</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body">
+<pre class="prettyprint lang-html linenums">
+&lt;!-- START CONTENT --&gt;
+&lt;div class=&quot;page-loader-wrapper&quot;&gt;
+    &lt;div class=&quot;loader&quot;&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;themesetting&quot;&gt;
+    
+&lt;/div&gt;
+
+&lt;div id=&quot;wrapper&quot;&gt;
+    &lt;nav class=&quot;navbar navbar-fixed-top&quot;&gt;
+        
+    &lt;/nav&gt;
+    &lt;div id=&quot;megamenu&quot; class=&quot;megamenu vivify driveInTop&quot;&gt;
+        
+    &lt;/div&gt;
+    &lt;div id=&quot;rightbar&quot; class=&quot;rightbar&quot;&gt;
+
+    &lt;/div&gt;
+    &lt;div id=&quot;left-sidebar&quot; class=&quot;sidebar&quot;&gt;
+        &lt;div class=&quot;sidebar-scroll&quot;&gt;
+            &lt;div class=&quot;user-account&quot;&gt;
+            &lt;/div&gt;  
+            &lt;nav id=&quot;left-sidebar-nav&quot; class=&quot;sidebar-nav&quot;&gt;
+            &lt;/nav&gt;     
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;main-content&quot;&gt;
+        &lt;div class=&quot;block-header&quot;&gt;
+            
+        &lt;/div&gt;
+        &lt;div class=&quot;container-fluid&quot;&gt;
+        
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- END CONTENT --&gt;
+</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="card" id="folder_structure">
+                        <div class="header">
+                            <h2>Folder Structure</h2>
+                            <ul class="header-dropdown dropdown">                                
+                                <li><a href="javascript:void(0);" class="full-screen"><i class="icon-frame"></i></a></li>
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="javascript:void(0);">Action</a></li>
+                                        <li><a href="javascript:void(0);">Another Action</a></li>
+                                        <li><a href="javascript:void(0);">Something else</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body">
+                            <p>We follow standard Laravel fodler structure and other created files are as following</p>
+                            <h6 class="m-0">Template assets files can be located at</h6>
+                            <small class="text-muted">/public/assets/*</small>
+
+                            <h6 class="m-0">Routes can be located at</h6>
+                            <small class="text-muted">/routes/web.php</small>
+
+                            <h6 class="m-0">Controller files can be located at</h6>
+                            <small class="text-muted">/app/Http/Controllers/*</small>
+
+                            <h6 class="m-0">View files can be located at</h6>
+                            <small class="text-muted">/resources/views/*</small>
+
+                            <h6 class="m-0">Layout files can be located at</h6>
+                            <small class="text-muted">/resources/views/layout/master.blade.php<br>/resources/views/layout/authentication.blade.php</small>
+
+                            <h6 class="m-0">Navigation Bar and Sidebar can be located at</h6>
+                            <small class="text-muted">/resources/views/layout/navbar.blade.php<br>/resources/views/layout/sidebar.blade.php</small>
+
+                            <h6 class="m-0">Default Error page can be locate at</h6>
+                            <small class="text-muted">/resources/views/errors/404.blade.php</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="card" id="javascript">
+                        <div class="header">
+                            <h2>Javascript</h2>
+                            <ul class="header-dropdown dropdown">                                
+                                <li><a href="javascript:void(0);" class="full-screen"><i class="icon-frame"></i></a></li>
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="javascript:void(0);">Action</a></li>
+                                        <li><a href="javascript:void(0);">Another Action</a></li>
+                                        <li><a href="javascript:void(0);">Something else</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body">
+                            <p>Oculux admin.js is the mail javascript file having all the js code. File is located in assets/js/ folder. This file code is also well formatted and section in different respective function names.</p>
+                            <p class="m-b-30">Along with this chart library based js code and dashboard based js code are added in separate files for ease of use of user.</p>
+<pre class="prettyprint lang-html linenums">
+&lt;!-- START CONTENT --&gt;
+function initSparkline() {
+	$(&quot;.sparkline&quot;).each(function() {
+		var $this = $(this);
+		$this.sparkline('html', $this.data());
+	});
+
+	// Bar charts using inline values
+	$('.sparkbar').sparkline('html', { type: 'bar' });	
+}
+&lt;!-- END CONTENT --&gt;
+</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="card" id="Credits">
+                        <div class="header">
+                            <h2>Credits</h2>
+                            <ul class="header-dropdown dropdown">
+                                <li><a href="javascript:void(0);" class="full-screen"><i class="icon-frame"></i></a></li>
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="javascript:void(0);">Action</a></li>
+                                        <li><a href="javascript:void(0);">Another Action</a></li>
+                                        <li><a href="javascript:void(0);">Something else</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-12">
+                                    <ul>
+                                        <li>Google fonts are used in the template. <a href="https://fonts.google.com/specimen/Krub" class="text-warning">Krub</a></li>
+                                        <li>Font Awesome: <a href="https://fontawesome.com/v4.7.0/" class="text-warning">Click to See</a></li>
+                                        <li>All Images are used: <a href="https://www.pexels.com/" class="text-warning">Pexels.com</a></li>
+                                        <li>Animation css are used: <a href="http://vivify.mkcreative.cz/"  class="text-warning" title="">vivify</a></li>
+                                        <li>Bootstrap framework <a href="http://getbootstrap.com/" class="text-warning">Bootstrap</a></li>
+                                        <li>Jquery <a href="https://jquery.com/" class="text-warning">Jquery</a></li>
+                                        <li>Datatables <a href="https://www.datatables.net/" class="text-warning">Click to See</a></li>                                        
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6 col-md-12">
+                                    <ul>                                        
+                                        <li>Full Calendar <a href="https://fullcalendar.io/" class="text-warning">Calendar</a></li>
+                                        <li>Sparkline <a href="https://omnipotent.net/jquery.sparkline/" class="text-warning">Click to See</a></li>
+                                        <li>Vector Maps <a href="http://jqvmap.com/" class="text-warning">Click to See</a></li>
+                                        <li>jquery steps <a href="http://www.jquery-steps.com/" class="text-warning">Click to See</a></li>
+                                        <li>Image cropper <a href="https://github.com/fengyuanchen/cropper" class="text-warning">Click to See</a></li>
+                                        <li>Summernote <a href="https://summernote.org/" class="text-warning">Click to See</a></li>
+                                        <li>Form Drag & Drop <a href="https://github.com/JeremyFagis/dropify" class="text-warning">Click to See</a></li>
+                                    </ul>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="card" id="thank_you">
+                        <div class="header">
+                            <h2>Thank You!</h2>
+                            <ul class="header-dropdown dropdown">                                
+                                <li><a href="javascript:void(0);" class="full-screen"><i class="icon-frame"></i></a></li>
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="javascript:void(0);">Action</a></li>
+                                        <li><a href="javascript:void(0);">Another Action</a></li>
+                                        <li><a href="javascript:void(0);">Something else</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body">
+                            <p> Once again, thank you so much for purchasing this template. As I said at the beginning, I&#39;d be glad to help you if you have any questions relating to this template.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="card" id="Gallery">
+                        <div class="header">
+                            <h2>Gallery</h2>
+                            <ul class="header-dropdown dropdown">                                
+                                <li><a href="javascript:void(0);" class="full-screen"><i class="icon-frame"></i></a></li>
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="javascript:void(0);">Action</a></li>
+                                        <li><a href="javascript:void(0);">Another Action</a></li>
+                                        <li><a href="javascript:void(0);">Something else</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body">
+                            <div id="lightgallery" class="row clearfix lightGallery">
+                                <div class="col-lg-3 col-md-6 m-b-30"><a class="light-link" href="assets/img01.png"><img class="img-fluid rounded" src="assets/img01.png" alt=""></a></div>
+                                <div class="col-lg-3 col-md-6 m-b-30"><a class="light-link" href="assets/img02.png"><img class="img-fluid rounded" src="assets/img02.png" alt=""></a></div>
+                                <div class="col-lg-3 col-md-6 m-b-30"><a class="light-link" href="assets/img03.png"><img class="img-fluid rounded" src="assets/img03.png" alt=""></a></div>
+                                <div class="col-lg-3 col-md-6 m-b-30"><a class="light-link" href="assets/img04.png"><img class="img-fluid rounded" src="assets/img04.png" alt=""></a></div>
+                                <div class="col-lg-3 col-md-6 m-b-30"><a class="light-link" href="assets/img05.png"><img class="img-fluid rounded" src="assets/img05.png" alt=""></a></div>
+                                <div class="col-lg-3 col-md-6 m-b-30"><a class="light-link" href="assets/img06.png"><img class="img-fluid rounded" src="assets/img06.png" alt=""></a></div>
+                                <div class="col-lg-3 col-md-6 m-b-30"><a class="light-link" href="assets/img07.png"><img class="img-fluid rounded" src="assets/img07.png" alt=""></a></div>
+                                <div class="col-lg-3 col-md-6 m-b-30"><a class="light-link" href="assets/img08.png"><img class="img-fluid rounded" src="assets/img08.png" alt=""></a></div>
+                                <div class="col-lg-3 col-md-6 m-b-30"><a class="light-link" href="assets/img09.png"><img class="img-fluid rounded" src="assets/img09.png" alt=""></a></div>
+                                <div class="col-lg-3 col-md-6 m-b-30"><a class="light-link" href="assets/img10.png"><img class="img-fluid rounded" src="assets/img10.png" alt=""></a></div>
+                                <div class="col-lg-3 col-md-6 m-b-30"><a class="light-link" href="assets/img11.png"><img class="img-fluid rounded" src="assets/img11.png" alt=""></a></div>
+                                <div class="col-lg-3 col-md-6 m-b-30"><a class="light-link" href="assets/img12.png"><img class="img-fluid rounded" src="assets/img12.png" alt=""></a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+    
+</div>
+
+<!-- Javascript -->
+<script src="../public/assets/bundles/libscripts.bundle.js"></script>    
+<script src="../public/assets/bundles/vendorscripts.bundle.js"></script>
+
+<script src="../public/assets/bundles/lightgallery.bundle.js"></script><!-- Light Gallery Plugin Js --> 
+
+<script src="../public/assets/bundles/mainscripts.bundle.js"></script>
+<script src="../public/assets/js/pages/medias/image-gallery.js"></script>
+
+<script>
+$('.metismenu li').click(function(){
+    var $this = $(this);
+    if(!$this.is('active'))
+    {
+        $('.metismenu li').removeClass('active').removeData("top");
+        $this.addClass('active').data("top", $this.offset().top);
+    }
+});
+</script>
+</body>
+</html>
