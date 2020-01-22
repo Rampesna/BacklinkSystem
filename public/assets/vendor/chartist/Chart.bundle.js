@@ -1440,11 +1440,11 @@ for (var func in conversions) {
   // export rgb2hsl and ["rgb"]["hsl"]
   convert[from] = convert[from] || {};
 
-  convert[from][to] = convert[func] = (function(func) { 
+  convert[from][to] = convert[func] = (function(func) {
     return function(arg) {
       if (typeof arg == "number")
         arg = Array.prototype.slice.call(arguments);
-      
+
       var val = conversions[func](arg);
       if (typeof val == "string" || val === undefined)
         return val; // keyword
@@ -1472,12 +1472,12 @@ Converter.prototype.routeSpace = function(space, args) {
    }
    // color.rgb(10, 10, 10)
    if (typeof values == "number") {
-      values = Array.prototype.slice.call(args);        
+      values = Array.prototype.slice.call(args);
    }
 
    return this.setValues(space, values);
 };
-  
+
 /* Set the values for a space, invalidating cache */
 Converter.prototype.setValues = function(space, values) {
    this.space = space;
@@ -5969,7 +5969,7 @@ module.exports = function(Chart) {
 "use strict";
 
 module.exports = function(Chart) {
-	
+
 	Chart.Radar = function(context, config) {
 		config.options = Chart.helpers.configMerge({ aspectRatio: 1 }, config.options);
 		config.type = 'radar';
@@ -6997,7 +6997,7 @@ module.exports = function(Chart) {
 				return 0;
 			}
 		},
-		
+
 		//gets the max border or hover width to properly scale pie charts
         getMaxBorderWidth: function (elements) {
             var max = 0,
@@ -7009,7 +7009,7 @@ module.exports = function(Chart) {
             for (var i = 0; i < length; i++) {
                	borderWidth = elements[i]._model ? elements[i]._model.borderWidth : 0;
                 hoverWidth = elements[i]._chart ? elements[i]._chart.config.data.datasets[index].hoverBorderWidth : 0;
-				
+
                 max = borderWidth > max ? borderWidth : max;
                 max = hoverWidth > max ? hoverWidth : max;
             }
@@ -8461,7 +8461,7 @@ module.exports = function(Chart) {
 			}, me);
 
 			return elementsArray;
-		},		
+		},
 
 		getElementsAtEventForMode: function(e, mode) {
 			var me = this;
@@ -8845,9 +8845,9 @@ module.exports = function(Chart) {
 			model.borderColor = custom.hoverBorderColor ? custom.hoverBorderColor : valueOrDefault(dataset.hoverBorderColor, index, getHoverColor(model.borderColor));
 			model.borderWidth = custom.hoverBorderWidth ? custom.hoverBorderWidth : valueOrDefault(dataset.hoverBorderWidth, index, model.borderWidth);
 		}
-		
+
     });
-	
+
 
 	Chart.DatasetController.extend = helpers.inherits;
 };
@@ -8882,7 +8882,7 @@ module.exports = function(Chart) {
 
     transition: function(ease) {
       var me = this;
-      
+
       if (!me._view) {
         me._view = helpers.clone(me._model);
       }
@@ -9915,7 +9915,7 @@ module.exports = function() {
 	var Chart = function(context, config) {
 		var me = this;
 		var helpers = Chart.helpers;
-		me.config = config || { 
+		me.config = config || {
 			data: {
 				datasets: []
 			}
@@ -10025,13 +10025,13 @@ module.exports = function(Chart) {
 
 	var helpers = Chart.helpers;
 
-	// The layout service is very self explanatory.  It's responsible for the layout within a chart.
-	// Scales, Legends and Plugins all rely on the layout service and can easily register to be placed anywhere they need
-	// It is this service's responsibility of carrying out that layout.
+	// The Layouts service is very self explanatory.  It's responsible for the Layouts within a chart.
+	// Scales, Legends and Plugins all rely on the Layouts service and can easily register to be placed anywhere they need
+	// It is this service's responsibility of carrying out that Layouts.
 	Chart.layoutService = {
 		defaults: {},
 
-		// Register a box to a chartInstance. A box is simply a reference to an object that requires layout. eg. Scales, Legend, Plugins.
+		// Register a box to a chartInstance. A box is simply a reference to an object that requires Layouts. eg. Scales, Legend, Plugins.
 		addBox: function(chartInstance, box) {
 			if (!chartInstance.boxes) {
 				chartInstance.boxes = [];
@@ -10112,7 +10112,7 @@ module.exports = function(Chart) {
 			// 1. Determine the minimum size of the chart area.
 			// 2. Split the remaining width equally between each vertical axis
 			// 3. Split the remaining height equally between each horizontal axis
-			// 4. Give each layout the maximum size it can be. The layout will return it's minimum size
+			// 4. Give each Layouts the maximum size it can be. The Layouts will return it's minimum size
 			// 5. Adjust the sizes of each axis based on it's minimum reported size.
 			// 6. Refit each axis
 			// 7. Position each axis in the final location
@@ -10213,7 +10213,7 @@ module.exports = function(Chart) {
 				totalBottomBoxesHeight += box.height;
 			});
 
-			// Let the left layout know the final margin
+			// Let the left Layouts know the final margin
 			helpers.each(leftBoxes.concat(rightBoxes), finalFitVerticalBox);
 
 			function finalFitVerticalBox(box) {
@@ -10233,7 +10233,7 @@ module.exports = function(Chart) {
 				}
 			}
 
-			// Recalculate because the size of each layout might have changed slightly due to the margins (label rotation for instance)
+			// Recalculate because the size of each Layouts might have changed slightly due to the margins (label rotation for instance)
 			totalLeftBoxesWidth = xPadding;
 			totalRightBoxesWidth = xPadding;
 			totalTopBoxesHeight = yPadding;
@@ -10254,7 +10254,7 @@ module.exports = function(Chart) {
 				totalBottomBoxesHeight += box.height;
 			});
 
-			// Figure out if our chart area changed. This would occur if the dataset layout label rotation
+			// Figure out if our chart area changed. This would occur if the dataset Layouts label rotation
 			// changed due to the application of the margins in step 6. Since we can only get bigger, this is safe to do
 			// without calling `fit` again
 			var newMaxChartAreaHeight = height - totalTopBoxesHeight - totalBottomBoxesHeight;
@@ -12785,7 +12785,7 @@ module.exports = function(Chart) {
 				var vm = point._view;
 				if (point._view.steppedLine === true) {
 					ctx.lineTo(point._view.x, previousPoint._view.y);
-					ctx.lineTo(point._view.x, point._view.y);				
+					ctx.lineTo(point._view.x, point._view.y);
 				} else if (point._view.tension === 0) {
 					ctx.lineTo(vm.x, vm.y);
 				} else {
@@ -12845,7 +12845,7 @@ module.exports = function(Chart) {
 							}
 						} else {
 							if (lastDrawnIndex !== (index - 1)) {
-								// There was a gap and this is the first point after the gap. If we've never drawn a point, this is a special case. 
+								// There was a gap and this is the first point after the gap. If we've never drawn a point, this is a special case.
 								// If the first data point is NaN, then there is no real gap to skip
 								if (spanGaps && lastDrawnIndex !== -1) {
 									// We are spanning the gap, so simple draw a line to this point
@@ -12902,7 +12902,7 @@ module.exports = function(Chart) {
 				// First point moves to it's starting position no matter what
 				if (index === 0) {
 					if (currentVM.skip) {
-						
+
 					} else {
 						ctx.moveTo(currentVM.x, currentVM.y);
 						lastDrawnIndex = index;
@@ -13105,7 +13105,7 @@ module.exports = function(Chart) {
 		// Implement this so that
 		determineDataLimits: function() {
 			var me = this;
-			var labels = me.getLabels(); 
+			var labels = me.getLabels();
 			me.minIndex = 0;
 			me.maxIndex = labels.length - 1;
 			var findIndex;

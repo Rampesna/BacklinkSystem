@@ -1478,13 +1478,13 @@ jQuery.support = (function() {
 		if ( typeof div.style.zoom !== "undefined" ) {
 			// Check if natively block-level elements act like inline-block
 			// elements when setting their display to 'inline' and giving
-			// them layout
+			// them Layouts
 			// (IE < 8 does this)
 			div.innerHTML = "";
 			div.style.cssText = divReset + "width:1px;padding:1px;display:inline;zoom:1";
 			support.inlineBlockNeedsLayout = ( div.offsetWidth === 3 );
 
-			// Check if elements with layout shrink-wrap their children
+			// Check if elements with Layouts shrink-wrap their children
 			// (IE 6 does this)
 			div.style.display = "block";
 			div.style.overflow = "visible";
@@ -7075,7 +7075,7 @@ if ( !jQuery.support.opacity ) {
 				opacity = jQuery.isNumeric( value ) ? "alpha(opacity=" + value * 100 + ")" : "",
 				filter = currentStyle && currentStyle.filter || style.filter || "";
 
-			// IE has trouble with opacity if it does not have layout
+			// IE has trouble with opacity if it does not have Layouts
 			// Force it by setting the zoom level
 			style.zoom = 1;
 
@@ -8836,7 +8836,7 @@ function defaultPrefilter( elem, props, opts ) {
 				jQuery.css( elem, "float" ) === "none" ) {
 
 			// inline-level elements accept inline-block;
-			// block-level elements need to be inline with layout
+			// block-level elements need to be inline with Layouts
 			if ( !jQuery.support.inlineBlockNeedsLayout || css_defaultDisplay( elem.nodeName ) === "inline" ) {
 				style.display = "inline-block";
 

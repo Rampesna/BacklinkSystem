@@ -11,5 +11,7 @@
 |
 */
 
+Auth::routes(['register' => false]);
+
 Route::get('/', function () { return redirect()->route('index'); });
 Route::get('index', 'MypageController@index')->name('index');

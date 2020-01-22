@@ -2,16 +2,16 @@ $(function() {
 	"use strict";
 	skinChanger();
     initSparkline();
-    
+
     setTimeout(function() {
         $('.page-loader-wrapper').fadeOut();
 	}, 50);
 
 	$(window).on('load resize', function() {
 		if($(window).innerWidth() < 1201) {
-            $(".mini-sidebar-btn, .hmenu-btn").attr('disabled', 'disabled');            
+            $(".mini-sidebar-btn, .hmenu-btn").attr('disabled', 'disabled');
 		} else {
-            $(".mini-sidebar-btn, .hmenu-btn").removeAttr('disabled', 'disabled');            
+            $(".mini-sidebar-btn, .hmenu-btn").removeAttr('disabled', 'disabled');
 		}
     });
 
@@ -24,7 +24,7 @@ $(function() {
         }
     }).trigger('resize');
 
-	
+
 	var values2 = getRandomValues();
 	var paramsBar = {
         type: 'bar',
@@ -56,9 +56,9 @@ $(function() {
 	}
 });
 
-// When the user scrolls the page, execute myFunction 
+// When the user scrolls the page, execute myFunction
 window.onscroll = function() {myFunction()};
-    
+
 function myFunction() {
 	var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
 	var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -74,7 +74,7 @@ function initSparkline() {
 	});
 
 	// Bar charts using inline values
-	$('.sparkbar').sparkline('html', { type: 'bar' });	
+	$('.sparkbar').sparkline('html', { type: 'bar' });
 }
 
 //Skin changer
@@ -82,19 +82,19 @@ function skinChanger() {
 	$('.choose-skin li').on('click', function() {
 	    var $body = $('body');
 	    var $this = $(this);
-  
+
 	    var existTheme = $('.choose-skin li.active').data('theme');
 
 	    $('.choose-skin li').removeClass('active');
 	    $body.removeClass('theme-' + existTheme);
 	    $this.addClass('active');
 	    var newTheme = $('.choose-skin li.active').data('theme');
-	    $body.addClass('theme-' + $this.data('theme'));	
-		
+	    $body.addClass('theme-' + $this.data('theme'));
+
 	});
 }
 
-$(document).ready(function() {	
+$(document).ready(function() {
 
 	// sidebar navigation
 	$('#main-menu').metisMenu();
@@ -111,7 +111,7 @@ $(document).ready(function() {
 		position: 'right',
 	});
 
-	// toggle fullwidth layout
+	// toggle fullwidth Layouts
 	$('.btn-toggle-fullwidth').on('click', function() {
 		if(!$('body').hasClass('layout-fullwidth')) {
 			$('body').addClass('layout-fullwidth');
@@ -137,7 +137,7 @@ $(document).ready(function() {
 		$('.overlay').toggleClass('open');
 	});
 
-	// Theme Setting 
+	// Theme Setting
 	$('.themesetting .theme_btn').on('click', function() {
 		$('.themesetting').toggleClass('open');
 	});
@@ -150,7 +150,7 @@ $(document).ready(function() {
 		$('#megamenu').toggleClass('open');
 	});
 
-	// right chat bar 
+	// right chat bar
 	$(".rightbar .right_chat li a, .rightbar .back_btn").on('click', function(){
         $("#rightbar").toggleClass("detail");
     });
@@ -170,8 +170,8 @@ $(document).ready(function() {
 			$('#main-content').css('min-height', $('#left-sidebar').innerHeight() - $('footer').innerHeight());
 		}
 	});
-    
-    // Full screen class 
+
+    // Full screen class
 	$('.full-screen').on('click', function() {
 		$(this).parents('.card').toggleClass('fullscreen');
 	});
@@ -179,7 +179,7 @@ $(document).ready(function() {
 	// progress bars
     $('.progress .progress-bar').progressbar({
 		display_text: 'none'
-	});	
+	});
 
 	// header dropdown add new class
 	$('.header-dropdown .dropdown-toggle').on('click', function() {
@@ -188,7 +188,7 @@ $(document).ready(function() {
 
 	// Select all checkbox
 	$('.check-all').on('click',function(){
-	
+
 		if(this.checked){
 			$(this).parents('.check-all-parent').find('.checkbox-tick').each(function(){
 			this.checked = true;
@@ -200,7 +200,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('.checkbox-tick').on('click',function(){   
+	$('.checkbox-tick').on('click',function(){
 		if($(this).parents('.check-all-parent').find('.checkbox-tick:checked').length == $(this).parents('.check-all-parent').find('.checkbox-tick').length){
 			$(this).parents('.check-all-parent').find('.check-all').prop('checked',true);
 		}else{
@@ -218,7 +218,7 @@ $(document).ready(function() {
 		$(this).parents("li:first").toggleClass('delete');
 	});
 
-	// Font Setting 
+	// Font Setting
 	$('.font_setting input:radio').click(function () {
 		var others = $("[name='" + this.name + "']").map(function () {
 			return this.value
@@ -248,7 +248,7 @@ $(document).ready(function() {
 			$(".hmenu-btn").removeAttr('disabled', 'disabled');
 		}
 	});
-	
+
 	$("#left-sidebar").hover(function () {
 		$('body').toggleClass("mini_hover");
 		$('#left-sidebar').toggleClass('mini_sidebar_on');
@@ -271,7 +271,7 @@ $(document).ready(function() {
 		}else{
 			$('body').removeClass('rtl');
 		}
-	});	
+	});
 });
 
 // toggle function
