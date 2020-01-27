@@ -11,7 +11,10 @@
             <div id="navbar-menu">
                 <ul class="nav navbar-nav">
 {{--                    <li><a href="javascript:void(0);" class="search_toggle icon-menu" title="Search Result"><i class="icon-magnifier"></i></a></li>--}}
-                    <li><a href="{{route('login')}}" class="icon-menu"><i class="icon-power"></i></a></li>
+                    <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="icon-menu"><i class="icon-power"></i></a></li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
                 </ul>
             </div>
         </div>

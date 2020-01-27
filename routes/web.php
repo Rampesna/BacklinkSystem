@@ -11,7 +11,12 @@
 |
 */
 
-Auth::routes(['register' => false]);
+Auth::routes();
 
-Route::get('/', function () { return redirect()->route('index'); });
-Route::get('index', 'MypageController@index')->name('index');
+Route::get('/', function () { return redirect()->route('home'); });
+Route::get('/index', function (){
+    return view('welcome');
+})->name('home');
+
+
+Route::get('/system/dashboard', 'MypageController@index')->name('index');

@@ -19,7 +19,8 @@
             <div class="card">
                 <div class="body">
                     <p class="lead">Giriş Yapın</p>
-                    <form action="{{route('index')}}" class="form-auth-small m-t-20">
+                    <form method="post" action="{{route('login')}}" class="form-auth-small m-t-20">
+                        {{csrf_field()}}
                         <div class="form-group">
                             <label for="signin-email" class="control-label sr-only">E-posta veya Kullanıcı Adı</label>
                             <input name="identity" required type="text" class="form-control round" id="signin-email" placeholder="E-posta veya Kullanıcı Adınızı Girin">
@@ -35,8 +36,8 @@
                         </div>
                         <button type="submit" class="btn btn-primary btn-round btn-block">Giriş Yap</button>
                         <div class="bottom">
-                            <span class="helper-text m-b-10"><i class="fa fa-lock"></i> <a href="{{route('index')}}">Şifrenizi mi Unuttunuz?</a></span>
-                            <span>Üye Değil Misiniz? <a href="page-register.html">Hemen Kayıt Ol</a></span>
+                            <span class="helper-text m-b-10"><i class="fa fa-lock"></i> <a href="#">Şifrenizi mi Unuttunuz?</a></span>
+                            <span>Üye Değil Misiniz? <a href="#">Hemen Kayıt Ol</a></span>
                         </div>
                     </form>
                 </div>
