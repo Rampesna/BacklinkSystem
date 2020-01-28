@@ -17,6 +17,7 @@ class CreatePurchasedLinksTable extends Migration
             $table->increments('id');
             $table->mediumInteger('user_site_id');
             $table->integer('link_id');
+            $table->string('keyword',128);
             $table->tinyInteger('is_added');
             $table->tinyInteger('is_reported');
             $table->tinyInteger('is_seen');
