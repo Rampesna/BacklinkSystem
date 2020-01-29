@@ -1,0 +1,177 @@
+.clearfix:after {
+  content: '';
+  display: block;
+  clear: both; }
+
+.ellipsis {
+  white-space: nowrap;
+  /* 1 */
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  /* 2 */
+  overflow: hidden; }
+
+@media (max-width: 1600px) {
+  body.boxed-v #wrapper {
+    max-width: 95%; } }
+
+@media (max-width: 1500px) {
+  body.boxed-v #wrapper {
+    max-width: 100%; } }
+
+@media (min-width: 1024px) {
+  #header .nav-opener {
+    display: none; } }
+
+@media (max-width: 1199px) {
+  .service-holder .img-holder {
+    margin: 0 0 0 42px; }
+  .feature-sec {
+    min-height: 578px; }
+    .feature-sec .img-holder {
+      margin: 0; }
+  .process-holder .process-list:before {
+    left: 170px;
+    right: 170px; }
+  .testimonail-sec:before {
+    bottom: -10px;
+    height: 203px; }
+  .testimonail-slider .slide {
+    padding: 0 35px 48px; } }
+
+@media (max-width: 1023px) {
+  #header .nav-holder {
+    width: 70%;
+    text-align: right; }
+  #nav {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    right: 0;
+    text-align: left;
+    background: #26be66;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: all 0.25s linear;
+    -o-transition: all 0.25s linear;
+    transition: all 0.25s linear; }
+    #nav ul {
+      padding: 20px; }
+      #nav ul li {
+        display: block;
+        margin: 0 0 15px; }
+        #nav ul li:first-child {
+          margin: 0 0 15px; }
+  .service-holder {
+    padding-top: 80px;
+    padding-bottom: 80px; }
+    .service-holder .holder {
+      margin-bottom: 80px; }
+    .service-holder .txt-holder {
+      padding: 20px 0 0; }
+    .service-holder .img-holder {
+      margin: 0 0 0 24px; }
+  .feature-sec {
+    padding-top: 80px;
+    padding-bottom: 80px;
+    min-height: 538px; }
+    .feature-sec br {
+      display: none; }
+    .feature-sec .txt-holder {
+      padding: 50px 0 0; }
+  .process-holder {
+    padding-top: 80px;
+    padding-bottom: 80px; }
+    .process-holder .process-list:before {
+      left: 130px;
+      right: 130px; }
+  .testimonail-sec {
+    padding: 80px 0; }
+    .testimonail-sec:before {
+      height: 153px; }
+  .price-sec {
+    padding: 80px 0; }
+    .price-sec .header {
+      margin: 0 0 80px; }
+  .subscriber-sec {
+    padding-top: 80px;
+    padding-bottom: 80px; }
+  #footer .footer-area {
+    padding: 80px 0 50px; }
+  #footer .f-nav {
+    margin: 0 0 30px; } }
+
+@media (max-width: 767px) {
+  #header .nav-holder {
+    width: 69%; }
+  #header .sign-list {
+    margin: 0 0 0 10px; }
+    #header .sign-list li:first-child {
+      margin: 0; }
+    #header .sign-list a {
+      padding: 9px; }
+  .main-slider .slide:after {
+    min-height: 547px; }
+  .main-slider h1 {
+    font-size: 30px;
+    line-height: 40px;
+    margin: 0 0 20px; }
+  .btn-primary {
+    padding: 15px 18px 14px; }
+    .btn-primary.active {
+      padding: 14px 30px 14px; }
+  .service-holder {
+    padding-top: 60px;
+    padding-bottom: 60px; }
+    .service-holder .holder {
+      margin-bottom: 30px; }
+    .service-holder .service-list li {
+      width: 100%;
+      display: block;
+      margin: 0 0 30px;
+      padding: 0; }
+    .service-holder .img-holder {
+      margin: 0; }
+  .heading2 {
+    font-size: 24px; }
+  .feature-sec {
+    padding-top: 60px;
+    padding-bottom: 60px; }
+  .process-holder {
+    padding-top: 60px;
+    padding-bottom: 30px; }
+    .process-holder .process-list:before {
+      display: none; }
+    .process-holder .process-list li {
+      width: 100%;
+      padding: 0;
+      margin: 0 0 30px;
+      display: block; }
+  .testimonail-sec {
+    padding-top: 60px;
+    padding-bottom: 60px; }
+    .testimonail-sec:before {
+      height: 63px; }
+    .testimonail-sec .header {
+      margin: 0 0 30px; }
+  .testimonail-slider .slide {
+    padding: 0 20px 30px;
+    margin: 60px 0 30px; }
+  .price-sec {
+    padding: 60px 0 30px; }
+    .price-sec .header {
+      margin: 0 0 60px; }
+    .price-sec .price-holder {
+      margin: 0 0 30px; }
+  .subscriber-sec {
+    padding-top: 60px;
+    padding-bottom: 60px; }
+    .subscriber-sec .newsletter-form {
+      width: 100%; }
+  .socail-network {
+    margin: 0 0 30px; }
+  #footer .footer-area {
+    padding: 60px 0 30px; }
+  .newsletter-block {
+    width: 100%;
+    padding: 20px; } }

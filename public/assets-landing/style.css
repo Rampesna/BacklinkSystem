@@ -1,0 +1,1432 @@
+/*
+Theme Name: EXO | Seo Landing page Template
+Author: Markhorthemes
+Author URI: https://themeforest.net/user/Markhorthemes
+Version: 1
+Description: Base theme for HTML5
+Text Domain: base
+Tags: one-column, two-columns, three-columns
+Theme URI: http://www.htmlbeans.com/demos/exo/
+*/
+/*------------------------------------------------------------------
+
+1. import files / import files
+2. Body / body
+3. Wrapper / #wrapper
+4. Header / #header
+5. Logo / .logo
+6. Nav / #nav
+7. Nav Active / .nav-active
+8. Main Slider / .main-slider
+9. Heading / .heading
+10. Heading2 / .heading2
+11. Service Holder / .service-holder
+12. Feature Sec / .feature-sec
+13. Header / .header
+14. Process Holder / .process-holder
+15. Testimonail Sec / .testimonail-sec
+16. Testimonail Slider / .testimonail-slider
+17. Price Sec / .price-sec
+18. Subscriber Sec / .subscriber-sec
+19. Newsletter Form / .newsletter-form
+20. Sign Form / .sign-form
+21. Socail Network / .socail-network
+22. Fancybox Skin / .fancybox-skin
+23. Popup Holder / .popup-holder
+24. Newsletter Block / .newsletter-block
+25. Footer / #footer
+26. Back Top / #back-top
+27. Loader Holder / .loader-holder
+
+-------------------------------------------------------------------*/
+/*------------------------------------------------------------------
+1. import files / import files
+-------------------------------------------------------------------*/
+#wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.clearfix:after, .sign-form:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  /* 1 */
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  /* 2 */
+  overflow: hidden;
+}
+
+/*------------------------------------------------------------------
+2. Body / body
+-------------------------------------------------------------------*/
+body {
+  font-weight: 400;
+  margin: 0;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.pattern1 {
+  background-image: url(images/patterns/pattern1.png);
+}
+
+body.pattern2 {
+  background-image: url(images/patterns/pattern2.png);
+}
+
+body.pattern3 {
+  background-image: url(images/patterns/pattern3.png);
+}
+
+body.pattern4 {
+  background-image: url(images/patterns/pattern4.png);
+}
+
+body.pattern5 {
+  background-image: url(images/patterns/pattern5.png);
+}
+
+body.pattern6 {
+  background-image: url(images/patterns/pattern6.png);
+}
+
+body.pattern7 {
+  background-image: url(images/patterns/pattern7.png);
+}
+
+body.pattern8 {
+  background-image: url(images/patterns/pattern8.png);
+}
+
+body.pattern9 {
+  background-image: url(images/patterns/pattern9.png);
+}
+
+body.pattern10 {
+  background-image: url(images/patterns/pattern10.png);
+}
+
+body.pattern11 {
+  background-image: url(images/patterns/pattern11.png);
+}
+
+body.pattern12 {
+  background-image: url(images/patterns/pattern12.png);
+}
+
+body.pattern13 {
+  background-image: url(images/patterns/pattern13.png);
+}
+
+body.pattern14 {
+  background-image: url(images/patterns/pattern14.png);
+}
+
+body.boxed-v #wrapper {
+  max-width: 80%;
+  margin: 20px auto;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+a:hover, a:focus, a.active {
+  text-decoration: none;
+  outline: none;
+}
+
+.overlay {
+  position: relative;
+  z-index: 1;
+}
+
+.overlay:before {
+  position: absolute;
+  content: "";
+  z-index: -1;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(34, 49, 63, 0.8);
+}
+
+.bg-full {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bg-grey {
+  background: #373f46;
+}
+
+.round {
+  border-radius: 100%;
+}
+
+.md-round {
+  border-radius: 3px;
+}
+
+.lg-round {
+  border-radius: 45px;
+}
+
+.btn-primary {
+  font: 14px/16px "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  color: #fff;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 15px 35px 14px 31px;
+  border: 1px solid #fff;
+  background: none;
+  margin: 0 10px 0 0;
+  -webkit-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+}
+
+.btn-primary:hover {
+  border-color: #373f46;
+  background: #373f46;
+}
+
+.btn-primary.active {
+  padding: 14px 48px 14px 44px;
+  border-color: #373f46;
+  background: #373f46;
+}
+
+.btn-primary.active:hover {
+  border-color: #fff;
+  background: none;
+}
+
+/*------------------------------------------------------------------
+3. Wrapper / #wrapper
+-------------------------------------------------------------------*/
+/*------------------------------------------------------------------
+4. Header / #header
+-------------------------------------------------------------------*/
+#header {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 9;
+  padding: 31px 0 0;
+  -webkit-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+}
+
+#header.sticky {
+  position: fixed;
+  padding: 15px 0;
+  height: auto !important;
+  -webkit-box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.48);
+  box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.48);
+}
+
+#header.sticky .logo {
+  margin: 5px 10px 0 0;
+}
+
+#header .nav-holder {
+  float: right;
+  padding: 3px 0 0;
+}
+
+#header .sign-list {
+  font: 12px/14px "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #fff;
+  font-weight: 400;
+  overflow: hidden;
+  margin: 0 0 0 32px;
+  padding: 0 0 0 4px;
+  border-left: 1px solid #26be66;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#header .sign-list li {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0 0 13px;
+}
+
+#header .sign-list a {
+  padding: 11px 18px;
+  color: #fff;
+  text-transform: uppercase;
+  text-align: center;
+  display: block;
+  -webkit-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+}
+
+#header .sign-list a:hover {
+  background: #26be66;
+}
+
+#header .sign-list a.bg-grey {
+  font-weight: 700;
+}
+
+#header .nav-opener {
+  font-size: 20px;
+  line-height: 25px;
+  color: #fff;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#header .nav-opener .fa-times {
+  display: none;
+}
+
+/*------------------------------------------------------------------
+5. Logo / .logo
+-------------------------------------------------------------------*/
+.logo {
+  width: 78px;
+  float: left;
+  margin: 0 10px 0 0;
+}
+
+/*------------------------------------------------------------------
+6. Nav / #nav
+-------------------------------------------------------------------*/
+#nav {
+  font: 12px/14px "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #fff;
+  font-weight: 400;
+  overflow: hidden;
+  text-align: right;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#nav ul {
+  overflow: hidden;
+  margin: 0;
+}
+
+#nav ul li {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0 0 34px;
+}
+
+#nav ul li:first-child {
+  margin: 0;
+}
+
+#nav ul .active {
+  color: #373f46;
+}
+
+#nav ul a {
+  text-transform: uppercase;
+  color: #fff;
+  display: block;
+  -webkit-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+}
+
+#nav ul a:hover {
+  color: #373f46;
+}
+
+/*------------------------------------------------------------------
+7. Nav Active / .nav-active
+-------------------------------------------------------------------*/
+.nav-active #header .nav-opener .fa-bars {
+  display: none;
+}
+
+.nav-active #header .nav-opener .fa-times {
+  display: block;
+}
+
+.nav-active #nav {
+  opacity: 1;
+  visibility: visible;
+}
+
+#main {
+  overflow: hidden;
+}
+
+/*------------------------------------------------------------------
+8. Main Slider / .main-slider
+-------------------------------------------------------------------*/
+.main-slider {
+  overflow: hidden;
+}
+
+.main-slider .slide {
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  color: #fff;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.main-slider .slide:after {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  width: 0;
+  min-height: 100vh;
+}
+
+.main-slider .slide > * {
+  white-space: normal;
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 99%;
+}
+
+.main-slider .slide p {
+  margin: 0 0 42px;
+}
+
+.main-slider h1 {
+  font-size: 36px;
+  line-height: 46px;
+  color: #fff;
+  font-weight: 600;
+  margin: 0 0 10px;
+  letter-spacing: 1px;
+  opacity: 0;
+  -webkit-transform: translateY(-60px);
+  -ms-transform: translateY(-60px);
+  transform: translateY(-60px);
+  -webkit-transition: all 0.50s linear;
+  -o-transition: all 0.50s linear;
+  transition: all 0.50s linear;
+}
+
+.main-slider .slick-active h1 {
+  opacity: 1;
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+}
+
+#particles-js,
+#bgvid {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  z-index: -100;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-size: cover;
+  -webkit-transition: 1s opacity;
+  -o-transition: 1s opacity;
+  transition: 1s opacity;
+}
+
+#bgvid {
+  background: url("images/polina.jpg") no-repeat;
+}
+
+.tv {
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+}
+
+.tv .screen {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  opacity: 0;
+  margin: auto;
+  position: absolute;
+  -webkit-transition: opacity .5s;
+  -o-transition: opacity .5s;
+  transition: opacity .5s;
+}
+
+.tv .screen.active {
+  opacity: 1;
+}
+
+/*------------------------------------------------------------------
+9. Heading / .heading
+-------------------------------------------------------------------*/
+.heading {
+  font-size: 20px;
+  line-height: 22px;
+  color: #373f46;
+  font-weight: 600;
+  margin: 0 0 23px;
+  word-spacing: 1px;
+}
+
+/*------------------------------------------------------------------
+10. Heading2 / .heading2
+-------------------------------------------------------------------*/
+.heading2 {
+  font-size: 28px;
+  line-height: 30px;
+  color: #373f46;
+  font-weight: 600;
+  margin: 0 0 30px;
+  word-spacing: 1px;
+}
+
+/*------------------------------------------------------------------
+11. Service Holder / .service-holder
+-------------------------------------------------------------------*/
+.service-holder {
+  padding-top: 120px;
+  padding-bottom: 130px;
+}
+
+.service-holder .holder {
+  margin-bottom: 120px;
+}
+
+.service-holder .service-list {
+  overflow: hidden;
+  font-weight: 300;
+  margin: 0;
+}
+
+.service-holder .service-list li {
+  width: 33.33%;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0 30px;
+  margin: 0 -4px 0 0;
+}
+
+.service-holder .service-list .icon {
+  width: 54px;
+  margin: 0 auto 32px;
+}
+
+.service-holder .service-list p {
+  margin: 0;
+}
+
+.service-holder .txt-holder {
+  color: #8e9295;
+  font-weight: 300;
+  line-height: 30px;
+  padding: 76px 0 0;
+}
+
+.service-holder .txt-holder p {
+  margin: 0 0 36px;
+}
+
+.service-holder .btn-primary {
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: 600;
+  padding: 14px 23px 16px 22px;
+  margin: 0 0 30px;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.service-holder .btn-primary .fa {
+  margin: 0 0 0 11px;
+}
+
+.service-holder .btn-primary:hover {
+  background: none;
+}
+
+.service-holder .img-holder {
+  width: 100%;
+  margin: 0 0 0 177px;
+}
+
+/*------------------------------------------------------------------
+12. Feature Sec / .feature-sec
+-------------------------------------------------------------------*/
+.feature-sec {
+  min-height: 668px;
+  padding-top: 103px;
+  padding-bottom: 120px;
+}
+
+.feature-sec .heading2 {
+  color: #fff;
+  line-height: 40px;
+  margin: 0 0 27px;
+}
+
+.feature-sec .txt-holder {
+  color: #fff;
+  font-weight: 300;
+  line-height: 30px;
+  padding: 50px 60px 0 0;
+}
+
+.feature-sec .txt-holder p {
+  margin: 0 0 36px;
+}
+
+.feature-sec .btn-primary {
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: 600;
+  padding: 15px 24px 17px 23px;
+  margin: 0 0 30px;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.feature-sec .btn-primary .fa {
+  margin: 0 0 0 11px;
+}
+
+.feature-sec .btn-primary:hover {
+  background: none;
+}
+
+.feature-sec .img-holder {
+  margin: 0 0 0 -76px;
+}
+
+/*------------------------------------------------------------------
+13. Header / .header
+-------------------------------------------------------------------*/
+.header {
+  line-height: 28px;
+  color: #8b939b;
+  margin: 0 0 61px;
+}
+
+.header h4 {
+  font-size: 34px;
+  line-height: 36px;
+  color: #373f46;
+  font-weight: 600;
+  margin: 0 0 29px;
+}
+
+.header p {
+  margin: 0;
+}
+
+/*------------------------------------------------------------------
+14. Process Holder / .process-holder
+-------------------------------------------------------------------*/
+.process-holder {
+  padding-top: 124px;
+  padding-bottom: 104px;
+}
+
+.process-holder .process-list {
+  overflow: hidden;
+  margin: 0;
+  color: #949fa8;
+  font-weight: 300;
+  position: relative;
+  z-index: 1;
+}
+
+.process-holder .process-list:before {
+  position: absolute;
+  content: "";
+  z-index: -1;
+  left: 190px;
+  top: 20px;
+  bottom: auto;
+  right: 190px;
+  border: 1px dashed #d7d9da;
+}
+
+.process-holder .process-list li {
+  width: 33.33%;
+  display: inline-block;
+  vertical-align: top;
+  padding: 0 20px;
+  margin: 0 -4px 0 0;
+}
+
+.process-holder .process-list .num {
+  font-size: 16px;
+  line-height: 20px;
+  color: #fff;
+  font-weight: 600;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  width: 43px;
+  height: 43px;
+  display: block;
+  padding: 12px 5px;
+  margin: 0 auto 44px;
+  background: #373f46;
+}
+
+.process-holder .process-list h3 {
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 600;
+  color: #373f46;
+  margin: 0 0 20px;
+}
+
+.process-holder .process-list .icon {
+  width: 53px;
+  margin: 0 auto 30px;
+}
+
+/*------------------------------------------------------------------
+15. Testimonail Sec / .testimonail-sec
+-------------------------------------------------------------------*/
+.testimonail-sec {
+  padding: 125px 0;
+  overflow: hidden;
+  background: #f5f5f5;
+  position: relative;
+  z-index: 1;
+}
+
+.testimonail-sec:before {
+  position: absolute;
+  content: "";
+  z-index: -1;
+  left: 0;
+  top: auto;
+  bottom: -71px;
+  right: 0;
+  background: url(images/bg.png) repeat-x 50% 0;
+  background-size: auto 100%;
+  height: 373px;
+}
+
+.testimonail-sec .header {
+  margin: 0 0 62px;
+}
+
+/*------------------------------------------------------------------
+16. Testimonail Slider / .testimonail-slider
+-------------------------------------------------------------------*/
+.testimonail-slider {
+  overflow: hidden;
+}
+
+.testimonail-slider .slide {
+  width: 33.33%;
+  float: left;
+  padding: 0 55px 48px;
+  margin: 58px 15px 51px;
+  background: #fff;
+  -webkit-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.09);
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.09);
+}
+
+.testimonail-slider .slide cite {
+  display: block;
+  margin: 0 0 30px;
+}
+
+.testimonail-slider .slide strong {
+  font: 18px/20px "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #373f46;
+  font-weight: 600;
+  display: block;
+  margin: 0 0 8px;
+}
+
+.testimonail-slider .slide a {
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 300;
+  color: #989b9d;
+  font-style: normal;
+  display: block;
+}
+
+.testimonail-slider .slide q {
+  display: block;
+  font-size: 14px;
+  line-height: 26px;
+  font-weight: 300;
+  font-style: italic;
+  color: #989b9d;
+}
+
+.testimonail-slider .img-holder {
+  width: 113px;
+  overflow: hidden;
+  margin: -57px auto 32px;
+}
+
+.testimonail-slider .slick-dots {
+  list-style-type: none;
+  overflow: hidden;
+  margin: 0 auto;
+  width: 106px;
+  padding: 0 0 0 10px;
+}
+
+.testimonail-slider .slick-dots li {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0 0 10px;
+}
+
+.testimonail-slider .slick-dots li:first-child {
+  margin: 0;
+}
+
+.testimonail-slider .slick-dots .slick-active button {
+  -webkit-transform: scale(1.9, 1.9);
+  -ms-transform: scale(1.9, 1.9);
+  transform: scale(1.9, 1.9);
+}
+
+.testimonail-slider .slick-dots button {
+  width: 7px;
+  height: 7px;
+  border: none;
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  display: block;
+  padding: 0;
+  text-indent: -9999px;
+  overflow: hidden;
+  background: #afb2b4;
+  border-radius: 100%;
+}
+
+/*------------------------------------------------------------------
+17. Price Sec / .price-sec
+-------------------------------------------------------------------*/
+.price-sec {
+  overflow: hidden;
+  padding: 89px 0 132px;
+}
+
+.price-sec .header {
+  color: #fff;
+  margin: 0 0 120px;
+}
+
+.price-sec h4 {
+  color: #fff;
+}
+
+.price-sec .price-holder {
+  color: #8b949b;
+  overflow: hidden;
+  background: #fff;
+  margin: 0;
+  padding: 0 0 20px;
+}
+
+.price-sec .price-holder.active {
+  color: #fff;
+  background: #373f46;
+}
+
+.price-sec .price-holder.active .price strong {
+  color: #fff;
+}
+
+.price-sec .price-holder.active .price-heading {
+  color: #373f46;
+  background: #fff;
+}
+
+.price-sec .price-holder li {
+  padding: 15px 15px 14px;
+  border-top: 1px solid #eeeeee;
+}
+
+.price-sec .price-holder li:first-child {
+  border-top: none;
+}
+
+.price-sec .price-holder .price {
+  padding: 28px 15px 14px;
+  border: none;
+}
+
+.price-sec .price-holder .price strong {
+  font: 36px/38px "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  color: #373f46;
+  display: block;
+}
+
+.price-sec .price-holder .price span {
+  font: 14px/38px "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  display: block;
+  color: #8d97a0;
+}
+
+.price-sec .price-holder .price-heading {
+  font: 16px/18px "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  color: #fff;
+  border: none;
+  background: #373f46;
+}
+
+.price-sec .price-holder .btns {
+  border: none;
+}
+
+.price-sec .price-holder .btn-primary {
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 600;
+  border-width: 1px;
+  border-style: solid;
+  padding: 15px 49px 14px;
+}
+
+.price-sec .price-holder .btn-primary:hover {
+  background: none;
+}
+
+/*------------------------------------------------------------------
+18. Subscriber Sec / .subscriber-sec
+-------------------------------------------------------------------*/
+.subscriber-sec {
+  overflow: hidden;
+  padding-top: 120px;
+  padding-bottom: 128px;
+}
+
+.subscriber-sec .header {
+  margin: 0 0 33px;
+}
+
+/*------------------------------------------------------------------
+19. Newsletter Form / .newsletter-form
+-------------------------------------------------------------------*/
+.newsletter-form {
+  width: 430px;
+  height: 60px;
+  overflow: hidden;
+  margin: 0 auto;
+  padding: 10px;
+  position: relative;
+  z-index: 1;
+  border: 1px solid #cccccc;
+}
+
+.newsletter-form .form-control {
+  font: 15px/20px "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #919598;
+  font-weight: 300;
+  width: 100%;
+  height: 100%;
+  background: none;
+  border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  outline: none;
+  border-radius: 0;
+  padding: 10px 80px 10px 16px;
+}
+
+.newsletter-form .form-control::-webkit-input-placeholder {
+  color: #919598;
+}
+
+.newsletter-form .form-control::-moz-placeholder {
+  opacity: 1;
+  color: #919598;
+}
+
+.newsletter-form .form-control:-moz-placeholder {
+  color: #919598;
+}
+
+.newsletter-form .form-control:-ms-input-placeholder {
+  color: #919598;
+}
+
+.newsletter-form .form-control.placeholder {
+  color: #919598;
+}
+
+.newsletter-form .btn-sub {
+  position: absolute;
+  right: 9px;
+  top: 9px;
+  font-size: 15px;
+  line-height: 20px;
+  color: #fff;
+  width: 67px;
+  height: 42px;
+  border: none;
+  outline: none;
+  text-align: center;
+  padding: 10px;
+  -webkit-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+}
+
+.newsletter-form .btn-sub:hover {
+  background: #373f46;
+}
+
+/*------------------------------------------------------------------
+20. Sign Form / .sign-form
+-------------------------------------------------------------------*/
+.sign-form {
+  margin: 0 0 30px;
+}
+
+.sign-form .form-group {
+  margin: 0;
+}
+
+.sign-form .form-control {
+  font: 15px/20px "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #919598;
+  font-weight: 300;
+  width: 100%;
+  height: 50px;
+  background: none;
+  border: 1px solid #919598;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  outline: none;
+  padding: 10px 20px;
+  margin: 0 0 20px;
+}
+
+.sign-form .form-control::-webkit-input-placeholder {
+  color: #919598;
+}
+
+.sign-form .form-control::-moz-placeholder {
+  opacity: 1;
+  color: #919598;
+}
+
+.sign-form .form-control:-moz-placeholder {
+  color: #919598;
+}
+
+.sign-form .form-control:-ms-input-placeholder {
+  color: #919598;
+}
+
+.sign-form .form-control.placeholder {
+  color: #919598;
+}
+
+.sign-form textarea {
+  font: 15px/20px "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #919598;
+  font-weight: 300;
+  width: 100%;
+  min-height: 150px;
+  background: none;
+  border: 1px solid #919598;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  outline: none;
+  resize: none;
+  border-radius: 15px;
+  padding: 10px 20px;
+  margin: 0 0 20px;
+}
+
+.sign-form textarea::-webkit-input-placeholder {
+  color: #919598;
+}
+
+.sign-form textarea::-moz-placeholder {
+  opacity: 1;
+  color: #919598;
+}
+
+.sign-form textarea:-moz-placeholder {
+  color: #919598;
+}
+
+.sign-form textarea:-ms-input-placeholder {
+  color: #919598;
+}
+
+.sign-form textarea.placeholder {
+  color: #919598;
+}
+
+.sign-form .btn-sub {
+  font-size: 15px;
+  line-height: 20px;
+  color: #fff;
+  width: 100%;
+  height: 42px;
+  border: none;
+  outline: none;
+  text-align: center;
+  padding: 10px;
+  -webkit-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+}
+
+.sign-form .btn-sub:hover {
+  background: #373f46;
+}
+
+.sign-form .has-error .form-control {
+  color: red;
+  border-color: red;
+}
+
+.sign-form .has-error .form-control::-webkit-input-placeholder {
+  color: red;
+}
+
+.sign-form .has-error .form-control::-moz-placeholder {
+  opacity: 1;
+  color: red;
+}
+
+.sign-form .has-error .form-control:-moz-placeholder {
+  color: red;
+}
+
+.sign-form .has-error .form-control:-ms-input-placeholder {
+  color: red;
+}
+
+.sign-form .has-error .form-control.placeholder {
+  color: red;
+}
+
+.sign-form .form-message {
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  position: relative;
+}
+
+.sign-form .form-message:after {
+  top: 14px;
+  left: 17px;
+  width: 20px;
+  content: "";
+  height: 20px;
+  border-radius: 50%;
+  position: absolute;
+  text-align: center;
+  font-family: 'FontAwesome';
+}
+
+.sign-form .form-message.error {
+  margin: 0 0 20px;
+  background: #ff3333;
+  padding: 15px 5px 13px 50px;
+}
+
+.sign-form .form-message.error:after {
+  content: "\f00d";
+  background: #cc2929;
+}
+
+.sign-form .form-message.success {
+  margin: 0 0 20px;
+  background: #698cf0;
+  padding: 15px 5px 13px 50px;
+}
+
+.sign-form .form-message.success:after {
+  content: "\f00c";
+  background: #5470c0;
+}
+
+/*------------------------------------------------------------------
+21. Socail Network / .socail-network
+-------------------------------------------------------------------*/
+.socail-network {
+  font-size: 13px;
+  line-height: 15px;
+  color: #dadada;
+  overflow: hidden;
+  margin: 0;
+}
+
+.socail-network li {
+  float: left;
+  margin: 0 8px 0 0;
+}
+
+.socail-network a {
+  width: 32px;
+  height: 32px;
+  color: #dadada;
+  border-radius: 100%;
+  text-align: center;
+  padding: 8px;
+  display: block;
+  border: 1px solid #dadada;
+  -webkit-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+}
+
+.socail-network a:hover.facebook {
+  border-color: #3b5998;
+  color: #3b5998;
+}
+
+.socail-network a:hover.twitter {
+  border-color: #0084b4;
+  color: #0084b4;
+}
+
+.socail-network a:hover.google {
+  border-color: #d34836;
+  color: #d34836;
+}
+
+.socail-network a:hover.tumblr {
+  border-color: #34526f;
+  color: #34526f;
+}
+
+.socail-network a:hover.yelp {
+  border-color: #c41200;
+  color: #c41200;
+}
+
+/*------------------------------------------------------------------
+22. Fancybox Skin / .fancybox-skin
+-------------------------------------------------------------------*/
+.fancybox-skin {
+  padding: 0 !important;
+}
+
+/*------------------------------------------------------------------
+23. Popup Holder / .popup-holder
+-------------------------------------------------------------------*/
+.popup-holder {
+  position: relative;
+  overflow: hidden;
+  height: 0;
+}
+
+/*------------------------------------------------------------------
+24. Newsletter Block / .newsletter-block
+-------------------------------------------------------------------*/
+.newsletter-block {
+  overflow: hidden;
+  width: 550px;
+  padding: 40px;
+  color: #373f46;
+}
+
+.newsletter-block h2 {
+  font-size: 20px;
+  line-height: 22px;
+  color: #373f46;
+  font-weight: 700;
+  margin: 0 0 17px;
+}
+
+.newsletter-block p {
+  margin: 0 0 30px;
+}
+
+.newsletter-block .txt {
+  font-size: 11px;
+  line-height: 14px;
+  color: #373f46;
+  font-weight: 400;
+  display: block;
+}
+
+.newsletter-block .txt a {
+  text-decoration: underline;
+  -webkit-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+}
+
+.newsletter-block .txt a:hover {
+  text-decoration: none;
+  color: #8e9295;
+}
+
+/*------------------------------------------------------------------
+25. Footer / #footer
+-------------------------------------------------------------------*/
+#footer {
+  font: 12px/26px "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  color: #c6c6c6;
+  overflow: hidden;
+  background: #23292e;
+}
+
+#footer .footer-area {
+  padding: 116px 0 93px;
+  background: #2b3136;
+}
+
+#footer .footer-area p {
+  margin: 0 0 29px;
+}
+
+#footer .heading {
+  color: #fff;
+  margin: 0 0 35px;
+}
+
+#footer .f-nav {
+  font: 13px/16px "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  color: #c6c6c6;
+  overflow: hidden;
+  margin: 0;
+}
+
+#footer .f-nav li {
+  overflow: hidden;
+  margin: 0 0 14px;
+}
+
+#footer .f-nav a {
+  color: #c6c6c6;
+  -webkit-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+}
+
+#footer .f-logo {
+  width: 78px;
+  margin: 0 0 40px;
+}
+
+#footer .contact-list {
+  font: 13px/16px "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  color: #99a1a9;
+  overflow: hidden;
+  margin: 0 0 16px;
+}
+
+#footer .contact-list li {
+  overflow: hidden;
+  margin: 0 0 14px;
+}
+
+#footer .contact-list .fa {
+  margin: 0 13px 0 0;
+}
+
+#footer .contact-list a {
+  color: #99a1a9;
+  -webkit-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+}
+
+#footer .btn-primary {
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 600;
+  border-width: 1px;
+  border-style: solid;
+  padding: 15px 21px 15px 18px;
+}
+
+#footer .btn-primary:hover {
+  background: none;
+}
+
+#footer .copyright {
+  padding-top: 19px;
+  padding-bottom: 17px;
+}
+
+#footer .copyright p {
+  margin: 0;
+}
+
+/*------------------------------------------------------------------
+26. Back Top / #back-top
+-------------------------------------------------------------------*/
+#back-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  font-size: 18px;
+  line-height: 20px;
+  color: #fff;
+  cursor: pointer;
+  float: right;
+  width: 50px;
+  height: 50px;
+  padding: 14px 0;
+  z-index: 9;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: all 0.6s ease 0s;
+  -o-transition: all 0.6s ease 0s;
+  transition: all 0.6s ease 0s;
+}
+
+#back-top.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/*------------------------------------------------------------------
+27. Loader Holder / .loader-holder
+-------------------------------------------------------------------*/
+.loader-holder {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.loader-holder .block {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}

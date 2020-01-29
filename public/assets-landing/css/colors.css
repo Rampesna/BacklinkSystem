@@ -1,0 +1,29 @@
+.header h4 .clr,
+#footer .f-nav a:hover,
+#footer .contact-list a:hover,
+#footer .btn-primary:hover,
+.service-holder .btn-primary:hover,
+.feature-sec .btn-primary:hover,
+.main-slider h1 .clr,
+.price-sec .price-holder .btn-primary:hover {
+  color: #27ae60; }
+
+#back-top,
+#header.sticky,
+.price-sec,
+.fancybox-close-small,
+.price-sec .price-holder .btn-primary,
+.service-holder .btn-primary,
+.feature-sec .btn-primary,
+#footer .btn-primary,
+.newsletter-form .btn-sub,
+.sign-form .btn-sub,
+.testimonail-slider .slick-dots .slick-active button,
+.testimonail-slider .slick-dots button:hover {
+  background: #27ae60; }
+
+.service-holder .btn-primary,
+.feature-sec .btn-primary,
+#footer .btn-primary,
+.price-sec .price-holder .btn-primary {
+  border-color: #27ae60; }
