@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\LogSystem;
 use App\Models\LinksTableModel;
 use Illuminate\Http\Request;
 use App\Helpers\Alexa;
@@ -27,7 +28,14 @@ class MainController extends Controller
 //        $linkingCount = $result->Awis->Results->Result->Alexa->ContentData->LinksInCount;
 
 //        return response()->json($result,200);
-        return view('Pages.index');
+        $transaction = "MainController@index";
+        $detail = "Kontrol Paneli Görüntülendi";
+        if(LogSystem::createNewLog($transaction,$detail)){
+            return view('Pages.index');
+        }else{
+            return abort(403);
+        }
+
     }
 
 

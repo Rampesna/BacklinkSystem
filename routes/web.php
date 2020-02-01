@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('/getip',function (){
+    return $_SERVER;
+});
+
 Auth::routes();
 
 Route::get('/', function () { return redirect()->route('home'); });
@@ -28,5 +32,6 @@ Route::get('/accounts/account-detail/{id}','AccountsController@accountDetail')->
 
 //Links
 Route::get('/links/add-link', 'LinkControllers@addLink')->name('add-link');
+Route::post('/links/add-link', 'LinkControllers@addLinkPost')->name('add-link-post');
 Route::post('/links/add-link-control', 'LinkControllers@addLinkControl')->name('add-link-control');
 Route::get('/links/all-links', 'LinkControllers@allLinks')->name('all-links');

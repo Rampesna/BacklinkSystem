@@ -14,10 +14,11 @@ class CreateCustomerLogsTable extends Migration
     public function up()
     {
         Schema::create('customer_logs', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('id');
+            $table->bigIncrements('id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->string('username',32);
             $table->string('transaction',128);
+            $table->text('detail');
             $table->string('ip_address',15);
             $table->timestamps();
         });
