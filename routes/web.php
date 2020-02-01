@@ -23,6 +23,7 @@ Route::get('/dashboard', 'MainController@index')->name('index');
 
 
 Route::get('/accounts/all-accounts','AccountsController@allAccounts')->name('all-accounts');
+Route::get('/accounts/account-detail/{id}','AccountsController@accountDetail')->name('account-detail');
 
 
 //Links

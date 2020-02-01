@@ -4,53 +4,31 @@
 
 @section('content')
 
-
-
     <div class="row clearfix">
-        <div class="col-lg-12">
+        <div class="col-lg-12 col-md-12">
             <div class="card">
+                <div class="header">
+                    <h2>Example Tab 3 <small><code class="highlighter-rouge">.nav-tabs3</code></small></h2>
+                </div>
                 <div class="body">
-                    <div class="table-responsive">
-                        <table id="allAccounts" class="table table-hover js-basic-example dataTable table-custom spacing5">
-                            <thead>
-                            <tr>
-                                <th>Ad Soyad</th>
-                                <th>Kullanıcı Adı</th>
-                                <th>E-posta</th>
-                                <th>Telefon</th>
-                                <th>Kredi</th>
-                                <th>Düzenle</th>
-                            </tr>
-                            </thead>
-                            <tfoot>
-                            <tr>
-                                <th>Ad Soyad</th>
-                                <th>Kullanıcı Adı</th>
-                                <th>E-posta</th>
-                                <th>Telefon</th>
-                                <th>Kredi</th>
-                                <th>Düzenle</th>
-                            </tr>
-                            </tfoot>
-                            <tbody>
-
-                            @foreach($allAccounts as $account)
-                            <tr>
-                                <td>{{$account->name_surname}}</td>
-                                <td>{{$account->username}}</td>
-                                <td>{{$account->email}}</td>
-                                <td>{{"+90 (".substr($account->phone,0,3).") ".substr($account->phone,3,3)." ".substr($account->phone,6,4)}}</td>
-                                <td style="color: #00aa00">{{$account->balance}} ₺</td>
-                                <td>
-                                    <a href="{{route('account-detail',\Illuminate\Support\Facades\Crypt::encrypt($account->id))}}"><i style="color: #00A6C7" class="fa fa-eye"></i></a>&nbsp;&nbsp;
-                                    <a><i style="color: #00A6C7" class="fa fa-edit"></i></a>&nbsp;&nbsp;
-                                    <a><i style="color: #00A6C7" class="fa fa-trash"></i></a>&nbsp;&nbsp;
-                                </td>
-                            </tr>
-                            @endforeach
-
-                            </tbody>
-                        </table>
+                    <ul class="nav nav-tabs3">
+                        <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#Home-new2">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Profile-new2">Profile</a></li>
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Contact-new2">Contact</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane show active" id="Home-new2">
+                            <h6>Home</h6>
+                            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate qui.</p>
+                        </div>
+                        <div class="tab-pane" id="Profile-new2">
+                            <h6>Profile</h6>
+                            <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel </p>
+                        </div>
+                        <div class="tab-pane" id="Contact-new2">
+                            <h6>Contact</h6>
+                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. helvetica</p>
+                        </div>
                     </div>
                 </div>
             </div>

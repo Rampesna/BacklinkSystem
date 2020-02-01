@@ -10,7 +10,13 @@
             </div>
             <div class="dropdown">
                 <span>Heşgeldiniz,</span>
-                <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>{{\Illuminate\Support\Facades\Auth::user()->name_surname}}</strong></a>
+                <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>
+                        @if(\Illuminate\Support\Facades\Auth::check())
+                            {{\Illuminate\Support\Facades\Auth::user()->name_surname}}
+                        @else
+                            {{redirect()->route('login')}}
+                        @endif
+                    </strong></a>
                 <ul class="dropdown-menu dropdown-menu-right account vivify flipInY">
                     <li><a href="{{route('index')}}"><i class="icon-user"></i>Profil</a></li>
                     <li><a href="{{route('index')}}"><i class="icon-envelope-open"></i>Mesajlar</a></li>
