@@ -19,4 +19,13 @@ Route::get('/index', function (){
 })->name('home');
 
 
-Route::get('/system/dashboard', 'MypageController@index')->name('index');
+Route::get('/dashboard', 'MainController@index')->name('index');
+
+
+Route::get('/accounts/all-accounts','AccountsController@allAccounts')->name('all-accounts');
+
+
+//Links
+Route::get('/links/add-link', 'LinkControllers@addLink')->name('add-link');
+Route::post('/links/add-link-control', 'LinkControllers@addLinkControl')->name('add-link-control');
+Route::get('/links/all-links', 'LinkControllers@allLinks')->name('all-links');

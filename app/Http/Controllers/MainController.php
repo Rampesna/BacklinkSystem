@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controller as BaseController;
+use App\Models\LinksTableModel;
+use Illuminate\Http\Request;
 use App\Helpers\Alexa;
 
-class MypageController extends BaseController
+class MainController extends Controller
 {
     public function __construct()
     {
@@ -13,7 +14,7 @@ class MypageController extends BaseController
     }
 
     function index(){
-//        $result = Alexa::UrlInfo("haber7.com");
+        $result = Alexa::UrlInfo("mediawbh.com.tr");
 //        $alexaOfGlobalRank = $result->Awis->Results->Result->Alexa->TrafficData->Rank;
 //        $alexaOfCountryRank = 9999999999;
 //        foreach ($result->Awis->Results->Result->Alexa->TrafficData->RankByCountry->Country as $country){
@@ -25,8 +26,9 @@ class MypageController extends BaseController
 //        }
 //        $linkingCount = $result->Awis->Results->Result->Alexa->ContentData->LinksInCount;
 
-//        return view('Pages.index',compact('alexaOfGlobalRank','alexaOfCountry','alexaOfCountryRank','linkingCount'));
+//        return response()->json($result,200);
         return view('Pages.index');
     }
+
 
 }

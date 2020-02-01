@@ -26,16 +26,16 @@
                 <li class="{{ Request::segment(1) === 'system' ? 'active open' : null }}">
                     <a href="#accounts" class="has-arrow"><i class="fa fa-user"></i><span>Hesaplar</span></a>
                     <ul>
-                        <li class="{{ Request::segment(2) === 'all-customers' ? 'active' : null }}"><a href="{{route('index')}}">Tüm Müşteriler</a></li>
+                        <li class="{{ Request::segment(2) === 'all-accounts' ? 'active' : null }}"><a href="{{route('all-accounts')}}">Tüm Müşteriler</a></li>
                         <li class="{{ Request::segment(2) === 'all-sales' ? 'active' : null }}"><a href="{{route('index')}}">Satışlar</a></li>
                         <li class="{{ Request::segment(2) === 'finance-monitoring' ? 'active' : null }}"><a href="{{route('index')}}">Gelir Analizi</a></li>
                     </ul>
                 </li>
-                <li class="{{ Request::segment(1) === 'accounts' ? 'active open' : null }}">
+                <li class="{{ Request::segment(1) === 'links' ? 'active open' : null }}">
                     <a href="#links" class="has-arrow"><i class="fa fa-link"></i><span>Link Sistemi</span></a>
                     <ul>
                         <li class="{{ Request::segment(2) === 'add-new-link' ? 'active' : null }}"><a href="{{route('index')}}">Yeni Site Ekle</a></li>
-                        <li class="{{ Request::segment(2) === 'all-links' ? 'active' : null }}"><a href="{{route('index')}}">Tüm Linkler</a></li>
+                        <li class="{{ Request::segment(2) === 'all-links' ? 'active' : null }}"><a href="{{route('all-links')}}">Tüm Linkler</a></li>
                         <li class="{{ Request::segment(2) === 'passive-links' ? 'active' : null }}"><a href="{{route('index')}}">Pasif Linkler</a></li>
                     </ul>
                 </li>
