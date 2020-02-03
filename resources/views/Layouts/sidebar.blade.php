@@ -26,26 +26,54 @@
                 </ul>
             </div>
         </div>
-        <nav id="left-sidebar-nav" class="sidebar-nav">
-            <ul id="main-menu" class="metismenu">
-                <li class="header">Sistem</li>
-                <li class="{{ Request::segment(1) === 'system' ? 'active open' : null }}">
-                    <a href="#accounts" class="has-arrow"><i class="fa fa-user"></i><span>Hesaplar</span></a>
-                    <ul>
-                        <li class="{{ Request::segment(2) === 'all-accounts' ? 'active' : null }}"><a href="{{route('all-accounts')}}">Tüm Müşteriler</a></li>
-                        <li class="{{ Request::segment(2) === 'all-sales' ? 'active' : null }}"><a href="{{route('index')}}">Satışlar</a></li>
-                        <li class="{{ Request::segment(2) === 'finance-monitoring' ? 'active' : null }}"><a href="{{route('index')}}">Gelir Analizi</a></li>
+        @if(\Illuminate\Support\Facades\Auth::check())
+            @php($user = \Illuminate\Support\Facades\Auth::user())
+            @if($user->is_admin == 1)
+                <nav id="left-sidebar-nav" class="sidebar-nav">
+                    <ul id="main-menu" class="metismenu">
+                        <li class="header">Sistem</li>
+                        <li class="{{ Request::segment(1) === 'account' ? 'active open' : null }}">
+                            <a href="#accounts" class="has-arrow"><i class="fa fa-user"></i><span>Hesaplar</span></a>
+                            <ul>
+                                <li class="{{ Request::segment(2) === 'all-accounts' ? 'active' : null }}"><a href="{{route('all-accounts')}}">Tüm Müşteriler</a></li>
+                                <li class="{{ Request::segment(2) === 'all-sales' ? 'active' : null }}"><a href="{{route('index')}}">Satışlar</a></li>
+                                <li class="{{ Request::segment(2) === 'finance-monitoring' ? 'active' : null }}"><a href="{{route('index')}}">Gelir Analizi</a></li>
+                            </ul>
+                        </li>
+                        <li class="{{ Request::segment(1) === 'links' ? 'active open' : null }}">
+                            <a href="#links" class="has-arrow"><i class="fa fa-link"></i><span>Link Sistemi</span></a>
+                            <ul>
+                                <li class="{{ Request::segment(2) === 'add-link' ? 'active' : null }}"><a href="{{route('add-link')}}">Yeni Link Ekle</a></li>
+                                <li class="{{ Request::segment(2) === 'all-links' ? 'active' : null }}"><a href="{{route('all-links')}}">Tüm Linkler</a></li>
+                                <li class="{{ Request::segment(2) === 'passive-links' ? 'active' : null }}"><a href="{{route('index')}}">Pasif Linkler</a></li>
+                            </ul>
+                        </li>
                     </ul>
-                </li>
-                <li class="{{ Request::segment(1) === 'links' ? 'active open' : null }}">
-                    <a href="#links" class="has-arrow"><i class="fa fa-link"></i><span>Link Sistemi</span></a>
-                    <ul>
-                        <li class="{{ Request::segment(2) === 'add-new-link' ? 'active' : null }}"><a href="{{route('add-link')}}">Yeni Link Ekle</a></li>
-                        <li class="{{ Request::segment(2) === 'all-links' ? 'active' : null }}"><a href="{{route('all-links')}}">Tüm Linkler</a></li>
-                        <li class="{{ Request::segment(2) === 'passive-links' ? 'active' : null }}"><a href="{{route('index')}}">Pasif Linkler</a></li>
+                </nav>
+            @else
+                <nav id="left-sidebar-nav" class="sidebar-nav">
+                    <ul id="main-menu" class="metismenu">
+                        <li class="header">Sistem</li>
+                        <li class="{{ Request::segment(1) === 'system' ? 'active open' : null }}">
+                            <a href="#accounts" class="has-arrow"><i class="fa fa-user"></i><span>Hesabım</span></a>
+                            <ul>
+                                <li class="{{ Request::segment(2) === 'finance-monitoring' ? 'active' : null }}"><a href="{{route('index')}}">Hesap Bilgilerim</a></li>
+                                <li class="{{ Request::segment(2) === 'all-accounts' ? 'active' : null }}"><a href="{{route('all-accounts')}}">Sitelerim</a></li>
+                                <li class="{{ Request::segment(2) === 'all-sales' ? 'active' : null }}"><a href="{{route('index')}}">Satın Aldığım Linkler</a></li>
+                            </ul>
+                        </li>
+                        <li class="{{ Request::segment(1) === 'links' ? 'active open' : null }}">
+                            <a href="#links" class="has-arrow"><i class="fa fa-link"></i><span>Link Sistemi</span></a>
+                            <ul>
+                                <li class="{{ Request::segment(2) === 'add-new-link' ? 'active' : null }}"><a href="{{route('add-link')}}">Linkler</a></li>
+                                <li class="{{ Request::segment(2) === 'all-links' ? 'active' : null }}"><a href="{{route('all-links')}}">Kredi Yükle</a></li>
+                                <li class="{{ Request::segment(2) === 'passive-links' ? 'active' : null }}"><a href="{{route('index')}}">Hata Bildir</a></li>
+                            </ul>
+                        </li>
                     </ul>
-                </li>
-            </ul>
-        </nav>
+                </nav>
+            @endif
+        @endif
+
     </div>
 </div>

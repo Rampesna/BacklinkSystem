@@ -63,7 +63,7 @@
                         </nav>
                         <!-- nav of the page end -->
                         <ul class="list-unstyled sign-list">
-                            <li><a href="#">GİRİŞ YAP</a></li>
+                            <li><a href="{{route('login')}}">GİRİŞ YAP</a></li>
                             <li><a href="#" class="bg-grey md-round">KAYIT OL</a></li>
                         </ul>
                     </div>

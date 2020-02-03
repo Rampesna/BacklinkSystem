@@ -4,26 +4,33 @@
 
 @section('content')
 
-    <form enctype="multipart/form-data" class="row clearfix" method="post" action="{{route('add-link-control')}}">
-        {{csrf_field()}}
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="card">
+    @if(isset($errorMessage))
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <i class="fa fa-times-circle"></i> {{$errorMessage}}
+        </div>
+    @endif
 
-                <div class="body">
+    @if(!isset($returnArray))
+        <form class="row clearfix" method="post" action="{{route('add-link-control')}}">
+            {{csrf_field()}}
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
 
-                    <div class="form-group">
-                        <label>Sisteme Eklenecek Link</label>
-                        <input type="text" maxlength="160" name="new_link" class="form-control" required>
+                    <div class="body">
+
+                        <div class="form-group">
+                            <label>Sisteme Eklenecek Link</label>
+                            <input type="text" maxlength="160" name="new_link" class="form-control" required>
+                        </div>
+
+                        <input type="submit" value="Kontrol Et" class="btn btn-block btn-outline-success">
                     </div>
-
-                    <input type="submit" value="Kontrol Et" class="btn btn-block btn-outline-success">
                 </div>
             </div>
-        </div>
 
-    </form>
-
-    @if(isset($returnArray))
+        </form>
+    @else
         <form action="{{route('add-link-post')}}" method="post" class="row clearfix">
             {{csrf_field()}}
             <input name="site_url" type="hidden" value="{{$returnArray["site"]}}">
@@ -34,7 +41,7 @@
             <div class="col-lg-12 col-md-12">
                 <div class="card">
                     <div class="header">
-                        <h2>Sitenin İncelemesi</h2>
+                        <h2>Sitenin Analizi</h2>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-custom spacing5">
@@ -47,6 +54,10 @@
                                 <th>Linking In</th>
                                 <th>DA Değeri</th>
                                 <th>PA Değeri</th>
+                                <th>Fiyatı</th>
+                                <th>Satılacak Link Sayısı</th>
+                                <th>Link Türü</th>
+                                <th>Adult</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -58,16 +69,39 @@
                                 <td>{{$returnArray["country_alexa"]}}</td>
                                 <td>{{$returnArray["linking_count"]}}</td>
                                 <td>
-                                    <input name="" type="text" class="form-control">
+                                    <input name="da_value" type="text" class="form-control">
                                 </td>
                                 <td>
-                                    <input name="" type="text" class="form-control">
+                                    <input name="pa_value" type="text" class="form-control">
+                                </td>
+                                <td>
+                                    <input name="price" type="text" class="form-control">
+                                </td>
+                                <td>
+                                    <input name="sale_limit" type="text" class="form-control">
+                                </td>
+                                <td>
+                                    <select name="type" class="custom-select">
+                                        <option value="backlink">Backlink</option>
+                                        <option value="hacklink">Hacklink</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <div class="float-right">
+                                        <label class="switch">
+                                            <input name="is_adult" type="checkbox" checked>
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
                                 </td>
                             </tr>
 
                             </tbody>
                         </table>
                     </div>
+
+                    <input type="submit" value="Siteyi Sisteme Ekle" class="btn btn-success btn-block">
+
                 </div>
             </div>
         </form>

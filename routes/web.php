@@ -25,13 +25,22 @@ Route::get('/index', function (){
 
 Route::get('/dashboard', 'MainController@index')->name('index');
 
+Route::prefix('account')->group(function (){
+    Route::get('/all-accounts','AccountsController@allAccounts')->name('all-accounts');
+    Route::get('/account-detail/{id}','AccountsController@accountDetail')->name('account-detail');
+});
 
-Route::get('/accounts/all-accounts','AccountsController@allAccounts')->name('all-accounts');
-Route::get('/accounts/account-detail/{id}','AccountsController@accountDetail')->name('account-detail');
 
 
 //Links
-Route::get('/links/add-link', 'LinkControllers@addLink')->name('add-link');
-Route::post('/links/add-link', 'LinkControllers@addLinkPost')->name('add-link-post');
-Route::post('/links/add-link-control', 'LinkControllers@addLinkControl')->name('add-link-control');
-Route::get('/links/all-links', 'LinkControllers@allLinks')->name('all-links');
+Route::prefix('links')->group(function (){
+    Route::get('/all-links', 'LinkControllers@allLinks')->name('all-links');
+    Route::get('/add-link', 'LinkControllers@addLink')->name('add-link');
+    Route::post('/add-link-control', 'LinkControllers@addLinkControl')->name('add-link-control');
+    Route::post('/add-link', 'LinkControllers@addLinkPost')->name('add-link-post');
+
+    Route::get('/edit-link/{id}/{url}','LinkControllers@editLink')->name('edit-link');
+    Route::post('/update-link','LinkControllers@updateLink')->name('update-link');
+
+    Route::get('/delete-link/{id}','LinkControllers@deleteLink')->name('delete-link');
+});
