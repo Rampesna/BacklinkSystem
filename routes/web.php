@@ -25,7 +25,7 @@ Route::get('/index', function (){
 
 Route::get('/dashboard', 'MainController@index')->name('index');
 
-Route::prefix('account')->group(function (){
+Route::prefix('account')->middleware('admin-control')->group(function (){
     Route::get('/all-accounts','AccountsController@allAccounts')->name('all-accounts');
     Route::get('/account-detail/{id}','AccountsController@accountDetail')->name('account-detail');
 });
@@ -33,7 +33,7 @@ Route::prefix('account')->group(function (){
 
 
 //Links
-Route::prefix('links')->group(function (){
+Route::prefix('links')->middleware('admin-control')->group(function (){
     Route::get('/all-links', 'LinkControllers@allLinks')->name('all-links');
     Route::get('/add-link', 'LinkControllers@addLink')->name('add-link');
     Route::post('/add-link-control', 'LinkControllers@addLinkControl')->name('add-link-control');
@@ -43,4 +43,23 @@ Route::prefix('links')->group(function (){
     Route::post('/update-link','LinkControllers@updateLink')->name('update-link');
 
     Route::get('/delete-link/{id}','LinkControllers@deleteLink')->name('delete-link');
+});
+
+
+
+
+Route::prefix('customer')->group(function (){
+    Route::get('/all-links','CustomerController@allLinks')->name('customer-all-links');
+});
+
+
+
+Route::prefix('my-account')->group(function (){
+    Route::get('/my-account','CustomerController@myAccount')->name('my-account');
+    Route::get('/my-sites','CustomerController@mySites')->name('my-sites');
+    Route::get('/add-site','CustomerController@addSite')->name('add-site');
+    Route::post('/add-site-control','CustomerController@addSiteControl')->name('add-site-control');
+    Route::post('/add-site-post','CustomerController@addSitePost')->name('add-site-post');
+    Route::get('/my-links','CustomerController@myLinks')->name('my-links');
+
 });

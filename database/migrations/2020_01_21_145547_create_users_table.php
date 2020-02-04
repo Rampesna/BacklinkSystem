@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('is_activated')->unsigned();
             $table->tinyInteger('is_banned')->unsigned()->default(0);
             $table->tinyInteger('is_admin')->unsigned();
+            $table->tinyInteger('is_premium')->unsigned();
             $table->smallInteger('auth_level')->unsigned();
             $table->timestamps();
         });

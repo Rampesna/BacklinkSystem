@@ -15,7 +15,8 @@ class CreatePurchasedLinksTable extends Migration
     {
         Schema::create('purchased_links', function (Blueprint $table) {
             $table->increments('id');
-            $table->mediumInteger('user_site_id');
+            $table->mediumInteger('site_id');
+            $table->integer('user_id');
             $table->integer('link_id');
             $table->string('keyword',128);
             $table->tinyInteger('is_added');

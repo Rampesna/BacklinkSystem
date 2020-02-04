@@ -17,12 +17,12 @@ class CreateUserSitesTable extends Migration
             $table->mediumIncrements('id');
             $table->smallInteger('user_id')->unsigned();
             $table->string('url')->unique();
-            $table->string('alexa_global',10);
-            $table->string('alexa_country',10);
-            $table->string('google_index_count',10);
-            $table->string('sites_linking_in',10);
-            $table->string('da_value',10);
-            $table->string('pa_value',10);
+            $table->string('alexa_global',10)->nullable();
+            $table->string('alexa_country',10)->nullable();
+            $table->string('google_index_count',10)->nullable();
+            $table->string('sites_linking_in',10)->nullable();
+            $table->string('da_value',10)->nullable();
+            $table->string('pa_value',10)->nullable();
             $table->timestamps();
         });
     }
