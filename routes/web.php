@@ -12,7 +12,14 @@
 */
 
 Route::get('/getip',function (){
-    return $_SERVER;
+    return $_SERVER; // $_SERVER["SERVER_NAME"]
+});
+
+Route::get('/deneme',function (){
+    return view('deneme');
+
+
+
 });
 
 Auth::routes();
@@ -56,10 +63,17 @@ Route::prefix('customer')->group(function (){
 
 Route::prefix('my-account')->group(function (){
     Route::get('/my-account','CustomerController@myAccount')->name('my-account');
+
     Route::get('/my-sites','CustomerController@mySites')->name('my-sites');
+    Route::get('/delete-site/{id}','CustomerController@deleteSite')->name('delete-site');
     Route::get('/add-site','CustomerController@addSite')->name('add-site');
     Route::post('/add-site-control','CustomerController@addSiteControl')->name('add-site-control');
     Route::post('/add-site-post','CustomerController@addSitePost')->name('add-site-post');
-    Route::get('/my-links','CustomerController@myLinks')->name('my-links');
 
+    Route::get('/my-links','CustomerController@myLinks')->name('my-links');
+    Route::get('/buy-link/{id}','CustomerController@buyLink')->name('buy-link');
+    Route::post('/buy-link-post','CustomerController@buyLinkPost')->name('buy-link-post');
+
+    Route::get('/buy-credit','CustomerController@buyCredit')->name('buy-credit');
+    Route::post('/buy-credit-post','CustomerController@buyCreditPost')->name('buy-credit-post');
 });

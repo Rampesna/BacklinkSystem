@@ -5,13 +5,34 @@
 @section('content')
 
     @php($user = \Illuminate\Support\Facades\Auth::user())
-
+    <div class="modal fade" id="siteDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Silmek İstediğinize Emin misiniz?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p> • Eğer silme işlemini onaylarsanız bu siteniz için almış olduğunuz tüm linkler iptal edilecektir!</p>
+                    <small style="color: orangered"><i> • İptal işleminden sonra kesinlikle kredi geri ödemesi </i><strong>Yapılmamaktadır!</strong></small>
+                </div>
+                <div class="modal-footer">
+                    <button id="modal-btn-no" type="button" class="btn btn-secondary" data-dismiss="modal">Hayır
+                    </button>
+                    <button id="btnYesSite" type="submit" class="btn btn-primary">Evet</button>
+                </div>
+            </div>
+        </div>
+    </div>
     @if(isset($mySites))
 
         @if(count($mySites) > 0)
             <div class="col-12">
                 <div class="table-responsive">
-                    <table class="table header-border table-hover table-custom spacing5">
+                    <table id="allSites" class="table header-border table-hover table-custom spacing7">
                         <thead>
                         <tr>
                             <th>URL</th>
@@ -29,7 +50,10 @@
                                 </td>
                                 <td>
                                     <i style="color: #00A6C7" class="fa fa-edit"></i>&nbsp;&nbsp;
-                                    <i style="color: #00A6C7" class="fa fa-trash"></i>
+                                    <a data-id="{{$site->id}}"
+                                       data-whatever="{{$site->url}}" href="#"
+                                       class="fa fa-trash confirm-delete"
+                                       data-toggle="modal" data-target="#siteDeleteModal" style="text-decoration: none;"></a>
                                 </td>
                             </tr>
                         @endforeach
@@ -62,75 +86,31 @@
 @stop
 
 @section('page-script')
-    <script src="{{ asset('assets/bundles/datatablescripts.bundle.js') }}"></script>
-    <script src="{{ asset('assets/vendor/jquery-datatable/buttons/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/jquery-datatable/buttons/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/jquery-datatable/buttons/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/jquery-datatable/buttons/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/jquery-datatable/buttons/buttons.print.min.js') }}"></script>
-
-    <script src="{{ asset('assets/js/pages/tables/jquery-datatable.js') }}"></script>
-
 
     <script src="{{ asset('assets/bundles/c3.bundle.js') }}"></script>
     <script src="{{ asset('assets/bundles/mainscripts.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/index.js') }}"></script>
 
-    <script>
-        $('#allLinks').DataTable({
-            language: {
-                info: "_TOTAL_ Kayıttan _START_ - _END_ Arasındaki Kayıtlar Gösteriliyor.",
-                infoEmpty: "Gösterilecek Hiç Kayıt Yok.",
-                loadingRecords: "Kayıtlar Yükleniyor.",
-                zeroRecords: "Tablo Boş",
-                search: "Arama:",
-                infoFiltered: "(Yoplam _MAX_ Kayıttan Filtrelenenler)",
-                lengthMenu: "Sayfa Başı _MENU_ Kayıt Göster",
-                /*
-                buttons: {
-                    copyTitle: "Panoya Kopyalandı.",
-                    copySuccess:"Panoya %d Satır Kopyalandı",
-                    copy: "Kopyala",
-                    print: "Yazdır",
-                },
-    */
-                paginate: {
-                    first: "İlk",
-                    previous: "Önceki",
-                    next: "Sonraki",
-                    last: "Son"
-                },
-            },
-            dom: 'frtipl',
-
-            /*
-            buttons: [
-                'copy', 'excel', 'pdf', 'print'
-            ],
-            */
-            responsive: true
-        });
-    </script>
 
     <script>
-        $('#linkDeleteModal').on('show', function () {
+        $('#siteDeleteModal').on('show', function () {
             var id = $(this).data('id'),
                 removeBtn = $(this).find('.danger');
         })
 
-        $('#allLinks').on('click', '.confirm-delete', function (e) {
+        $('#allSites').on('click', '.confirm-delete', function (e) {
             e.preventDefault();
 
             var id = $(this).data('id');
-            $('#linkDeleteModal').data('id', id).modal('show');
+            $('#siteDeleteModal').data('id', id).modal('show');
         });
 
-        $('#btnYesLink').click(function () {
+        $('#btnYesSite').click(function () {
             // handle deletion here
-            var id = $('#linkDeleteModal').data('id');
-            window.location.href = "/links/delete-link/" + id;
+            var id = $('#siteDeleteModal').data('id');
+            window.location.href = "/my-account/delete-site/" + id;
             $('[data-id=' + id + ']').remove();
-            $('#linkDeleteModal').modal('hide');
+            $('#siteDeleteModal').modal('hide');
         });
     </script>
 @stop

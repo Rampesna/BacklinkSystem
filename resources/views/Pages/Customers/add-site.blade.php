@@ -11,6 +11,25 @@
         </div>
     @endif
 
+    <div class="modal fade" id="siteDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Silmek İstediğinize Emin misiniz?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button id="modal-btn-no" type="button" class="btn btn-secondary" data-dismiss="modal">Hayır
+                    </button>
+                    <button id="btnYesSite" type="submit" class="btn btn-primary">Evet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @if(isset($returnArray) && $returnArray["status"] == true)
         <form action="{{route('add-site-post')}}" method="post" class="row clearfix">
             {{csrf_field()}}

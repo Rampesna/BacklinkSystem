@@ -60,13 +60,13 @@
                                 <li class="{{ Request::segment(2) === 'my-account' ? 'active' : null }}"><a href="{{route('my-account')}}">Hesap Bilgilerim</a></li>
                                 <li class="{{ Request::segment(2) === 'my-sites' ? 'active' : null }}"><a href="{{route('my-sites')}}">Sitelerim</a></li>
                                 <li class="{{ Request::segment(2) === 'my-links' ? 'active' : null }}"><a href="{{route('my-links')}}">Satın Aldığım Linkler</a></li>
+                                <li class="{{ Request::segment(2) === 'buy-credit' ? 'active' : null }}"><a href="{{route('buy-credit')}}">Kredi Yükle</a></li>
                             </ul>
                         </li>
                         <li class="{{ Request::segment(1) === 'customer' ? 'active open' : null }}">
                             <a href="#links" class="has-arrow"><i class="fa fa-link"></i><span>Link Sistemi</span></a>
                             <ul>
                                 <li class="{{ Request::segment(2) === 'all-links' ? 'active' : null }}"><a href="{{route('customer-all-links')}}">Linkler</a></li>
-                                <li class="{{ Request::segment(2) === 'buy-credit' ? 'active' : null }}"><a href="{{route('all-links')}}">Kredi Yükle</a></li>
                                 <li class="{{ Request::segment(2) === 'report-error' ? 'active' : null }}"><a href="{{route('index')}}">Hata Bildir</a></li>
                             </ul>
                         </li>

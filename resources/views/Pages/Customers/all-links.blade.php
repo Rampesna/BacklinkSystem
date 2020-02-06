@@ -56,7 +56,13 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="#" style="color: white" class="btn btn-success">Satın Al</a>
+                                                <button @if($user->balance < $link->price) disabled  @endif onclick="window.location.href = '{{route('buy-link',["id" => $link->id])}}'" style="color: white" class="btn btn-success">
+                                                    @if($user->balance < $link->price)
+                                                        Yetersiz Kredi
+                                                    @else
+                                                        Satın Al
+                                                    @endif
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach

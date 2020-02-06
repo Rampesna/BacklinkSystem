@@ -4,7 +4,53 @@
 
 @section('content')
 
+    @if(isset($returnArray))
 
+        @if(count($returnArray) > 0)
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table id="allSites" class="table header-border table-hover table-custom spacing7">
+                        <thead>
+                        <tr>
+                            <th>Site URL</th>
+                            <th>Alınan Link URL</th>
+                            <th>Kelimeler</th>
+                            <th>Durum</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @foreach($returnArray as $site)
+                            <tr>
+                                <td>{{$site["site_url"]}}</td>
+                                <td>{{$site["link_url"]}}</td>
+                                <td>{{$site["keywords"]}}</td>
+                                <td>
+                                    @if($site["status"] == 1)
+                                        <i style="color: #00aa00" class="fa fa-check"></i>
+                                    @else
+                                        <i style="color: #8f1f00" class="fa fa-close"></i>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @else
+            <div class="col-lg-12">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Site Bulunamadı!</h5>
+                        <p class="card-text">Görünüşe Göre Henüz Hiç Site Kaydetmemişsiniz. Site(leri)nizi Eklemek İçin Aşağıdaki Butona Tıklayın.</p>
+                        <a href="{{route('add-site')}}" class="btn btn-info btn-block">Site Ekle</a>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+    @endif
 
 @stop
 
@@ -32,7 +78,7 @@
     <script src="{{ asset('assets/js/index.js') }}"></script>
 
     <script>
-        $('#allLinks').DataTable({
+        $('#myLinks').DataTable({
             language: {
                 info: "_TOTAL_ Kayıttan _START_ - _END_ Arasındaki Kayıtlar Gösteriliyor.",
                 infoEmpty: "Gösterilecek Hiç Kayıt Yok.",
@@ -73,7 +119,7 @@
                 removeBtn = $(this).find('.danger');
         })
 
-        $('#allLinks').on('click', '.confirm-delete', function (e) {
+        $('#myLinks').on('click', '.confirm-delete', function (e) {
             e.preventDefault();
 
             var id = $(this).data('id');

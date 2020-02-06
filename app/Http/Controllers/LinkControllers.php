@@ -48,12 +48,16 @@ class LinkControllers extends Controller
             $alexaOfGlobalRank = $result->Awis->Results->Result->Alexa->TrafficData->Rank;
             if (!is_null($result->Awis->Results->Result->Alexa->TrafficData->RankByCountry)) {
                 foreach ($result->Awis->Results->Result->Alexa->TrafficData->RankByCountry->Country as $country) {
-                    if (!is_null($country->Rank) && ($country->Rank < $alexaOfCountryRank)) {
+                    if (!is_null(@$country->Rank) && (@$country->Rank < @$alexaOfCountryRank)) {
                         $alexaOfCountryRank = $country->Rank;
                         $array = (array)$country;
                         $alexaOfCountry = $array["@Code"];
                     }
                 }
+            }
+            if($alexaOfCountryRank == 9999999999){
+                $alexaOfCountryRank = 0;
+                $alexaOfCountry = "Yok";
             }
             $linkingCount = $result->Awis->Results->Result->Alexa->ContentData->LinksInCount;
             $returnArray = [
