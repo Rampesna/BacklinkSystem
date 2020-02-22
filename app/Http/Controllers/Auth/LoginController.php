@@ -49,7 +49,8 @@ class LoginController extends Controller
     protected function credentials(Request $request)
     {
         $credentials = $request->only($this->username(), 'password');
-//        $credentials['is_admin'] = 1;
+        $credentials['is_activated'] = 1;
+        $credentials['is_banned'] = 0;
         return $credentials;
     }
 
@@ -79,6 +80,6 @@ class LoginController extends Controller
     {
         $this->guard()->logout();
         $request->session()->invalidate();
-        return $this->loggedOut($request) ?: redirect('/');
+        return $this->loggedOut($request) ?: redirect('/login');
     }
 }

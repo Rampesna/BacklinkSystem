@@ -14,7 +14,7 @@
     <div class="auth-main particles_js">
         <div class="auth_div vivify popIn">
             <div class="auth_brand">
-                <a class="navbar-brand" href="javascript:void(0);"><img src="{{asset('assets/images/icon.svg')}}" width="30" height="30" class="d-inline-block align-top mr-2" alt="">ÇınarWbh Yazılım</a>
+                <a class="navbar-brand" href="javascript:void(0);"><img src="{{asset('assets/images/icon.svg')}}" width="30" height="30" class="d-inline-block align-top mr-2" alt="">backlinksatisi.com</a>
             </div>
             <div class="card">
                 <div class="body">
@@ -37,7 +37,7 @@
                         <button type="submit" class="btn btn-primary btn-round btn-block">Giriş Yap</button>
                         <div class="bottom">
                             <span class="helper-text m-b-10"><i class="fa fa-lock"></i> <a href="#">Şifrenizi mi Unuttunuz?</a></span>
-                            <span>Üye Değil Misiniz? <a href="#">Hemen Kayıt Ol</a></span>
+                            <span>Üye Değil Misiniz? <a href="{{route('register-form')}}">Hemen Kayıt Ol</a></span>
                         </div>
                     </form>
                 </div>

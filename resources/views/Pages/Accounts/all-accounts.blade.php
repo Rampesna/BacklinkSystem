@@ -14,6 +14,7 @@
                         <table id="allAccounts" class="table table-hover js-basic-example dataTable table-custom spacing5">
                             <thead>
                             <tr>
+                                <th>Kayıt Tarihi</th>
                                 <th>Ad Soyad</th>
                                 <th>Kullanıcı Adı</th>
                                 <th>E-posta</th>
@@ -22,20 +23,11 @@
                                 <th>Düzenle</th>
                             </tr>
                             </thead>
-                            <tfoot>
-                            <tr>
-                                <th>Ad Soyad</th>
-                                <th>Kullanıcı Adı</th>
-                                <th>E-posta</th>
-                                <th>Telefon</th>
-                                <th>Kredi</th>
-                                <th>Düzenle</th>
-                            </tr>
-                            </tfoot>
                             <tbody>
 
                             @foreach($allAccounts as $account)
                             <tr>
+                                <td>{{strftime("%Y-%m-%d %H:%M:%S",strtotime($account->created_at))}}</td>
                                 <td>{{$account->name_surname}}</td>
                                 <td>{{$account->username}}</td>
                                 <td>{{$account->email}}</td>
@@ -108,6 +100,7 @@
                         },
                     },
                     dom: 'frtipl',
+                    "order": [[ 0, "desc" ]],
 
                     /*
                     buttons: [

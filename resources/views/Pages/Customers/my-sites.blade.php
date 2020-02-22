@@ -31,7 +31,10 @@
 
         @if(count($mySites) > 0)
             <div class="col-12">
+                <a href="{{route('add-site')}}" class="btn btn-info btn-block bg-dark">Yeni Site Ekle</a>
+                <hr>
                 <div class="table-responsive">
+
                     <table id="allSites" class="table header-border table-hover table-custom spacing7">
                         <thead>
                         <tr>
@@ -49,7 +52,7 @@
                                     <button @if($user->is_premium == 0) disabled @endif onclick="window.location.href = '{{route('index')}}'" style="color: white" class="btn btn-info">Siteyi Analiz Et <small><i> (Sadece Premium Hesaplar) </i></small></button>
                                 </td>
                                 <td>
-                                    <i style="color: #00A6C7" class="fa fa-edit"></i>&nbsp;&nbsp;
+                                    <a href="{{route('edit-site',$site->id)}}" style="color: #00A6C7" class="fa fa-edit"></a>&nbsp;&nbsp;
                                     <a data-id="{{$site->id}}"
                                        data-whatever="{{$site->url}}" href="#"
                                        class="fa fa-trash confirm-delete"

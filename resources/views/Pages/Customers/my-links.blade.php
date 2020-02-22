@@ -1,6 +1,45 @@
 @extends('Layouts.master')
 @section('site_title', 'Backlink Satış')
 
+@section('custom-header')
+<style>
+    @-webkit-keyframes rotating /* Safari and Chrome */ {
+        from {
+            -webkit-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        to {
+            -webkit-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+    @keyframes rotating {
+        from {
+            -ms-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        to {
+            -ms-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -webkit-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+    .rotating {
+        -webkit-animation: rotating 2s linear infinite;
+        -moz-animation: rotating 2s linear infinite;
+        -ms-animation: rotating 2s linear infinite;
+        -o-animation: rotating 2s linear infinite;
+        animation: rotating 2s linear infinite;
+    }
+</style>
+@endsection
 
 @section('content')
 
@@ -12,10 +51,12 @@
                     <table id="allSites" class="table header-border table-hover table-custom spacing7">
                         <thead>
                         <tr>
-                            <th>Site URL</th>
-                            <th>Alınan Link URL</th>
-                            <th>Kelimeler</th>
-                            <th>Durum</th>
+                            <th><strong>Link Alınan Site</strong></th>
+                            <th><strong>Alınan Link URL</strong></th>
+                            <th><strong>Kelimeler</strong></th>
+                            <th class="text-center"><strong>Eklenme Durumu</strong></th>
+                            <th class="text-center"><strong>Link Durumu</strong></th>
+                            <th class="text-center"><strong>Düzenle</strong></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -23,14 +64,29 @@
                         @foreach($returnArray as $site)
                             <tr>
                                 <td>{{$site["site_url"]}}</td>
-                                <td>{{$site["link_url"]}}</td>
+                                <td><a class="text-info" target="_blank" href="http://{{$site["link_url"]}}">{{$site["link_url"]}}</a></td>
                                 <td>{{$site["keywords"]}}</td>
-                                <td>
-                                    @if($site["status"] == 1)
-                                        <i style="color: #00aa00" class="fa fa-check"></i>
+                                <td class="text-center">
+                                    @if($site["is_added"] == "1")
+                                        <span style="color: green">Eklendi</span>
                                     @else
-                                        <i style="color: #8f1f00" class="fa fa-close"></i>
+                                        <span style="color: orange">Bekliyor</span>
                                     @endif
+                                </td>
+                                <td class="text-center">
+                                    @if($site["is_added"] == "0")
+                                        <button disabled purchase="{{$site["purchase_id"]}}" class="btn btn-outline-secondary purchaseControl">Kontrol Et</button>
+                                        <i style="color: orange" id="loading_{{$site["purchase_id"]}}" class="fa fa-spinner rotating"></i>
+                                        <i id="purchase_i_id_{{$site["purchase_id"]}}" class="fa fa-lg"></i>
+                                    @elseif($site["is_added"] == "1")
+                                        <button purchase="{{$site["purchase_id"]}}" class="btn btn-outline-info purchaseControl">Kontrol Et</button>
+                                        <i style="color: orange" id="loading_{{$site["purchase_id"]}}" class="fa fa-spinner rotating"></i>
+                                        <i id="purchase_i_id_{{$site["purchase_id"]}}" class="fa fa-lg"></i>
+                                    @endif
+
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{route('edit-my-link',$site["purchase_id"])}}" class="btn btn-outline-warning">Düzenle</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -63,6 +119,7 @@
 @stop
 
 @section('page-script')
+
     <script src="{{ asset('assets/bundles/datatablescripts.bundle.js') }}"></script>
     <script src="{{ asset('assets/vendor/jquery-datatable/buttons/dataTables.buttons.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/jquery-datatable/buttons/buttons.bootstrap4.min.js') }}"></script>
@@ -72,66 +129,46 @@
 
     <script src="{{ asset('assets/js/pages/tables/jquery-datatable.js') }}"></script>
 
-
     <script src="{{ asset('assets/bundles/c3.bundle.js') }}"></script>
     <script src="{{ asset('assets/bundles/mainscripts.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/index.js') }}"></script>
 
     <script>
-        $('#myLinks').DataTable({
-            language: {
-                info: "_TOTAL_ Kayıttan _START_ - _END_ Arasındaki Kayıtlar Gösteriliyor.",
-                infoEmpty: "Gösterilecek Hiç Kayıt Yok.",
-                loadingRecords: "Kayıtlar Yükleniyor.",
-                zeroRecords: "Tablo Boş",
-                search: "Arama:",
-                infoFiltered: "(Yoplam _MAX_ Kayıttan Filtrelenenler)",
-                lengthMenu: "Sayfa Başı _MENU_ Kayıt Göster",
-                /*
-                buttons: {
-                    copyTitle: "Panoya Kopyalandı.",
-                    copySuccess:"Panoya %d Satır Kopyalandı",
-                    copy: "Kopyala",
-                    print: "Yazdır",
-                },
-    */
-                paginate: {
-                    first: "İlk",
-                    previous: "Önceki",
-                    next: "Sonraki",
-                    last: "Son"
-                },
-            },
-            dom: 'frtipl',
+        $(document).ready(function() {
+            $('.rotating').hide();
+            $(".purchaseControl").click(function(e) {
+                $(this).hide();
+                var p_id = $(this).attr('purchase');
+                $.ajax({
+                    type: "get",
+                    url: "{{route('link-control')}}",
+                    data: {
+                        purchase_id: $(this).attr('purchase'),
+                    },
+                    beforeSend: loadStart,
+                    complete: loadStop,
+                    success: function(result) {
+                        if(result == "true"){
+                            $("#purchase_i_id_"+p_id).addClass('fa-check');
+                            $("#purchase_i_id_"+p_id).css({"color": "green"})
+                        }else{
+                            $("#purchase_i_id_"+p_id).addClass('fa-close');
+                            $("#purchase_i_id_"+p_id).css({"color": "red"})
+                        }
+                    },
+                    error: function(result) {
+                        $("#purchase_i_id_"+p_id).addClass('fa-close');
+                        $("#purchase_i_id_"+p_id).css({"color": "red"})
+                    }
+                });
 
-            /*
-            buttons: [
-                'copy', 'excel', 'pdf', 'print'
-            ],
-            */
-            responsive: true
-        });
-    </script>
-
-    <script>
-        $('#linkDeleteModal').on('show', function () {
-            var id = $(this).data('id'),
-                removeBtn = $(this).find('.danger');
-        })
-
-        $('#myLinks').on('click', '.confirm-delete', function (e) {
-            e.preventDefault();
-
-            var id = $(this).data('id');
-            $('#linkDeleteModal').data('id', id).modal('show');
-        });
-
-        $('#btnYesLink').click(function () {
-            // handle deletion here
-            var id = $('#linkDeleteModal').data('id');
-            window.location.href = "/links/delete-link/" + id;
-            $('[data-id=' + id + ']').remove();
-            $('#linkDeleteModal').modal('hide');
+                function loadStart() {
+                    $('#loading_'+p_id).show();
+                }
+                function loadStop() {
+                    $('#loading_' + p_id).hide();
+                }
+            });
         });
     </script>
 @stop

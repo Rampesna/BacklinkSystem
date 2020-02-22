@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'CinarWBH'),
+    'name' => env('APP_NAME', 'Backlinksatisi'),
 
     /*
     |--------------------------------------------------------------------------

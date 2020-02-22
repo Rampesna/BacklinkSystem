@@ -25,7 +25,9 @@
                                         <th>DA</th>
                                         <th>PA</th>
                                         <th>Tür</th>
+                                        <th>Eklenme Türü</th>
                                         <th>Adult</th>
+                                        <th>Fiyat</th>
                                         <th>İşlem</th>
                                     </tr>
                                     </thead>
@@ -49,11 +51,21 @@
                                             <td>{{$link->pa_value}}</td>
                                             <td>{{strtoupper($link->type)}}</td>
                                             <td>
+                                                @if($link->add_type == 1)
+                                                    Otomatik
+                                                @else
+                                                    Manuel
+                                                @endif
+                                            </td>
+                                            <td>
                                                 @if($link->is_adult == 1)
                                                     <i style="color: #00aa00" class="fa fa-check"></i>
                                                 @else
                                                     <i style="color: #8f1f00" class="fa fa-close"></i>
                                                 @endif
+                                            </td>
+                                            <td>
+                                                ₺ {{$link->price}}
                                             </td>
                                             <td>
                                                 <button @if($user->balance < $link->price) disabled  @endif onclick="window.location.href = '{{route('buy-link',["id" => $link->id])}}'" style="color: white" class="btn btn-success">
@@ -74,9 +86,6 @@
                     </div>
                 </div>
             </div>
-
-
-
 
         @endif
     @else

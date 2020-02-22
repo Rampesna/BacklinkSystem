@@ -1,15 +1,54 @@
 @extends('Layouts.master')
 @section('site_title', 'Backlink Satış')
 
+@section('custom-header')
+    <style>
+        @-webkit-keyframes rotating /* Safari and Chrome */ {
+            from {
+                -webkit-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            to {
+                -webkit-transform: rotate(360deg);
+                -o-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes rotating {
+            from {
+                -ms-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -webkit-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            to {
+                -ms-transform: rotate(360deg);
+                -moz-transform: rotate(360deg);
+                -webkit-transform: rotate(360deg);
+                -o-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+        .rotating {
+            -webkit-animation: rotating 2s linear infinite;
+            -moz-animation: rotating 2s linear infinite;
+            -ms-animation: rotating 2s linear infinite;
+            -o-animation: rotating 2s linear infinite;
+            animation: rotating 2s linear infinite;
+        }
+        .dataTables_filter {
+            float: right !important;
+        }
+    </style>
+@endsection
 
 @section('content')
 
 
 
     @if(isset($allLinks))
-
-
-
 
         <div class="modal fade" id="linkDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
@@ -35,6 +74,8 @@
         <div class="row clearfix">
             <div class="col-lg-12">
                 <div class="card">
+                    <a href="{{route('add-link')}}" class="btn btn-info btn-block bg-dark">Yeni Link Ekle</a>
+                    <hr>
                     <div class="body">
                         <div class="table-responsive">
                             <table id="allLinks" class="table table-hover js-basic-example dataTable table-custom spacing5">
@@ -48,9 +89,11 @@
                                     <th>DA</th>
                                     <th>PA</th>
                                     <th>Tür</th>
+                                    <th>Eklenme Türü</th>
                                     <th>Adult</th>
                                     <th>Fiyatı</th>
                                     <th>Düzenle</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
 
@@ -58,7 +101,7 @@
 
                                 @foreach($allLinks as $link)
                                     <tr>
-                                        <td>{{$link->url}}</td>
+                                        <td><a href="{{route('link-purchases',$link->id)}}">{{$link->url}}</a></td>
                                         <td>{{$link->alexa_global}}</td>
                                         <td>{{$link->alexa_country}}</td>
                                         <td>{{$link->google_index_count}}</td>
@@ -66,6 +109,13 @@
                                         <td>{{$link->da_value}}</td>
                                         <td>{{$link->pa_value}}</td>
                                         <td>{{strtoupper($link->type)}}</td>
+                                        <td>
+                                            @if($link->add_type == 1)
+                                                Otomatik
+                                            @else
+                                                Manuel
+                                            @endif
+                                        </td>
                                         <td>
                                             @if($link->is_adult == 1)
                                                 <i style="color: #00aa00" class="fa fa-check"></i>
@@ -82,6 +132,17 @@
                                                data-whatever="{{$link->url}}" href="#"
                                                class="fa fa-trash confirm-delete"
                                                data-toggle="modal" data-target="#exampleModal" style="text-decoration: none;"></a>&nbsp;&nbsp;
+                                        </td>
+                                        <td class="text-center">
+                                            @if($link->add_type == 1)
+                                                <button link="{{$link->id}}" class="btn btn-outline-info linkControl">Kontrol Et</button>
+                                                <i style="color: orange" id="loading_{{$link->id}}" class="fa fa-spinner rotating"></i>
+                                                <i id="link_i_id_{{$link->id}}" class="fa fa-lg"></i>
+                                            @elseif($link->add_type == 0)
+                                                <button disabled link="{{$link->id}}" class="btn btn-outline-secondary linkControl">Kontrol Et</button>
+                                                <i style="color: orange" id="loading_{{$link->id}}" class="fa fa-spinner rotating"></i>
+                                                <i id="link_i_id_{{$link->id}}" class="fa fa-lg"></i>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -111,12 +172,6 @@
 
 @section('page-script')
     <script src="{{ asset('assets/bundles/datatablescripts.bundle.js') }}"></script>
-    <script src="{{ asset('assets/vendor/jquery-datatable/buttons/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/jquery-datatable/buttons/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/jquery-datatable/buttons/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/jquery-datatable/buttons/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/jquery-datatable/buttons/buttons.print.min.js') }}"></script>
-
     <script src="{{ asset('assets/js/pages/tables/jquery-datatable.js') }}"></script>
 
 
@@ -125,14 +180,14 @@
     <script src="{{ asset('assets/js/index.js') }}"></script>
 
     <script>
-        $('#allLinks').DataTable({
+        var table = $('#allLinks').DataTable({
             language: {
                 info: "_TOTAL_ Kayıttan _START_ - _END_ Arasındaki Kayıtlar Gösteriliyor.",
                 infoEmpty: "Gösterilecek Hiç Kayıt Yok.",
                 loadingRecords: "Kayıtlar Yükleniyor.",
                 zeroRecords: "Tablo Boş",
                 search: "Arama:",
-                infoFiltered: "(Yoplam _MAX_ Kayıttan Filtrelenenler)",
+                infoFiltered: "(Toplam _MAX_ Kayıttan Filtrelenenler)",
                 lengthMenu: "Sayfa Başı _MENU_ Kayıt Göster",
                 /*
                 buttons: {
@@ -156,8 +211,14 @@
                 'copy', 'excel', 'pdf', 'print'
             ],
             */
-            responsive: true
+            responsive: true,
+            select : true
         });
+
+        table.rows().every( function () {
+            this.$('.rotating').hide();
+        } );
+
     </script>
 
     <script>
@@ -173,12 +234,86 @@
             $('#linkDeleteModal').data('id', id).modal('show');
         });
 
+        $('#allLinks').on('click', '.linkControl', function (e) {
+            e.preventDefault();
+            $(this).hide();
+            var link_id = $(this).attr('link');
+            $.ajax({
+                type: "get",
+                url: "{{route('link-admin-control')}}",
+                data: {
+                    link_id: $(this).attr('link'),
+                },
+                beforeSend: loadStart,
+                complete: loadStop,
+                success: function(result) {
+                    if(result == "true"){
+                        $("#link_i_id_"+link_id).addClass('fa-check');
+                        $("#link_i_id_"+link_id).css({"color": "green"})
+                    }else{
+                        $("#link_i_id_"+link_id).addClass('fa-close');
+                        $("#link_i_id_"+link_id).css({"color": "red"})
+                    }
+                },
+                error: function(result) {
+                    $("#link_i_id_"+link_id).addClass('fa-close');
+                    $("#link_i_id_"+link_id).css({"color": "red"})
+                }
+            });
+
+            function loadStart() {
+                $('#loading_'+link_id).show();
+            }
+            function loadStop() {
+                $('#loading_' + link_id).hide();
+            }
+        });
+
         $('#btnYesLink').click(function () {
             // handle deletion here
             var id = $('#linkDeleteModal').data('id');
             window.location.href = "/links/delete-link/" + id;
             $('[data-id=' + id + ']').remove();
             $('#linkDeleteModal').modal('hide');
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.rotating').hide();
+            $(".linkControl").click(function(e) {
+                $(this).hide();
+                var link_id = $(this).attr('link');
+                $.ajax({
+                    type: "get",
+                    url: "{{route('link-admin-control')}}",
+                    data: {
+                        link_id: $(this).attr('link'),
+                    },
+                    beforeSend: loadStart,
+                    complete: loadStop,
+                    success: function(result) {
+                        if(result == "true"){
+                            $("#link_i_id_"+link_id).addClass('fa-check');
+                            $("#link_i_id_"+link_id).css({"color": "green"})
+                        }else{
+                            $("#link_i_id_"+link_id).addClass('fa-close');
+                            $("#link_i_id_"+link_id).css({"color": "red"})
+                        }
+                    },
+                    error: function(result) {
+                        $("#link_i_id_"+link_id).addClass('fa-close');
+                        $("#link_i_id_"+link_id).css({"color": "red"})
+                    }
+                });
+
+                function loadStart() {
+                    $('#loading_'+link_id).show();
+                }
+                function loadStop() {
+                    $('#loading_' + link_id).hide();
+                }
+            });
         });
     </script>
 @stop

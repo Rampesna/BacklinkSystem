@@ -12,11 +12,11 @@
     <!-- set the apple mobile web app status bar style -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <!-- set the description -->
-    <meta name="description" content="EXO | SEO Landing page Template">
+    <meta name="description" content="{{$landingSettings->description}}">
     <!-- set the Keyword -->
-    <meta name="keywords" content="agency, business, corporate, creative, digital agency, marketing, marketing agency, online marketing, seo, seo agency, seo business, seo company, seo website ">
+    <meta name="keywords" content="{{$landingSettings->keywords}}">
     <meta name="author" content="EXO | SEO Landing page Template">
-    <title>EXO | SEO Landing page Template</title>
+    <title>{{$landingSettings->title}}</title>
     <!-- include the site stylesheet -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,600,700%7COpen+Sans:300,300i,600" rel="stylesheet">
     <!-- include the site stylesheet -->
@@ -44,7 +44,7 @@
                 <div class="col-xs-12">
                     <!-- logo of the page -->
                     <div class="logo">
-                        <a href="{{route('home')}}"><img src="{{asset('assets-landing\images\logo.png')}}" alt="EXO" class="img-responsive"></a>
+                        <a href="{{route('home')}}"><img style="width: 300px;height: auto" src="{{asset('assets-landing\images\logo.png')}}" alt="EXOx" class="img-responsive"></a>
                     </div>
                     <!-- logo of the page end -->
                     <!-- nav-holder of the page -->
@@ -54,10 +54,8 @@
                         <nav id="nav">
                             <ul class="list-unstyled">
                                 <li><a href="#" data-scroll-nav="0">ANASAYFA</a></li>
-                                <li><a href="#" data-scroll-nav="1">HAKKIMIZDA</a></li>
-                                <li><a href="#" data-scroll-nav="2">HİZMETLERİMİZ</a></li>
-                                <li><a href="#" data-scroll-nav="3">YORUMLAR</a></li>
-                                <li><a href="#" data-scroll-nav="4">PAKETLER</a></li>
+                                <li><a href="#" data-scroll-nav="1">HİZMETLER</a></li>
+                                <li><a href="#" data-scroll-nav="2">NASIL ÇALIŞIR?</a></li>
                                 <li><a href="#" data-scroll-nav="5">İLETİŞİM</a></li>
                             </ul>
                         </nav>
@@ -83,11 +81,11 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-xs-12">
-                                <h1>Web Sayfanız İçin İhtiyacınız Olan <br class="hidden-xs">En Kaliteli Hizmeti Sunuyoruz</h1>
+                                <h1>Web Sayfanız İçin İhtiyacınız Olan <br class="hidden-xs">En Kaliteli SEO Hizmetini Sunuyoruz</h1>
                                 <p>SEO Hizmeti İle İşinizi Büyütmenize Yardımcı Olalım.<br class="hidden-xs"> Rakiplerinizin Önüne Geçin!</p>
                                 <div class="btn-holder">
-                                    <a href="#" class="btn-primary text-center text-uppercase active md-round">sign up</a>
-                                    <a href="#" class="btn-primary text-center text-uppercase md-round">Learn more</a>
+                                    <a href="{{route('index')}}" class="btn-primary text-center text-uppercase active md-round">SİSTEME GİRİŞ YAP</a>
+                                    <a href="#" class="btn-primary text-center text-uppercase md-round" data-scroll-nav="1">DAHA FAZLASINI ÖĞREN</a>
                                 </div>
                             </div>
                         </div>
@@ -106,18 +104,18 @@
                         <ul class="list-unstyled service-list">
                             <li class="text-center">
                                 <div class="icon"><img src="{{asset('assets-landing\images\icon01.png')}}" alt="Icon" class="img-responsive"></div>
-                                <h2 class="heading">Great for analysis</h2>
-                                <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat</p>
+                                <h2 class="heading">Arayın</h2>
+                                <p>Sistemdeki Kayıtlı Linkleri İnceleyip İhtiyacınız Olan Siteyi Bulun</p>
                             </li>
                             <li class="text-center">
                                 <div class="icon"><img src="{{asset('assets-landing\images\icon02.png')}}" alt="Icon" class="img-responsive"></div>
-                                <h2 class="heading">Great for analysis</h2>
-                                <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat</p>
+                                <h2 class="heading">Analiz Edin</h2>
+                                <p>Hoşunuza Giden Site İle İlgili Detaylı Analizlere Bakarak Değerlendirmelerde Bulunun</p>
                             </li>
                             <li class="text-center">
                                 <div class="icon"><img src="{{asset('assets-landing\images\icon03.png')}}" alt="Icon" class="img-responsive"></div>
-                                <h2 class="heading">Great for analysis</h2>
-                                <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat</p>
+                                <h2 class="heading">Güvenle Satın Alın</h2>
+                                <p>Linkinizi Güvenli Bir Şekilde Satın Alarak Etkilerini Anında Görün</p>
                             </li>
                         </ul>
                         <!-- service list of the page end -->
@@ -126,8 +124,10 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-5">
                         <div class="txt-holder">
-                            <h3 class="heading2">Seo Service Generator</h3>
-                            <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum  zzril delenit augue duis dolore te feugait nulla facilisi.</p>
+                            <h3 class="heading2">Akıllı Yönetim Paneli</h3>
+                            <p>Sizin İçin Profesynel Bir Şekilde Oluşturduğumuz Yönetim Paneli İle Sitelerinizi ve Linklerinizi İstediğiniz Gibi
+                            İstediğiniz Zaman Düzeleyip İnceleyebilirsiniz. Site Analiz Araçlarından Baklink Sistemlerine Birçok Farklı Yapıyı
+                            Kolay Bir Şekilde Kullanın.</p>
                             <a href="#" class="btn-primary md-round">Learn more <i class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
@@ -150,9 +150,11 @@
                         </div>
                         <div class="col-xs-12 col-sm-6">
                             <div class="txt-holder">
-                                <h4 class="heading2">Everything that you need <br>for seo service</h4>
-                                <p>Lorem ipsum dolor sit amet, non odio tincidunt ut ante, lorem a euismod suspendisse vel, sed quam nulla mauris iaculis. Erat eget vitae malesuada, tincidunt porta lorem lectus.</p>
-                                <a href="#" class="btn-primary md-round">Learn more <i class="fa fa-angle-right"></i></a>
+                                <h4 class="heading2">Premium İle Fazlasını Keşfedin</h4>
+                                <p>Premium Hesaba Geçiş Yaptığınızda Normal Kullanıcılara Göre Çok Daha Fazla Yönetilebilir Seçeneklere Erişiminiz Olacaktır.
+                                Google, Alexa ve Moz Gibi Sistemlerin Api Entegrasyonları Sayesinde Geliştirilmiş Sistemimiz İle Hiçbir Yerde Bulamayacağınız
+                                Site Yönetim Hizmetlerini Sizlere Sunuyoruz.</p>
+
                             </div>
                         </div>
                     </div>
@@ -164,8 +166,7 @@
         <div class="process-holder container" data-scroll-index="2">
             <div class="row">
                 <header class="col-xs-12 header text-center">
-                    <h4>How <span class="clr">Exo</span> works</h4>
-                    <p>Lorem ipsum dolor sit amet, non odio tincidunt ut ante, lorem a euismod <br>suspendisse vel, sed quam nulla mauris iaculis.</p>
+                    <h4><span class="clr">Nasıl</span> Çalışıyoruz?</h4>
                 </header>
             </div>
             <div class="row">
@@ -175,195 +176,61 @@
                         <li class="text-center">
                             <span class="num md-round">1</span>
                             <div class="icon"><img src="{{asset('assets-landing\images\icon04.png')}}" alt="image description" class="img-responsive"></div>
-                            <h3>Quickest signup</h3>
-                            <p>Lorem ipsum dolor sit amet, et <br>fermentum vestibulum.</p>
+                            <h3>Üye Olun</h3>
+                            <p>Sistemi Kullanabilmek İçin<br>Hızlıca Kayıt Olun.</p>
                         </li>
                         <li class="text-center">
                             <span class="num md-round">2</span>
                             <div class="icon"><img src="{{asset('assets-landing\images\icon05.png')}}" alt="image description" class="img-responsive"></div>
-                            <h3>Way to work</h3>
-                            <p>Lorem ipsum dolor sit amet, et <br>fermentum vestibulum.</p>
+                            <h3>Site(leri)nizi Ekleyin</h3>
+                            <p>Kendi Sitelerinizi<br>Sisteme Ekleyerek İşe Başlayın</p>
                         </li>
                         <li class="text-center">
                             <span class="num md-round">3</span>
                             <div class="icon"><img src="{{asset('assets-landing\images\icon06.png')}}" alt="image description" class="img-responsive"></div>
-                            <h3>Fly to the success</h3>
-                            <p>Lorem ipsum dolor sit amet, et <br>fermentum vestibulum.</p>
+                            <h3>Link Satın Alın</h3>
+                            <p>Sistemdeki Linkleri<br>Siteleriniz İçin Satın Alın.</p>
                         </li>
                     </ul>
                     <!-- process list of the page end -->
                 </div>
             </div>
         </div>
-        <!-- process holder of the page end -->
-        <!-- testimonail sec of the page -->
-        <section class="testimonail-sec" data-scroll-index="3">
-            <div class="container">
-                <div class="row">
-                    <header class="col-xs-12 header text-center">
-                        <h4>What our <span class="clr">clients</span> say</h4>
-                        <p>Lorem ipsum dolor sit amet, non odio tincidunt ut ante, lorem a euismod <br>suspendisse vel, sed quam nulla mauris iaculis.</p>
-                    </header>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <!-- testimonail slider of the page -->
-                        <div class="testimonail-slider">
-                            <!-- slide of the page -->
-                            <blockquote class="slide text-center">
-                                <div class="img-holder round"><img src="{{asset('assets-landing\images\img05.jpg')}}" alt="image description" class="img-responsive"></div>
-                                <cite>
-                                    <strong>David Ramon</strong>
-                                    <a href="#">www.sitename.com</a>
-                                </cite>
-                                <q>Lorem ipsum dolor sit amet, duis metus amet in purus, vitae donec vestibulum tincidunt massa sit, convallis ipsum pede quisque arcu, nunc distinctio.</q>
-                            </blockquote>
-                            <!-- slide of the page end -->
-                            <!-- slide of the page -->
-                            <blockquote class="slide text-center">
-                                <div class="img-holder round"><img src="{{asset('assets-landing\images\img06.jpg')}}" alt="image description" class="img-responsive"></div>
-                                <cite>
-                                    <strong>Jennifer Duren</strong>
-                                    <a href="#">www.sitename.com</a>
-                                </cite>
-                                <q>Lorem ipsum dolor sit amet, duis metus amet in purus, vitae donec vestibulum tincidunt massa sit, convallis ipsum pede quisque arcu, nunc distinctio.</q>
-                            </blockquote>
-                            <!-- slide of the page end -->
-                            <!-- slide of the page -->
-                            <blockquote class="slide text-center">
-                                <div class="img-holder round"><img src="{{asset('assets-landing\images\img07.jpg')}}" alt="image description" class="img-responsive"></div>
-                                <cite>
-                                    <strong>Martin Jones</strong>
-                                    <a href="#">www.sitename.com</a>
-                                </cite>
-                                <q>Lorem ipsum dolor sit amet, duis metus amet in purus, vitae donec vestibulum tincidunt massa sit, convallis ipsum pede quisque arcu, nunc distinctio.</q>
-                            </blockquote>
-                            <!-- slide of the page end -->
-                            <!-- slide of the page -->
-                            <blockquote class="slide text-center">
-                                <div class="img-holder round"><img src="{{asset('assets-landing\images\img05.jpg')}}" alt="image description" class="img-responsive"></div>
-                                <cite>
-                                    <strong>David Ramon</strong>
-                                    <a href="#">www.sitename.com</a>
-                                </cite>
-                                <q>Lorem ipsum dolor sit amet, duis metus amet in purus, vitae donec vestibulum tincidunt massa sit, convallis ipsum pede quisque arcu, nunc distinctio.</q>
-                            </blockquote>
-                            <!-- slide of the page end -->
-                            <!-- slide of the page -->
-                            <blockquote class="slide text-center">
-                                <div class="img-holder round"><img src="{{asset('assets-landing\images\img05.jpg')}}" alt="image description" class="img-responsive"></div>
-                                <cite>
-                                    <strong>David Ramon</strong>
-                                    <a href="#">www.sitename.com</a>
-                                </cite>
-                                <q>Lorem ipsum dolor sit amet, duis metus amet in purus, vitae donec vestibulum tincidunt massa sit, convallis ipsum pede quisque arcu, nunc distinctio.</q>
-                            </blockquote>
-                            <!-- slide of the page end -->
-                            <!-- slide of the page -->
-                            <blockquote class="slide text-center">
-                                <div class="img-holder round"><img src="{{asset('assets-landing\images\img06.jpg')}}" alt="image description" class="img-responsive"></div>
-                                <cite>
-                                    <strong>Jennifer Duren</strong>
-                                    <a href="#">www.sitename.com</a>
-                                </cite>
-                                <q>Lorem ipsum dolor sit amet, duis metus amet in purus, vitae donec vestibulum tincidunt massa sit, convallis ipsum pede quisque arcu, nunc distinctio.</q>
-                            </blockquote>
-                            <!-- slide of the page end -->
-                        </div>
-                        <!-- testimonail slider of the page end -->
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- testimonail sec of the page end -->
-        <!-- price sec of the page -->
-        <section class="price-sec" data-scroll-index="4">
-            <div class="container">
-                <div class="row">
-                    <header class="col-xs-12 header text-center">
-                        <h4>Our pricing &amp; plans</h4>
-                        <p>Lorem ipsum dolor sit amet, non odio tincidunt ut ante, lorem a euismod <br>suspendisse vel, sed quam nulla mauris iaculis.</p>
-                    </header>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-4">
-                        <!-- price holder of the page -->
-                        <ul class="list-unstyled price-holder text-center md-round">
-                            <li class="price">
-                                <strong>$10</strong>
-                                <span class="text-uppercase">per month</span>
-                            </li>
-                            <li class="price-heading text-uppercase">basic</li>
-                            <li>Limited dashboard features</li>
-                            <li>Unlimited keyword research</li>
-                            <li>Advanced analytics tool</li>
-                            <li class="btns"><a href="#" class="btn-primary text-uppercase md-round">sign up</a></li>
-                        </ul>
-                        <!-- price holder of the page end -->
-                    </div>
-                    <div class="col-xs-12 col-sm-4">
-                        <!-- price holder of the page -->
-                        <ul class="list-unstyled price-holder text-center md-round active">
-                            <li class="price">
-                                <strong>$20</strong>
-                                <span class="text-uppercase">per month</span>
-                            </li>
-                            <li class="price-heading text-uppercase">Professional</li>
-                            <li>Limited dashboard features</li>
-                            <li>Unlimited keyword research</li>
-                            <li>Advanced analytics tool</li>
-                            <li class="btns"><a href="#" class="btn-primary text-uppercase md-round">sign up</a></li>
-                        </ul>
-                        <!-- price holder of the page end -->
-                    </div>
-                    <div class="col-xs-12 col-sm-4">
-                        <!-- price holder of the page -->
-                        <ul class="list-unstyled price-holder text-center md-round">
-                            <li class="price">
-                                <strong>$35</strong>
-                                <span class="text-uppercase">per month</span>
-                            </li>
-                            <li class="price-heading text-uppercase">Golden</li>
-                            <li>Limited dashboard features</li>
-                            <li>Unlimited keyword research</li>
-                            <li>Advanced analytics tool</li>
-                            <li class="btns"><a href="#" class="btn-primary text-uppercase md-round">sign up</a></li>
-                        </ul>
-                        <!-- price holder of the page end -->
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- price sec of the page end -->
-        <!-- subscriber sec of the page -->
+
+
         <section class="subscriber-sec container" data-scroll-index="5">
             <div class="row">
                 <header class="col-xs-12 header text-center">
-                    <h4>Subscribe to <span class="clr">our newsletter</span></h4>
-                    <p>Lorem ipsum dolor sit amet, non odio tincidunt ut ante, lorem a euismod <br>suspendisse vel, sed quam nulla mauris iaculis.</p>
+                    <h4>Mail Bültenimize <span class="clr">Abone Olun</span></h4>
+                    <p>Mail Bültenine Abone Olarak Son Gelişmelerden ve Güncellemelerden Anında Haberdar Olabilirsiniz.</p>
                 </header>
             </div>
             <div class="row">
                 <div class="col-xs-12">
                     <!-- Begin MailChimp Signup Form -->
                     <div id="mc_embed_signup">
-                        <form action="//htmlbeans.us11.list-manage.com/subscribe/post?u=cb2d5a07fdf0d86c96f260674&amp;id=8e2ec675d3" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate newsletter-form md-round" target="_blank" novalidate="">
+                        <div id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate newsletter-form md-round" target="_blank" novalidate="">
+                            {{csrf_field()}}
                             <fieldset>
                                 <div id="mc_embed_signup_scroll">
                                     <div class="mc-field-group">
                                         <!-- <label for="mce-EMAIL">Email Address </label> -->
-                                        <input type="email" class="form-control md-round" placeholder="Enter your email address">
+                                        <input required type="email" class="form-control md-round" placeholder="E-posta Adresiniz">
                                     </div>
                                     <div id="mce-responses" class="clear">
                                         <div class="response" id="mce-error-response" style="display:none"></div>
                                         <div class="response" id="mce-success-response" style="display:none"></div>
-                                    </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                                    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_cb2d5a07fdf0d86c96f260674_8e2ec675d3" tabindex="-1" value=""></div>
-                                    <div class="clear"><button class="btn-sub md-round" id="mc-embedded-subscribe" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button></div>
+                                    </div>
+                                    <div style="position: absolute; left: -5000px;" aria-hidden="true"></div>
+                                    <div class="clear">
+                                        <button class="btn-sub md-round" id="mc-embedded-subscribe" type="submit">
+                                            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
 
                                 </div>
                             </fieldset>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -374,64 +241,64 @@
     <!-- footer of the page -->
     <footer id="footer">
         <!-- footer area of the page -->
-        <div class="footer-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-3">
-                        <div class="f-logo">
-                            <a href="home.html"><img src="{{asset('assets-landing\images\f-logo.png')}}" alt="EXO" class="img-responsive"></a>
-                        </div>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh eui smod tincidunt ut laoreet dolore magna.</p>
-                        <!-- socail network of the page -->
-                        <ul class="list-unstyled socail-network">
-                            <li><a href="#" class="facebook"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#" class="twitter"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#" class="google"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#" class="tumblr"><i class="fa fa-tumblr"></i></a></li>
-                            <li><a href="#" class="yelp"><i class="fa fa-yelp"></i></a></li>
-                        </ul>
-                        <!-- socail network of the page end -->
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3">
-                        <h3 class="heading">Important Links</h3>
-                        <!-- f nav of the page -->
-                        <ul class="list-unstyled f-nav">
-                            <li><a href="#">Support</a></li>
-                            <li><a href="#">Privacy &amp; Policy</a></li>
-                            <li><a href="#">Terms &amp; Conditions</a></li>
-                            <li><a href="#">VPN Service</a></li>
-                            <li><a href="#">Dedicated Server</a></li>
-                        </ul>
-                        <!-- f nav of the page end -->
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3">
-                        <h3 class="heading">Our Partners</h3>
-                        <!-- f nav of the page -->
-                        <ul class="list-unstyled f-nav">
-                            <li><a href="#">ThemeForest</a></li>
-                            <li><a href="#">GraphicRiver</a></li>
-                            <li><a href="#">AudioJungle</a></li>
-                            <li><a href="#">3DOcean</a></li>
-                            <li><a href="#">CodeCanayon</a></li>
-                        </ul>
-                        <!-- f nav of the page end -->
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3">
-                        <h3 class="heading">Contact with us</h3>
-                        <ul class="list-unstyled contact-list">
-                            <li><i class="fa fa-phone"></i> <a href="tel:2145212829">+214-5212-829</a></li>
-                            <li><i class="fa fa-envelope"></i> <a href="mailto:support@exo.com">&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#064;&#101;&#120;&#111;&#046;&#099;&#111;&#109;</a></li>
-                        </ul>
-                        <a href="#popup1" class="btn-primary md-round lightbox text-uppercase">Send us a message</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+{{--        <div class="footer-area">--}}
+{{--            <div class="container">--}}
+{{--                <div class="row">--}}
+{{--                    <div class="col-xs-12 col-sm-6 col-md-3">--}}
+{{--                        <div class="f-logo">--}}
+{{--                            <a href="home.html"><img src="{{asset('assets-landing\images\f-logo.png')}}" alt="EXO" class="img-responsive"></a>--}}
+{{--                        </div>--}}
+{{--                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh eui smod tincidunt ut laoreet dolore magna.</p>--}}
+{{--                        <!-- socail network of the page -->--}}
+{{--                        <ul class="list-unstyled socail-network">--}}
+{{--                            <li><a href="#" class="facebook"><i class="fa fa-facebook"></i></a></li>--}}
+{{--                            <li><a href="#" class="twitter"><i class="fa fa-twitter"></i></a></li>--}}
+{{--                            <li><a href="#" class="google"><i class="fa fa-google-plus"></i></a></li>--}}
+{{--                            <li><a href="#" class="tumblr"><i class="fa fa-tumblr"></i></a></li>--}}
+{{--                            <li><a href="#" class="yelp"><i class="fa fa-yelp"></i></a></li>--}}
+{{--                        </ul>--}}
+{{--                        <!-- socail network of the page end -->--}}
+{{--                    </div>--}}
+{{--                    <div class="col-xs-12 col-sm-6 col-md-3">--}}
+{{--                        <h3 class="heading">Important Links</h3>--}}
+{{--                        <!-- f nav of the page -->--}}
+{{--                        <ul class="list-unstyled f-nav">--}}
+{{--                            <li><a href="#">Support</a></li>--}}
+{{--                            <li><a href="#">Privacy &amp; Policy</a></li>--}}
+{{--                            <li><a href="#">Terms &amp; Conditions</a></li>--}}
+{{--                            <li><a href="#">VPN Service</a></li>--}}
+{{--                            <li><a href="#">Dedicated Server</a></li>--}}
+{{--                        </ul>--}}
+{{--                        <!-- f nav of the page end -->--}}
+{{--                    </div>--}}
+{{--                    <div class="col-xs-12 col-sm-6 col-md-3">--}}
+{{--                        <h3 class="heading">Our Partners</h3>--}}
+{{--                        <!-- f nav of the page -->--}}
+{{--                        <ul class="list-unstyled f-nav">--}}
+{{--                            <li><a href="#">ThemeForest</a></li>--}}
+{{--                            <li><a href="#">GraphicRiver</a></li>--}}
+{{--                            <li><a href="#">AudioJungle</a></li>--}}
+{{--                            <li><a href="#">3DOcean</a></li>--}}
+{{--                            <li><a href="#">CodeCanayon</a></li>--}}
+{{--                        </ul>--}}
+{{--                        <!-- f nav of the page end -->--}}
+{{--                    </div>--}}
+{{--                    <div class="col-xs-12 col-sm-6 col-md-3">--}}
+{{--                        <h3 class="heading">Contact with us</h3>--}}
+{{--                        <ul class="list-unstyled contact-list">--}}
+{{--                            <li><i class="fa fa-phone"></i> <a href="tel:2145212829">+214-5212-829</a></li>--}}
+{{--                            <li><i class="fa fa-envelope"></i> <a href="mailto:support@exo.com">&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#064;&#101;&#120;&#111;&#046;&#099;&#111;&#109;</a></li>--}}
+{{--                        </ul>--}}
+{{--                        <a href="#popup1" class="btn-primary md-round lightbox text-uppercase">Send us a message</a>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
         <!-- footer area of the page end -->
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 copyright">
-                    <p>© Copyright 2017 Exo, All Rights Reserved</p>
+                    <p><a style="color: white" href="https://www.backlinksatisi.com" title="backlink">Backlinksatisi.com</a> © Copyright - 2019 , Tüm Hakları Saklıdır</p>
                 </div>
             </div>
         </div>

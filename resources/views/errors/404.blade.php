@@ -13,7 +13,7 @@
     <div class="auth-main particles_js">
         <div class="auth_div vivify popIn">
             <div class="auth_brand">
-                <a class="navbar-brand" href="javascript:void(0);"><img src="../assets/images/icon.svg" width="30" height="30" class="d-inline-block align-top mr-2" alt="">Oculux</a>
+                <a class="navbar-brand" href="javascript:void(0);"><img src="../assets/images/icon.svg" width="30" height="30" class="d-inline-block align-top mr-2" alt="">backlinksatisi.com</a>
             </div>
             <div class="card page-400">
                 <div class="body">

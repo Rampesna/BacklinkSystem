@@ -33,7 +33,6 @@
     @else
         <form action="{{route('add-link-post')}}" method="post" class="row clearfix">
             {{csrf_field()}}
-            <input name="site_url" type="hidden" value="{{$returnArray["site"]}}">
             <input name="global_alexa" type="hidden" value="{{$returnArray["global_alexa"]}}">
             <input name="country" type="hidden" value="{{$returnArray["country"]}}">
             <input name="country_alexa" type="hidden" value="{{$returnArray["country_alexa"]}}">
@@ -57,13 +56,14 @@
                                 <th>Fiyatı</th>
                                 <th>Satılacak Link Sayısı</th>
                                 <th>Link Türü</th>
+                                <th>Eklenme Türü</th>
                                 <th>Adult</th>
                             </tr>
                             </thead>
                             <tbody>
 
                             <tr>
-                                <td>{{$returnArray["site"]}}</td>
+                                <td><input class="form-control" value="{{$returnArray["site"]}}" name="site_url"></td>
                                 <td>{{$returnArray["global_alexa"]}}</td>
                                 <td>{{$returnArray["country"]}}</td>
                                 <td>{{$returnArray["country_alexa"]}}</td>
@@ -84,6 +84,12 @@
                                     <select name="type" class="custom-select">
                                         <option value="backlink">Backlink</option>
                                         <option value="hacklink">Hacklink</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="add_type" class="custom-select">
+                                        <option value="1">Otomatik</option>
+                                        <option value="0">Manuel</option>
                                     </select>
                                 </td>
                                 <td>

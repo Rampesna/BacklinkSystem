@@ -24,10 +24,12 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Sitenizi Seçin</label>
+                                <label>Linki Alabileceğiniz Sitenizi Seçin</label>
                                 <select required name="site_id" class="custom-select">
                                     @foreach($mySites as $site)
-                                        <option value="{{$site->id}}">{{$site->url}}</option>
+                                        @if(\App\Models\PurchasedLinksTableModel::where('link_id',$link->id)->where('site_id',$site->id)->count() == 0)
+                                            <option value="{{$site->id}}">{{$site->url}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>

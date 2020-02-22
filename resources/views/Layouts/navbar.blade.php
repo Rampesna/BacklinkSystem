@@ -5,7 +5,6 @@
                 <a href="{{route('index')}}"><img src="{{asset('assets/images/icon.svg')}}" alt="Oculux Logo" class="img-fluid logo"></a>
                 <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
             </div>
-
         </div>
         <div class="navbar-right">
             <div id="navbar-menu">
@@ -15,7 +14,7 @@
                     @if($balanceControl->is_admin == 0)
                         <li><a href="{{route('buy-credit')}}" style="color: white" class="btn btn-outline-success">Kalan Bakiye {{$balanceControl->balance}} ₺</a></li>
                     @endif
-                    <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="icon-menu"><i class="icon-power"></i></a></li>
+                    <li><a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="icon-menu"><i class="icon-power"></i></a></li>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}
                     </form>

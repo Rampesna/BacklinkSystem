@@ -33,13 +33,14 @@
                             <th>Fiyatı</th>
                             <th>Satılacak Link Sayısı</th>
                             <th>Link Türü</th>
+                            <th>Eklenme Türü</th>
                             <th>Adult</th>
                         </tr>
                         </thead>
                         <tbody>
 
                         <tr>
-                            <td>{{$link->url}}</td>
+                            <td><input name="site_url" class="form-control" value="{{$link->url}}"></td>
                             <td>{{$link->alexa_global}}</td>
                             <td>{{$link->country}}</td>
                             <td>{{$link->alexa_country}}</td>
@@ -60,6 +61,12 @@
                                 <select name="type" class="custom-select">
                                     <option value="backlink" @if($link->type == "backlink") selected @endif>Backlink</option>
                                     <option value="hacklink" @if($link->type == "hacklink") selected @endif>Hacklink</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="add_type" class="custom-select">
+                                    <option value="1" @if($link->add_type == "1") selected @endif>Otomatik</option>
+                                    <option value="0" @if($link->add_type == "0") selected @endif>Manuel</option>
                                 </select>
                             </td>
                             <td>

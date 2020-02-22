@@ -15,7 +15,7 @@
             <div class="auth_brand">
                 <a class="navbar-brand" href="javascript:void(0);">
                     <img src="{{asset('assets/images/icon.svg')}}" width="30" height="30" class="d-inline-block align-top mr-2" alt="">
-                    ÇınarWbh Yazılım
+                    backlinksatisi.com
                 </a>
             </div>
             <div class="card page-400">
