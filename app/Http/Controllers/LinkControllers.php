@@ -82,8 +82,7 @@ class LinkControllers extends Controller
             is_null($request->pa_value) ||
             is_null($request->price) ||
             is_null($request->sale_limit) ||
-            is_null($request->type) ||
-            is_null($request->is_adult)
+            is_null($request->type)
         ) {
             $errorMessage = "Eksik Bilgiler Var, Lütfen Kontrol Ederek Tekrar Deneyin!";
             return view('Pages.Links.add-link', compact('errorMessage'));

@@ -50,17 +50,26 @@ class CustomerController extends Controller
         ) {
             $errorMessage = "Eksik Bilgiler Mevcut! Lütfen Kontrol Ederek Tekrar Deneyin.";
             return view('Pages.Customers.add-site', compact('errorMessage'));
+        }else{
+            $url = trim($request->site_url, '/');
+            if (!preg_match('#^http(s)?://#', $url)) {
+                $url = 'http://' . $url;
+            }
+            $urlParts = parse_url($url);
+            $lastUrl = preg_replace('/^www\./', '', $urlParts['host']);
+            if (UserSitesTableModel::where('url', $lastUrl)->count() > 0) {
+                $errorMessage = "Bu Site Sistemde Zaten Mevcut. Lütfen Kontrol Ederek Tekrar Deneyin!";
+                return view('Pages.Customers.add-site', compact('errorMessage'));
+            } else {
+                $returnArray = [
+                    "url" => $lastUrl,
+                    "status" => true
+                ];
+                return view('Pages.Customers.add-site', compact('returnArray'));
+            }
         }
-        if (UserSitesTableModel::where('url', $request->url)->count() > 0) {
-            $errorMessage = "Bu Site Sistemde Zaten Mevcut. Lütfen Kontrol Ederek Tekrar Deneyin!";
-            return view('Pages.Customers.add-site', compact('errorMessage'));
-        } else {
-            $returnArray = [
-                "url" => $request->site_url,
-                "status" => true
-            ];
-            return view('Pages.Customers.add-site', compact('returnArray'));
-        }
+
+
     }
 
     public function addSitePost(Request $request)

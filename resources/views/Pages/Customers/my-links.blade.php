@@ -42,9 +42,9 @@
             <div class="col-lg-12">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="card-title">Site Bulunamadı!</h5>
-                        <p class="card-text">Görünüşe Göre Henüz Hiç Site Kaydetmemişsiniz. Site(leri)nizi Eklemek İçin Aşağıdaki Butona Tıklayın.</p>
-                        <a href="{{route('add-site')}}" class="btn btn-info btn-block">Site Ekle</a>
+                        <h5 class="card-title">Link Bulunamadı!</h5>
+                        <p class="card-text">Görünüşe Göre Site(leri)niz İçin Henüz Hiç Link Satın Almamışsınız. Linkleri Görmek ve Satın Almak İçin Aşağıdaki Butona Tıklayabilirsiniz.</p>
+                        <a href="{{route('customer-all-links')}}" class="btn btn-info btn-block">Link Satın Al</a>
                     </div>
                 </div>
             </div>

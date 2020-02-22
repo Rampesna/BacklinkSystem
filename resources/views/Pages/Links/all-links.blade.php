@@ -49,6 +49,7 @@
                                     <th>PA</th>
                                     <th>Tür</th>
                                     <th>Adult</th>
+                                    <th>Fiyatı</th>
                                     <th>Düzenle</th>
                                 </tr>
                                 </thead>
@@ -71,6 +72,9 @@
                                             @else
                                                 <i style="color: #8f1f00" class="fa fa-close"></i>
                                             @endif
+                                        </td>
+                                        <td>
+                                            {{$link->price}} ₺
                                         </td>
                                         <td>
                                             <a href="{{route('edit-link',["id" => $link->id,"url" => \App\Helpers\General::trimUrl($link->url)])}}"><i style="color: #00A6C7" class="fa fa-edit"></i></a>&nbsp;&nbsp;

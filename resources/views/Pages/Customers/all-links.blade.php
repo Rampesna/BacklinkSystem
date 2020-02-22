@@ -89,7 +89,7 @@
                         <h5 class="card-title">Eksik Bilgi Mevcut</h5>
                         <p class="card-text">Sistemde İşlem Yapabilmek İçin Öncelikle Kendi Site(leri)nizi Sisteme Eklemeniz Gerekmektedir.</p>
 
-                        <p>Site(leri)nizi Eklemek İçin Lütfen <a class="btn btn-outline-success" href="#">Tıklayın!</a></p>
+                        <p>Site(leri)nizi Eklemek İçin Lütfen <a class="btn btn-outline-success" href="{{route('add-site')}}">Tıklayın!</a></p>
                     </div>
                 </div>
 
