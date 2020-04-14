@@ -4,7 +4,24 @@
 
 @section('content')
 
-
+    <div class="modal fade" id="accountDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Silmek İstediğinize Emin misiniz?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button id="modal-btn-no" type="button" class="btn btn-secondary" data-dismiss="modal">Hayır
+                    </button>
+                    <button id="btnYesAccount" type="submit" class="btn btn-primary">Evet</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="row clearfix">
         <div class="col-lg-12">
@@ -35,11 +52,15 @@
                                 <td style="color: #00aa00">{{$account->balance}} ₺</td>
                                 <td>
                                     <a href="{{route('account-detail',\Illuminate\Support\Facades\Crypt::encrypt($account->id))}}"><i style="color: #00A6C7" class="fa fa-eye"></i></a>&nbsp;&nbsp;
-                                    <a><i style="color: #00A6C7" class="fa fa-edit"></i></a>&nbsp;&nbsp;
-                                    <a><i style="color: #00A6C7" class="fa fa-trash"></i></a>&nbsp;&nbsp;
+                                    <a href="{{route('edit-account',\Illuminate\Support\Facades\Crypt::encrypt($account->id))}}"><i style="color: #00A6C7" class="fa fa-edit"></i></a>&nbsp;&nbsp;
+                                    <a data-id="{{\Illuminate\Support\Facades\Crypt::encrypt($account->id)}}"
+                                       data-whatever="{{\Illuminate\Support\Facades\Crypt::encrypt($account->id)}}" href="#"
+                                       class="fa fa-trash confirm-delete"
+                                       data-toggle="modal" data-target="#exampleModal" style="text-decoration: none;color: #00A6C7"></a>
                                 </td>
                             </tr>
                             @endforeach
+
 
                             </tbody>
                         </table>
@@ -110,4 +131,61 @@
                     responsive: true
                 });
             </script>
+
+    <script>
+        $('#accountDeleteModal').on('show', function () {
+            var id = $(this).data('id'),
+                removeBtn = $(this).find('.danger');
+        })
+
+        $('#allAccounts').on('click', '.confirm-delete', function (e) {
+            e.preventDefault();
+
+            var id = $(this).data('id');
+            $('#accountDeleteModal').data('id', id).modal('show');
+        });
+
+        $('#allAccounts').on('click', '.linkControl', function (e) {
+            e.preventDefault();
+            $(this).hide();
+            var link_id = $(this).attr('link');
+            $.ajax({
+                type: "get",
+                url: "{{route('link-admin-control')}}",
+                data: {
+                    link_id: $(this).attr('link'),
+                },
+                beforeSend: loadStart,
+                complete: loadStop,
+                success: function(result) {
+                    if(result == "true"){
+                        $("#link_i_id_"+link_id).addClass('fa-check');
+                        $("#link_i_id_"+link_id).css({"color": "green"})
+                    }else{
+                        $("#link_i_id_"+link_id).addClass('fa-close');
+                        $("#link_i_id_"+link_id).css({"color": "red"})
+                    }
+                },
+                error: function(result) {
+                    $("#link_i_id_"+link_id).addClass('fa-close');
+                    $("#link_i_id_"+link_id).css({"color": "red"})
+                }
+            });
+
+            function loadStart() {
+                $('#loading_'+link_id).show();
+            }
+            function loadStop() {
+                $('#loading_' + link_id).hide();
+            }
+        });
+
+        $('#btnYesAccount').click(function () {
+            // handle deletion here
+            var id = $('#accountDeleteModal').data('id');
+            window.location.href = "/account/delete-account/" + id;
+            $('[data-id=' + id + ']').remove();
+            $('#accountDeleteModal').modal('hide');
+        });
+    </script>
 @stop

@@ -1,6 +1,6 @@
 @extends('Layouts.master')
 @section('site_title', 'Backlink Satış')
-
+@php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 @section('custom-header')
     <style>
         @-webkit-keyframes rotating /* Safari and Chrome */ {
@@ -58,14 +58,14 @@
                                 <div class="col-lg-12 col-md-12">
                                     <div class="card">
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-4">
                                                 <form action="{{route('set-account-activated')}}" method="post">
                                                     {{csrf_field()}}
                                                     <input type="hidden" name="account_id" value="{{$account->id}}">
                                                     <button @if($account->is_activated == 1) disabled @endif class="btn btn-block btn-outline-warning">Maili Onayla @if($account->is_activated == 1) <small><i>(Zaten Onaylı Hesap)</i></small> @endif</button>
                                                 </form>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-4">
                                                 @if($account->is_banned == 1)
                                                     <form action="{{route('set-account-not-banned')}}" method="post">
                                                         {{csrf_field()}}
@@ -79,6 +79,13 @@
                                                         <button class="btn btn-block btn-outline-danger">Hesabı Banla</button>
                                                     </form>
                                                 @endif
+                                            </div>
+                                            <div class="col-4">
+                                                <form action="{{route('clear-credit')}}" method="post">
+                                                    {{csrf_field()}}
+                                                    <input type="hidden" name="account_id" value="{{$account->id}}">
+                                                    <button class="btn btn-block btn-outline-danger">Krediyi Sıfırla</button>
+                                                </form>
                                             </div>
                                         </div>
                                         <hr>
@@ -170,6 +177,7 @@
                                     <table id="allSites" class="table header-border table-hover table-custom spacing7">
                                         <thead>
                                         <tr>
+                                            <th><strong>Link Aldığı Tarih</strong></th>
                                             <th><strong>Link Alınan Site</strong></th>
                                             <th><strong>Alınan Link URL</strong></th>
                                             <th><strong>Kelimeler</strong></th>
@@ -181,6 +189,7 @@
 
                                         @foreach($accountLinks as $link)
                                             <tr>
+                                                <td>{{strftime("%d %B %Y - %H:%M:%S",strtotime($link->created_at))}}</td>
                                                 <td>{{\App\Models\UserSitesTableModel::select('url')->where('id',$link->site_id)->first()->url}}</td>
                                                 <td><a class="text-info" target="_blank" href="http://{{\App\Models\LinksTableModel::select('url')->where('id',$link->link_id)->first()->url}}">{{\App\Models\LinksTableModel::select('url')->where('id',$link->link_id)->first()->url}}</a></td>
                                                 <td>{{$link->keyword}}</td>

@@ -56,25 +56,25 @@ class RegisterController extends Controller
                         $newUser->password = bcrypt($request->password);
                         $newUser->phone = $request->phone;
                         $newUser->balance = 0;
-                        $newUser->is_activated = 0;
+                        $newUser->is_activated = 1;
                         $newUser->is_banned = 0;
                         $newUser->is_admin = 0;
                         $newUser->is_premium = 0;
                         $newUser->auth_level = 0;
                         $newUser->save();
 
-                        $newToken = Str::random(32);
-                        while (EmailVerificationsTableModel::where('token', $newToken)->count() > 0) {
-                            $newToken = Str::random(32);
-                        }
-                        $newEmailVerification = new EmailVerificationsTableModel;
-                        $newEmailVerification->user_id = $newUser->id;
-                        $newEmailVerification->token = $newToken;
-                        $newEmailVerification->save();
+                        //$newToken = Str::random(32);
+                        //while (EmailVerificationsTableModel::where('token', $newToken)->count() > 0) {
+                        //    $newToken = Str::random(32);
+                        //}
+                        //$newEmailVerification = new EmailVerificationsTableModel;
+                        //$newEmailVerification->user_id = $newUser->id;
+                        //$newEmailVerification->token = $newToken;
+                        //$newEmailVerification->save();
 
-                        Mail::send("Emails.test", ["verificationToken" => $newToken], function ($message) use ($request) {
-                            $message->to($request->email, $request->username)->subject("Backlinksatisi.com E-posta Doğrulama");
-                        });
+                        //Mail::send("Emails.test", ["verificationToken" => $newToken], function ($message) use ($request) {
+                        //    $message->to($request->email, $request->username)->subject("Backlinksatisi.com E-posta Doğrulama");
+                        //});
 
                         return redirect()->route('login');
                     }

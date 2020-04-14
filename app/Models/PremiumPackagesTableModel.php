@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class BlogCategoriesTableModel extends Model
+class PremiumPackagesTableModel extends Model
 {
     use Notifiable;
-    protected $table = "blog_categories";
+    protected $table = "premium_packages";
     protected $primaryKey = "id";
-    public $timestamps = false;
     protected $guarded = [];
 }

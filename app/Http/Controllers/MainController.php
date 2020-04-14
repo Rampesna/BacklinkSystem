@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\LogSystem;
+use App\Models\CustomerLogsTableModel;
 use App\Models\LinksTableModel;
 use App\Models\PurchasedLinksTableModel;
 use App\Models\SalesTableModel;
@@ -84,21 +85,16 @@ class MainController extends Controller
                 /////////////////////////////////////////////////////////////////////////////////////
                 $linksCount = LinksTableModel::where('is_delete', 0)->count();
                 /////////////////////////////////////////////////////////////////////////////////////
-                $transaction = "MainController@index";
-                $detail = "Kontrol Paneli Görüntülendi";
-                if (LogSystem::createNewLog($transaction, $detail)) {
-                    return view('Pages.index',
-                        compact(
-                            'todayPurchasedCreditAmount',
-                            'todayPurchasedLinksAmount',
-                            'mostPurchasedLinksList',
-                            'customerCount',
-                            'allPurchasedLinksCount',
-                            'linksCount'
-                        ));
-                } else {
-                    return abort(403);
-                }
+
+                return view('Pages.index',
+                    compact(
+                        'todayPurchasedCreditAmount',
+                        'todayPurchasedLinksAmount',
+                        'mostPurchasedLinksList',
+                        'customerCount',
+                        'allPurchasedLinksCount',
+                        'linksCount'
+                    ));
             } else if ($loggedUser->is_admin == 0) {
                 $allMyPurchasedCredits = SalesTableModel::where('user_id', $loggedUser->id)->where('status', 'accepted')->sum('amount');
 
@@ -111,7 +107,7 @@ class MainController extends Controller
                     $purchasedLinksTotalAmount += LinksTableModel::select('price')->where('id', $link->link_id)->first()->price;
                 }
                 $transaction = "MainController@index";
-                $detail = "Kontrol Paneli Görüntülendi";
+                $detail = "Müşteri Ana Sayfayı Görüntüledi";
                 if (LogSystem::createNewLog($transaction, $detail)) {
                     return view('Pages.index',
                         compact('allMyPurchasedCredits', 'leftCredit', 'purchasedLinksCount', 'purchasedLinksTotalAmount'));
@@ -137,4 +133,23 @@ class MainController extends Controller
         echo $getWaitingTickets;
     }
 
+    public function customerLogs($page = 1)
+    {
+        $countControl = CustomerLogsTableModel::all()->count();
+        if (($countControl <= (($page - 1) * 10)) && $countControl > 0) {
+            return redirect()->route('customer-logs', 1);
+        } else {
+            if (is_null($page) || $page == 1) {
+                $logs = CustomerLogsTableModel::orderBy('updated_at', 'DESC')->limit(10)->get();
+            } else {
+                $logs = CustomerLogsTableModel::skip(($page - 1) * 10)->take(10)->orderBy('updated_at', 'DESC')->get();
+            }
+            $logsCount = CustomerLogsTableModel::all()->count();
+            return view('Pages.Logs.customer-logs', compact(
+                'logs',
+                'logsCount',
+                'page'
+            ));
+        }
+    }
 }

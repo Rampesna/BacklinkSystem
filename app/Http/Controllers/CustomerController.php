@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\LogSystem;
 use App\Models\LinksTableModel;
+use App\Models\PremiumSitesTableModel;
 use App\Models\PurchasedLinksTableModel;
 use App\Models\SalesTableModel;
 use App\Models\TicketMessagesTableModel;
@@ -24,26 +26,43 @@ class CustomerController extends Controller
 
     public function myAccount()
     {
+        $transaction = "CustomerController@myAccount";
+        $detail = "Müşteri Profil Sayfasını Görüntüledi";
+        LogSystem::createNewLog($transaction, $detail);
         return view('Pages.Customers.my-account');
     }
 
     public function mySites()
     {
+        $transaction = "CustomerController@mySites";
+        $detail = "Müşteri Kendi Sitelerini Görüntüledi";
+        LogSystem::createNewLog($transaction, $detail);
         $user = Auth::user();
-        $mySites = UserSitesTableModel::where('user_id', $user->id)->get();
+        $mySites = UserSitesTableModel::where('user_id', $user->id)->where('is_delete', 0)->get();
         return view('Pages.Customers.my-sites', compact('mySites'));
     }
 
     public function deleteSite($id)
     {
         $deletedSite = UserSitesTableModel::where('id', $id)->first();
-        $deletedSite->is_Delete = 1;
+        $deletedSite->is_delete = 1;
         $deletedSite->save();
+
+        $transaction = "CustomerController@deleteSite";
+        $detail = "Müşteri Kendi Sitesini Sildi. Sildiği Site URL : " . $deletedSite->url;
+        LogSystem::createNewLog($transaction, $detail);
+
+        PurchasedLinksTableModel::where('site_id', $id)->delete();
+
         return redirect()->route('my-sites');
     }
 
     public function addSite()
     {
+        $transaction = "CustomerController@addSite";
+        $detail = "Müşteri Yeni Site Ekleme Formunu Açtı";
+        LogSystem::createNewLog($transaction, $detail);
+
         return view('Pages.Customers.add-site');
     }
 
@@ -69,6 +88,11 @@ class CustomerController extends Controller
                     "url" => $lastUrl,
                     "status" => true
                 ];
+
+                $transaction = "CustomerController@addSiteControl";
+                $detail = "Müşteri '".$lastUrl."' Sitesinin Eklenebilirliğini Kontrol Etti";
+                LogSystem::createNewLog($transaction, $detail);
+
                 return view('Pages.Customers.add-site', compact('returnArray'));
             }
         }
@@ -86,6 +110,11 @@ class CustomerController extends Controller
             $newSite->url = $request->site_url;
             $newSite->user_id = $user->id;
             $newSite->save();
+
+            $transaction = "CustomerController@addSitePost";
+            $detail = "Müşteri '".$request->site_url."' Sitesini Ekledi";
+            LogSystem::createNewLog($transaction, $detail);
+
             return redirect()->route('my-sites');
         }
     }
@@ -93,6 +122,11 @@ class CustomerController extends Controller
     public function editSite($id)
     {
         $getSite = UserSitesTableModel::find($id);
+
+        $transaction = "CustomerController@editSite";
+        $detail = "Müşteri '".$getSite->url."' Sitesini Düzenleme Sayfasını Açtı";
+        LogSystem::createNewLog($transaction, $detail);
+
         return view('Pages.Customers.edit-site', compact('getSite'));
     }
 
@@ -102,6 +136,7 @@ class CustomerController extends Controller
             return abort(403);
         } else {
             $getSite = UserSitesTableModel::find($request->site_id);
+            $before = $getSite->url;
             if (is_null($request->site_url)) {
                 $errorMessage = "Eksik Bilgi Mevcut! Lütfen Konrol Ederek Tekrar Deneyin.";
                 return view('Pages.Customers.edit-site', compact('getSite', 'errorMessage'));
@@ -114,6 +149,11 @@ class CustomerController extends Controller
                 $cleanLink = preg_replace('/^www\./', '', $urlParts['host']);
                 $getSite->url = $cleanLink;
                 $getSite->save();
+
+                $transaction = "CustomerController@updateSite";
+                $detail = "Müşteri '".$before."' Sitesini ".$cleanLink." Olarak Güncelledi";
+                LogSystem::createNewLog($transaction, $detail);
+
                 return redirect()->route('my-sites');
             }
         }
@@ -135,12 +175,23 @@ class CustomerController extends Controller
                 "is_added" => $purchasedLink->is_added
             ];
         }
+
+        $transaction = "CustomerController@myLinks";
+        $detail = "Müşteri Satın Aldığı Linkleri Görüntüledi";
+        LogSystem::createNewLog($transaction, $detail);
+
         return view('Pages.Customers.my-links', compact('returnArray'));
     }
 
     public function editLink($id)
     {
         $getPurchasedLink = PurchasedLinksTableModel::find($id);
+        $getSite = LinksTableModel::find($getPurchasedLink->site_id);
+
+        $transaction = "CustomerController@editLink";
+        $detail = "Müşteri '".$getSite->url."' Sitesinden Aldığı Linki Düzenleme Sayfasını Açtı";
+        LogSystem::createNewLog($transaction, $detail);
+
         return view('Pages.Customers.edit-link', compact('getPurchasedLink'));
     }
 
@@ -156,6 +207,13 @@ class CustomerController extends Controller
             $getPurchase = PurchasedLinksTableModel::find($request->purchase_id);
             $getPurchase->keyword = $request->keyword;
             $getPurchase->save();
+
+            $getSite = LinksTableModel::find($getPurchase->site_id);
+
+            $transaction = "CustomerController@updateLink";
+            $detail = "Müşteri '".$getSite->url."' Sitesinden Aldığı Linkin Kelimelerini '".$request->keyword."' Olarak Güncelledi";
+            LogSystem::createNewLog($transaction, $detail);
+
             return redirect()->route('my-links');
         }
     }
@@ -180,6 +238,11 @@ class CustomerController extends Controller
     public function allLinks()
     {
         $allLinks = LinksTableModel::where('is_delete', 0)->get();
+
+        $transaction = "CustomerController@allLinks";
+        $detail = "Müşteri Tüm Linkler Sayfasını Görüntüledi";
+        LogSystem::createNewLog($transaction, $detail);
+
         return view('Pages.Customers.all-links', compact('allLinks'));
     }
 
@@ -188,6 +251,11 @@ class CustomerController extends Controller
         $user = Auth::user();
         $link = LinksTableModel::where('id', $linkID)->first();
         $mySites = UserSitesTableModel::where('user_id', $user->id)->get();
+
+        $transaction = "CustomerController@buyLink";
+        $detail = "Müşteri '".$link->url."' Sitesinden Link Alma Ekranını Görüntüledi";
+        LogSystem::createNewLog($transaction, $detail);
+
         return view('Pages.Customers.buy-link', compact('mySites', 'link'));
     }
 
@@ -207,18 +275,24 @@ class CustomerController extends Controller
             $newPurchase->user_id = $user->id;
             $newPurchase->link_id = $link->id;
             $newPurchase->keyword = $request->keywords;
-            if($link->add_type == 1){
+            if ($link->add_type == 1) {
                 $newPurchase->is_added = 1;
-            }else{
+            } else {
                 $newPurchase->is_added = 0;
             }
             $newPurchase->is_reported = 0;
             $newPurchase->is_seen = 0;
             $newPurchase->save();
 
+            $getSite = UserSitesTableModel::find($request->site_id);
+
             $getUser = UsersTableModel::where('id', $user->id)->first();
             $getUser->balance = $getUser->balance - $link->price;
             $getUser->save();
+
+            $transaction = "CustomerController@buyLinkPost";
+            $detail = "Müşteri '".$link->url."' Sitesinden Kendi '".$getSite->url."' Sitesine '".$request->keywords."' Kelimelerinde Link Satın Aldı";
+            LogSystem::createNewLog($transaction, $detail);
 
             return redirect()->route('my-links');
         } else {
@@ -233,6 +307,10 @@ class CustomerController extends Controller
         $user = Auth::user();
         $control = SalesTableModel::where('user_id', $user->id)->where('status', 'waiting')->first();
         if (is_null($control)) {
+            $transaction = "CustomerController@buyCredit";
+            $detail = "Müşteri Kredi Başvurusu Sayfasını Görüntüledi";
+            LogSystem::createNewLog($transaction, $detail);
+
             return view('Pages.Customers.buy-credit');
         } else {
             $errorMessage = "Zaten Onay Bekleyen Bir Ödeme Bildiriminiz Bulunmakta! İşlem Sonlandırılana Kadar Yeni Bir Ödeme Bildiriminde Bulunamazsınız.";
@@ -253,11 +331,20 @@ class CustomerController extends Controller
         $newSale->is_reported = 0;
         $newSale->is_seen = 0;
         $newSale->save();
+
+        $transaction = "CustomerController@buyCreditPost";
+        $detail = "Müşteri ".$request->amount." Miktarlık Kredi Başvurusu Yaptı";
+        LogSystem::createNewLog($transaction, $detail);
+
         return redirect()->route('buy-credit');
     }
 
     public function addTicket()
     {
+        $transaction = "CustomerController@addTicket";
+        $detail = "Müşteri Destek Talebinde Bulunma Sayfasını Açtı";
+        LogSystem::createNewLog($transaction, $detail);
+
         return view('Pages.Customers.add-ticket');
     }
 
@@ -271,7 +358,7 @@ class CustomerController extends Controller
         ) {
             $errorMessage = "Eksik Bilgiler Mevcut! Lütfen Kontrol Ederek Tekrar Deneyin.";
             return view('Pages.Customers.add-ticket', compact('errorMessage'));
-        }else{
+        } else {
             $newTicket = new TicketsTableModel;
             $newTicket->user_id = $user->id;
             $newTicket->title = $request->title;
@@ -279,7 +366,12 @@ class CustomerController extends Controller
             $newTicket->priority = intval($request->priority);
             $newTicket->status = "pending";
             $newTicket->save();
-            return redirect()->route('my-all-tickets',1);
+
+            $transaction = "CustomerController@addTicketPost";
+            $detail = "Müşteri Destek Talebinde Bulundu";
+            LogSystem::createNewLog($transaction, $detail);
+
+            return redirect()->route('my-all-tickets', 1);
         }
     }
 
@@ -300,6 +392,11 @@ class CustomerController extends Controller
             $resolvedCount = TicketsTableModel::where('user_id', $user->id)->where('status', 'resolved')->count();
             $pendingCount = TicketsTableModel::where('user_id', $user->id)->where('status', 'pending')->count();
             $type = "all";
+
+            $transaction = "CustomerController@addTicketPost";
+            $detail = "Müşteri Tüm Destek Taleplerini Görüntüledi";
+            LogSystem::createNewLog($transaction, $detail);
+
             return view('Pages.Customers.my-tickets', compact(
                 'allTickets',
                 'allTicketsCount',
@@ -329,6 +426,11 @@ class CustomerController extends Controller
             $resolvedCount = TicketsTableModel::where('user_id', $user->id)->where('status', 'resolved')->count();
             $pendingCount = TicketsTableModel::where('user_id', $user->id)->where('status', 'pending')->count();
             $type = "all";
+
+            $transaction = "CustomerController@addTicketPost";
+            $detail = "Müşteri Bekleyen Destek Taleplerini Görüntüledi";
+            LogSystem::createNewLog($transaction, $detail);
+
             return view('Pages.Customers.my-tickets', compact(
                 'allTickets',
                 'allTicketsCount',
@@ -358,6 +460,11 @@ class CustomerController extends Controller
             $resolvedCount = TicketsTableModel::where('user_id', $user->id)->where('status', 'resolved')->count();
             $pendingCount = TicketsTableModel::where('user_id', $user->id)->where('status', 'pending')->count();
             $type = "all";
+
+            $transaction = "CustomerController@addTicketPost";
+            $detail = "Müşteri Cevaplanan Destek Taleplerini Görüntüledi";
+            LogSystem::createNewLog($transaction, $detail);
+
             return view('Pages.Customers.my-tickets', compact(
                 'allTickets',
                 'allTicketsCount',
@@ -387,6 +494,11 @@ class CustomerController extends Controller
             $resolvedCount = TicketsTableModel::where('user_id', $user->id)->where('status', 'resolved')->count();
             $pendingCount = TicketsTableModel::where('user_id', $user->id)->where('status', 'pending')->count();
             $type = "all";
+
+            $transaction = "CustomerController@addTicketPost";
+            $detail = "Müşteri Çözülen Destek Taleplerini Görüntüledi";
+            LogSystem::createNewLog($transaction, $detail);
+
             return view('Pages.Customers.my-tickets', compact(
                 'allTickets',
                 'allTicketsCount',
@@ -404,10 +516,45 @@ class CustomerController extends Controller
         $ticket = TicketsTableModel::find($id);
         $ticketMessages = TicketMessagesTableModel::where('ticket_id', $id)->orderBy('created_at', 'DESC')->get();
         $ticketUser = UsersTableModel::where('id', $ticket->user_id)->first();
+
+        $transaction = "CustomerController@addTicketPost";
+        $detail = "Müşteri ".$ticket->id."ID'li Destek Talebinin İçeriğine Baktı";
+        LogSystem::createNewLog($transaction, $detail);
+
         return view('Pages.Tickets.show-ticket', compact(
             'ticket',
             'ticketMessages',
             'ticketUser'
         ));
     }
+
+    public function myPremiumSites()
+    {
+        $user = Auth::user();
+        $myPremiumSites = PremiumSitesTableModel::where('user_id', $user->id)->get();
+        return view('Pages.Customers.my-premium-sites', compact('myPremiumSites'));
+    }
+
+    public function addPremiumSiteForm()
+    {
+        $user = Auth::user();
+        $mySites = UserSitesTableModel::where('user_id',$user->id)->get();
+        $controlledSites = [];
+        foreach ($mySites as $mySite){
+            $control = PremiumSitesTableModel::where('site_id',$mySite->id)->first();
+            if(is_null($control)){
+                $controlledSites[] = [
+                    'site_id' => $mySite->id,
+                    'site_url' => $mySite->url
+                ];
+            }
+        }
+        return view('Pages.Customers.add-premium-site',compact('controlledSites'));
+    }
+
+    public function addPremiumSitePost(Request $request)
+    {
+        return $request->premium_site_id;
+    }
+
 }

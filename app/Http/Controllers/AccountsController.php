@@ -73,13 +73,40 @@ class AccountsController extends Controller
 
     public function editAccount($id)
     {
+        try {
+            $id = Crypt::decrypt($id);
+        }catch (\Exception $e){
+            return abort(403);
+        }
         $account = UsersTableModel::find($id);
-        return view('Public.Accounts.edit-account', compact('account'));
+        return view('Pages.Accounts.edit-account', compact('account'));
     }
 
     public function updateAccount(Request $request)
     {
+        $account = UsersTableModel::find($request->id);
+        $account->name_surname = $request->name_surname;
+        $account->email = $request->email;
+        if(!is_null($request->password)){
+            $account->password = bcrypt($request->password);
+        }
+        $account->phone = $request->phone;
+        $account->balance = $request->balance;
+        $account->save();
+        return redirect()->route('edit-account',Crypt::encrypt($account->id));
+    }
 
+    public function deleteAccount($id)
+    {
+        try {
+            $id = Crypt::decrypt($id);
+        }catch (\Exception $e){
+            return abort(403);
+        }
+        UserSitesTableModel::where('user_id',$id)->delete();
+        PurchasedLinksTableModel::where('user_id',$id)->delete();
+        UsersTableModel::where('id',$id)->delete();
+        return redirect()->route('all-accounts');
     }
 
     public function setAccountActivated(Request $request)
@@ -121,4 +148,15 @@ class AccountsController extends Controller
         }
     }
 
+    public function clearCredit(Request $request)
+    {
+        if (is_null($request->account_id)) {
+            return abort(404);
+        } else {
+            $account = UsersTableModel::find($request->account_id);
+            $account->balance = 0;
+            $account->save();
+            return redirect()->route('account-detail', Crypt::encrypt($account->id));
+        }
+    }
 }

@@ -56,6 +56,7 @@
                                     <li class="{{ Request::segment(2) === 'key-code' ? 'active' : null }}"><a href="{{route('key-code')}}">KODU AL</a></li>
                                 </ul>
                             </li>
+
                             <li class="{{ Request::segment(1) === 'tickets' ? 'active open' : null }}">
                                 <a href="#tickets" class="has-arrow"><i class="fa fa-ticket"></i><span>Destek Sistemi</span></a>
                                 <ul>
@@ -65,10 +66,25 @@
                                     <li class="{{ Request::segment(2) === 'resolved-tickets' ? 'active' : null }}"><a href="{{route('resolved-tickets')}}">Kapatılanlar</a></li>
                                 </ul>
                             </li>
+                            <li class="{{ Request::segment(1) === 'admin-blog' ? 'active open' : null }}">
+                                <a href="#tickets" class="has-arrow"><i class="fa fa-ticket"></i><span>Blog</span></a>
+                                <ul>
+                                    <li class="{{ Request::segment(2) === 'add-post' ? 'active' : null }}"><a href="{{route('add-post-form')}}">Yeni Oluştur</a></li>
+                                    <li class="{{ Request::segment(2) === 'all-posts' ? 'active' : null }}"><a href="{{route('all-posts')}}">Tüm Yazılar</a></li>
+                                    <li class="{{ Request::segment(2) === 'all-categories' ? 'active' : null }}"><a href="{{route('all-categories')}}">Kategoriler</a></li>
+                                    <li class="{{ Request::segment(2) === 'waiting-comments' ? 'active' : null }}"><a href="{{route('waiting-comments')}}">Müşteri Yorumları</a></li>
+                                </ul>
+                            </li>
                             <li class="{{ Request::segment(1) === 'settings' ? 'active open' : null }}">
                                 <a href="#settings" class="has-arrow"><i class="fa fa-cog"></i><span>Ayarlar</span></a>
                                 <ul>
                                     <li class="{{ Request::segment(2) === 'landing-settings' ? 'active' : null }}"><a href="{{route('landing-settings')}}">Ön Sayfa Ayarları</a></li>
+                                </ul>
+                            </li>
+                            <li class="{{ Request::segment(1) === 'logs' ? 'active open' : null }}">
+                                <a href="#settings" class="has-arrow"><i class="fa fa-cog"></i><span>Loglar</span></a>
+                                <ul>
+                                    <li class="{{ Request::segment(2) === 'customer-logs' ? 'active' : null }}"><a href="{{route('customer-logs' ,1)}}">Müşteri Logları</a></li>
                                 </ul>
                             </li>
 
@@ -94,6 +110,14 @@
                                     <li class="{{ Request::segment(2) === 'report-error' ? 'active' : null }}"><a href="{{route('index')}}">Hata Bildir</a></li>
                                 </ul>
                             </li>
+                            @if($user->is_premium == 1)
+                                <li class="{{ Request::segment(1) === 'premium' ? 'active open' : null }}">
+                                    <a href="#customer" class="has-arrow"><i class="fa fa-link"></i><span>Premium</span></a>
+                                    <ul>
+                                        <li class="{{ Request::segment(2) === 'my-premium-sites' ? 'active' : null }}"><a href="{{route('my-premium-sites')}}">Premium Sitelerim</a></li>
+                                    </ul>
+                                </li>
+                            @endif
                             <li class="{{ Request::segment(1) === 'my-tickets' ? 'active open' : null }}">
                                 <a href="#my-tickets" class="has-arrow"><i class="fa fa-link"></i><span>Destek Sistemi</span></a>
                                 <ul>

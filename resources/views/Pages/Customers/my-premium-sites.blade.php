@@ -5,34 +5,10 @@
 @section('content')
 
     @php($user = \Illuminate\Support\Facades\Auth::user())
-    <div class="modal fade" id="siteDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Silmek İstediğinize Emin misiniz?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p> • Eğer silme işlemini onaylarsanız bu siteniz için almış olduğunuz tüm linkler iptal edilecektir!</p>
-                    <small style="color: orangered"><i> • İptal işleminden sonra kesinlikle kredi geri ödemesi </i><strong>Yapılmamaktadır!</strong></small>
-                </div>
-                <div class="modal-footer">
-                    <button id="modal-btn-no" type="button" class="btn btn-secondary" data-dismiss="modal">Hayır
-                    </button>
-                    <button id="btnYesSite" type="submit" class="btn btn-primary">Evet</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    @if(isset($mySites))
-        <a href="{{route('add-site')}}" class="btn btn-info btn-block bg-dark">Yeni Site Ekle</a>
-        <hr>
-        @if(count($mySites) > 0)
-            <div class="col-12">
 
+    @if(isset($myPremiumSites))
+        @if(count($myPremiumSites) > 0)
+            <div class="col-12">
                 <div class="table-responsive">
 
                     <table id="allSites" class="table header-border table-hover table-custom spacing7">
@@ -68,9 +44,9 @@
             <div class="col-lg-12">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="card-title">Site Bulunamadı!</h5>
-                        <p class="card-text">Görünüşe Göre Henüz Hiç Site Kaydetmemişsiniz. Site(leri)nizi Eklemek İçin Aşağıdaki Butona Tıklayın.</p>
-                        <a href="{{route('add-site')}}" class="btn btn-info btn-block">Site Ekle</a>
+                        <h5 class="card-title">Premium Site Bulunamadı!</h5>
+                        <p class="card-text">Görünüşe Göre Henüz Hiç Premium Site Kaydetmemişsiniz. Premium Site(leri)nizi Eklemek İçin Aşağıdaki Butona Tıklayın.</p>
+                        <a href="{{route('add-premium-site')}}" class="btn btn-info btn-block">Premium Site Ekle</a>
                     </div>
                 </div>
             </div>

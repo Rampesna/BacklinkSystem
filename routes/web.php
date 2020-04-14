@@ -4,6 +4,41 @@ Auth::routes([
     "register" => false
 ]);
 
+
+Route::get('try-metadata','PremiumController@metadata');
+Route::get('try-links','PremiumController@links');
+
+Route::get('datee',function (){ return strtotime(date("Y-m-d H:i:s")); });
+
+Route::get('google-api-trial','PremiumController@index')->middleware('auth');
+
+Route::get('api-trials',function (){
+    $queryString = http_build_query([
+        'access_key' => '8e88b0ecb5406a75f182bfc35a708624',
+        'query' => 'malatya web tasarim',
+        'hl' => 'tr'
+    ]);
+
+    $ch = curl_init(sprintf('%s?%s', 'http://api.serpstack.com/search', $queryString));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $json = curl_exec($ch);
+    curl_close($ch);
+
+    $api_result = json_decode($json, true);
+
+    return json_encode($api_result);
+
+//    $returnString = "";
+//
+//    $returnString .= "Total results: ". $api_result['search_information']['total_results']. PHP_EOL."\n";
+//
+//    foreach ($api_result['organic_results'] as $number => $result) {
+//        $returnString .= "{$number}. {$result['title']}". PHP_EOL."\n";
+//    }
+//    return $returnString;
+})->middleware('auth');
+
 Route::get('/', function () { return redirect()->route('home'); });
 Route::get('/home', function () { return redirect()->route('home'); });
 Route::get('/index', function (){
@@ -27,6 +62,20 @@ Route::post('/resolve-ticket','TicketsController@resolveTicket')->name('resolve-
 
 Route::get('/dashboard', 'MainController@index')->name('index');
 
+
+Route::prefix('blog')->group(function (){
+    Route::get('/',function (){ return redirect()->route('blog.index'); });
+    Route::get('/page/{page?}','BlogController@index')->name('blog.index');
+    Route::get('/post/{id?}/{title?}','BlogController@single')->name('blog.single');
+    Route::post('/search','BlogController@search')->name('search');
+    Route::get('/searchs/{keyword?}/{page?}','BlogController@searchKeyword')->name('keyword');
+    Route::get('/category/{name}/{page}','BlogController@index')->name('blog.category');
+
+    Route::post('/submit-comment','BlogController@submitComment')->name('submit-comment');
+});
+
+
+
 Route::middleware('admin-control')->group(function (){
     Route::prefix('account')->group(function (){
         Route::get('/all-accounts','AccountsController@allAccounts')->name('all-accounts');
@@ -34,6 +83,8 @@ Route::middleware('admin-control')->group(function (){
 
         Route::get('/edit-account/{id}','AccountsController@editAccount')->name('edit-account');
         Route::post('/update-account','AccountsController@updateAccount')->name('update-account');
+
+        Route::get('/delete-account/{id}','AccountsController@deleteAccount')->name('delete-account');
 
         Route::get('/credit-appeals','CreditsController@creditAppeals')->name('credit-appeals');
 
@@ -49,6 +100,7 @@ Route::middleware('admin-control')->group(function (){
         Route::post('set-account-activated','AccountsController@setAccountActivated')->name('set-account-activated');
         Route::post('set-account-not-banned','AccountsController@setAccountNotBanned')->name('set-account-not-banned');
         Route::post('set-account-banned','AccountsController@setAccountBanned')->name('set-account-banned');
+        Route::post('clear-credit','AccountsController@clearCredit')->name('clear-credit');
     });
 
 
@@ -89,6 +141,33 @@ Route::middleware('admin-control')->group(function (){
         Route::get('landing-settings','SettingsController@landingSettings')->name('landing-settings');
         Route::post('update-landing-settings','SettingsController@updateLandingSettings')->name('update-landing-settings');
     });
+
+    Route::prefix('admin-blog')->group(function (){
+        Route::get('all-posts/{page?}','BlogAdminController@index')->name('all-posts');
+        Route::get('add-post-form','BlogAdminController@addPostForm')->name('add-post-form');
+        Route::post('add-post','BlogAdminController@addPost')->name('add-post');
+        Route::get('edit-post/{id}','BlogAdminController@editPost')->name('edit-post');
+        Route::post('update-post','BlogAdminController@updatePost')->name('update-post');
+        Route::get('delete-post/{id}','BlogAdminController@deletePost')->name('delete-post');
+
+
+        Route::get('all-categories/{page?}','BlogAdminController@categories')->name('all-categories');
+        Route::get('add-category-form','BlogAdminController@addCategoryForm')->name('add-category-form');
+        Route::post('add-category','BlogAdminController@addCategory')->name('add-category');
+        Route::get('edit-category/{id}','BlogAdminController@editCategory')->name('edit-category');
+        Route::post('update-category','BlogAdminController@updateCategory')->name('update-category');
+        Route::get('delete-category/{id}','BlogAdminController@deleteCategory')->name('delete-category');
+
+
+        Route::get('waiting-comments/{page?}','BlogAdminController@waitingComments')->name('waiting-comments');
+        Route::post('confirm-comment','BlogAdminController@confirmComment')->name('confirm-comment');
+        Route::get('delete-comment/{id}','BlogAdminController@deleteComment')->name('delete-comment');
+    });
+
+    Route::prefix('logs')->group(function (){
+        Route::get('customer-logs/{page?}','MainController@customerLogs')->name('customer-logs');
+    });
+
 });
 
 // Customer Area
@@ -110,6 +189,12 @@ Route::middleware('customer-control')->group(function (){
         Route::post('/add-site-post','CustomerController@addSitePost')->name('add-site-post');
         Route::get('/edit-site/{id}','CustomerController@editSite')->name('edit-site');
         Route::post('/update-site','CustomerController@updateSite')->name('update-site');
+
+
+        Route::get('/my-premium-sites','CustomerController@myPremiumSites')->name('my-premium-sites');
+        Route::get('/add-premium-site','CustomerController@addPremiumSiteForm')->name('add-premium-site');
+        Route::post('/add-premium-site-post','CustomerController@addPremiumSitePost')->name('add-premium-site-post');
+
 
         Route::get('/my-links','CustomerController@myLinks')->name('my-links');
         Route::get('/buy-link/{id}','CustomerController@buyLink')->name('buy-link');

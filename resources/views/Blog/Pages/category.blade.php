@@ -46,7 +46,7 @@
                                                 <li class="float-right">
                                                     <a href="#">
                                                         <i class="ion-chatbubble"></i>
-                                                        {{\App\Models\BlogCommentsTableModel::where('post_id',$post->id)->where('status', 1)->count()}}
+                                                        {{\App\Models\BlogCommentsTableModel::where('post_id',$post->id)->count()}}
                                                     </a>
                                                 </li>
                                             </ul>
@@ -63,12 +63,12 @@
                     @if($allPostsCount > 0)
                         @if($page == 1)
                             @if($allPostsCount > 10)
-                                <a class="load-more-btn" href="{{route('blog.index', $page + 1)}}"><b>Sonraki Sayfa</b></a>
+                                <a class="load-more-btn" href="#"><b>Sonraki Sayfa</b></a>
                             @endif
                         @else
-                            <a class="load-more-btn" href="{{route('blog.index', $page - 1)}}"><b>Önceki Sayfa</b></a>
+                            <a class="load-more-btn" href="#"><b>Önceki Sayfa</b></a>
                             @if($allPostsCount > ($page * 10))
-                                <a class="load-more-btn" href="{{route('blog.index', $page + 1)}}"><b>Sonraki Sayfa</b></a>
+                                <a class="load-more-btn" href="#"><b>Sonraki Sayfa</b></a>
                             @endif
                         @endif
                     @endif

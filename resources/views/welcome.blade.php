@@ -54,16 +54,23 @@
                         <nav id="nav">
                             <ul class="list-unstyled">
                                 <li><a href="#" data-scroll-nav="0">ANASAYFA</a></li>
+                                <li><a href="{{route('blog.index')}}">BLOG</a></li>
                                 <li><a href="#" data-scroll-nav="1">HİZMETLER</a></li>
                                 <li><a href="#" data-scroll-nav="2">NASIL ÇALIŞIR?</a></li>
                                 <li><a href="#" data-scroll-nav="5">İLETİŞİM</a></li>
                             </ul>
                         </nav>
                         <!-- nav of the page end -->
-                        <ul class="list-unstyled sign-list">
-                            <li><a href="{{route('login')}}">GİRİŞ YAP</a></li>
-                            <li><a href="#" class="bg-grey md-round">KAYIT OL</a></li>
-                        </ul>
+                        @if(\Illuminate\Support\Facades\Auth::check())
+                            <ul class="list-unstyled sign-list">
+                                <li><a href="{{route('index')}}" class="bg-grey md-round">PANELE GİT</a></li>
+                            </ul>
+                        @else
+                            <ul class="list-unstyled sign-list">
+                                <li><a href="{{route('login')}}">GİRİŞ YAP</a></li>
+                                <li><a href="{{route('register-form')}}" class="bg-grey md-round">KAYIT OL</a></li>
+                            </ul>
+                        @endif
                     </div>
                     <!-- nav-holder of the page end -->
                 </div>
