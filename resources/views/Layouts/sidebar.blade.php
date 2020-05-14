@@ -110,14 +110,18 @@
                                     <li class="{{ Request::segment(2) === 'report-error' ? 'active' : null }}"><a href="{{route('index')}}">Hata Bildir</a></li>
                                 </ul>
                             </li>
-                            @if($user->is_premium == 1)
-                                <li class="{{ Request::segment(1) === 'premium' ? 'active open' : null }}">
-                                    <a href="#customer" class="has-arrow"><i class="fa fa-link"></i><span>Premium</span></a>
-                                    <ul>
+
+                            <li class="{{ Request::segment(1) === 'premium' ? 'active open' : null }}">
+                                <a href="#customer" class="has-arrow"><i class="fa fa-link"></i><span>Premium</span></a>
+                                <ul>
+                                    @if($user->is_premium == 1)
                                         <li class="{{ Request::segment(2) === 'my-premium-sites' ? 'active' : null }}"><a href="{{route('my-premium-sites')}}">Premium Sitelerim</a></li>
-                                    </ul>
-                                </li>
-                            @endif
+                                    @else
+                                        <li class="{{ Request::segment(2) === 'my-premium-sites' ? 'active' : null }}"><a href="{{route('premium-packages')}}">Premium Paketler</a></li>
+                                    @endif
+
+                                </ul>
+                            </li>
                             <li class="{{ Request::segment(1) === 'my-tickets' ? 'active open' : null }}">
                                 <a href="#my-tickets" class="has-arrow"><i class="fa fa-link"></i><span>Destek Sistemi</span></a>
                                 <ul>

@@ -12,7 +12,7 @@
     @endif
 
     @if(isset($getSite))
-        <form action="{{route('update-user-site')}}" method="post" class="row clearfix">
+        <form action="{{route('update-site')}}" method="post" class="row clearfix">
             {{csrf_field()}}
             <input type="hidden" name="site_id" value="{{$getSite->id}}">
             <div class="col-lg-12 col-md-12">
@@ -24,6 +24,7 @@
                         <table class="table table-custom spacing5">
                             <thead>
                             <tr>
+                                <th>Erişim</th>
                                 <th>Site URL</th>
                                 <th></th>
                             </tr>
@@ -31,6 +32,12 @@
                             <tbody>
 
                             <tr>
+                                <td>
+                                    <select name="http_status" class="custom-select">
+                                        <option @if($getSite->is_https == 0) selected @endif value="0">http</option>
+                                        <option @if($getSite->is_https == 1) selected @endif value="1">https</option>
+                                    </select>
+                                </td>
                                 <td><input class="form-control" type="text" name="site_url" value="{{$getSite->url}}"></td>
                                 <td><input type="submit" value="Güncelle" class="btn btn-success btn-block"></td>
                             </tr>

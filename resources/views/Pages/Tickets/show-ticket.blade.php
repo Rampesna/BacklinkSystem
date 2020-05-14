@@ -57,7 +57,7 @@
                 <form action="{{route('ticket-answer')}}" method="post" class="body">
                     {{csrf_field()}}
                     <input type="hidden" name="ticket_id" value="{{$ticket->id}}">
-                    <textarea required name="message" class="form-control" rows="10"></textarea>
+                    <textarea rows="10" required name="message" class="summernote"></textarea>
                     <hr>
                     <input class="btn btn-info btn-block" type="submit" value="Yanıtla">
                 </form>
@@ -109,6 +109,7 @@
 
 @section('custom-header')
     <link rel="stylesheet" href="{{ asset('assets/vendor/c3/c3.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/summernote/dist/summernote.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-datatable/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css') }}">
@@ -124,6 +125,7 @@
     <script src="{{ asset('assets/vendor/jquery-datatable/buttons/buttons.print.min.js') }}"></script>
 
     <script src="{{ asset('assets/js/pages/tables/jquery-datatable.js') }}"></script>
+    <script src="{{ asset('assets/vendor/summernote/dist/summernote.js') }}"></script>
 
 
     <script src="{{ asset('assets/bundles/c3.bundle.js') }}"></script>

@@ -33,7 +33,13 @@ class PremiumController extends Controller
 
     public function metadata()
     {
-        $tags = get_meta_tags('https://www.cinarwbh.com/');
+        try {
+            $tags = get_meta_tags('cinarwbh.com/');
+        }catch (\Exception $exception){
+            $tags = get_meta_tags('https://www.cinarwbh.com/');
+        }
+
+
         return $tags;
     }
 

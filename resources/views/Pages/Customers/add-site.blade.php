@@ -24,6 +24,7 @@
                         <table class="table table-custom spacing5">
                             <thead>
                             <tr>
+                                <th>Erişim</th>
                                 <th>&nbsp;</th>
                                 <th>Durum</th>
                                 <th>İşlem</th>
@@ -32,6 +33,12 @@
                             <tbody>
 
                             <tr>
+                                <td>
+                                    <select name="http_status" class="custom-select">
+                                        <option value="0">http</option>
+                                        <option value="1">https</option>
+                                    </select>
+                                </td>
                                 <td>{{$returnArray["url"]}}</td>
                                 <td>Eklenebilir</td>
                                 <td><input type="submit" value="Siteyi Ekle" class="btn btn-success btn-block"></td>

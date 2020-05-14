@@ -152,4 +152,27 @@ class MainController extends Controller
             ));
         }
     }
+
+    public function payCallback(Request $request)
+    {
+        $returnData = $request->return_data; // Geri Dönüşte Bize Gelmesini İstediğimiz Data
+        $paymentAmount = $request->payment_amount; // Ödeme Tutarı
+        $paymentType = $request->payment_type; // Ödeme Tipi
+        $userName = $request->user_name; // Alıcı Ad Soyad bilgisi
+        $userAddress = $request->user_address; // Alıcı Adres Bilgisi
+        $userPhone = $request->user_phone; // Alıcı Cep Telefon Numarası
+        $userEmail = $request->user_email; // Alıcı E-Posta Adresi
+
+        if ($returnData == "abcxyz123") {
+            $getTry = \App\User::find(5);
+            $getTry->auth_level = 5;
+            $getTry->save();
+        } else {
+            $getTry = \App\User::find(5);
+            $getTry->auth_level = 15;
+            $getTry->save();
+        }
+
+        return 'OK';
+    }
 }

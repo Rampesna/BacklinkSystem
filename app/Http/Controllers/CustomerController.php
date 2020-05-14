@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Alexa;
 use App\Helpers\LogSystem;
+use App\Helpers\Premium;
+use App\Models\AnalysisTableModel;
+use App\Models\EnemyAnalysisTableModel;
 use App\Models\LinksTableModel;
+use App\Models\PremiumPackagesTableModel;
+use App\Models\PremiumSalesTableModel;
 use App\Models\PremiumSitesTableModel;
 use App\Models\PurchasedLinksTableModel;
 use App\Models\SalesTableModel;
@@ -11,8 +17,10 @@ use App\Models\TicketMessagesTableModel;
 use App\Models\TicketsTableModel;
 use App\Models\UserSitesTableModel;
 use App\Models\UsersTableModel;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 
 
@@ -44,13 +52,14 @@ class CustomerController extends Controller
 
     public function deleteSite($id)
     {
-        $deletedSite = UserSitesTableModel::where('id', $id)->first();
-        $deletedSite->is_delete = 1;
-        $deletedSite->save();
+        $deletedSite = UserSitesTableModel::find($id);
 
         $transaction = "CustomerController@deleteSite";
         $detail = "Müşteri Kendi Sitesini Sildi. Sildiği Site URL : " . $deletedSite->url;
         LogSystem::createNewLog($transaction, $detail);
+
+        $deletedSite->delete();
+
 
         PurchasedLinksTableModel::where('site_id', $id)->delete();
 
@@ -90,7 +99,7 @@ class CustomerController extends Controller
                 ];
 
                 $transaction = "CustomerController@addSiteControl";
-                $detail = "Müşteri '".$lastUrl."' Sitesinin Eklenebilirliğini Kontrol Etti";
+                $detail = "Müşteri '" . $lastUrl . "' Sitesinin Eklenebilirliğini Kontrol Etti";
                 LogSystem::createNewLog($transaction, $detail);
 
                 return view('Pages.Customers.add-site', compact('returnArray'));
@@ -109,10 +118,13 @@ class CustomerController extends Controller
             $newSite = new UserSitesTableModel;
             $newSite->url = $request->site_url;
             $newSite->user_id = $user->id;
+            if ($request->http_status == 1) {
+                $newSite->is_https = 1;
+            }
             $newSite->save();
 
             $transaction = "CustomerController@addSitePost";
-            $detail = "Müşteri '".$request->site_url."' Sitesini Ekledi";
+            $detail = "Müşteri '" . $request->site_url . "' Sitesini Ekledi";
             LogSystem::createNewLog($transaction, $detail);
 
             return redirect()->route('my-sites');
@@ -124,7 +136,7 @@ class CustomerController extends Controller
         $getSite = UserSitesTableModel::find($id);
 
         $transaction = "CustomerController@editSite";
-        $detail = "Müşteri '".$getSite->url."' Sitesini Düzenleme Sayfasını Açtı";
+        $detail = "Müşteri '" . $getSite->url . "' Sitesini Düzenleme Sayfasını Açtı";
         LogSystem::createNewLog($transaction, $detail);
 
         return view('Pages.Customers.edit-site', compact('getSite'));
@@ -141,17 +153,16 @@ class CustomerController extends Controller
                 $errorMessage = "Eksik Bilgi Mevcut! Lütfen Konrol Ederek Tekrar Deneyin.";
                 return view('Pages.Customers.edit-site', compact('getSite', 'errorMessage'));
             } else {
-                $url = trim($request->site_url, '/');
-                if (!preg_match('#^http(s)?://#', $url)) {
-                    $url = 'http://' . $url;
+                $getSite->url = $request->site_url;
+                if ($request->http_status == 1) {
+                    $getSite->is_https = 1;
+                } else {
+                    $getSite->is_https = 0;
                 }
-                $urlParts = parse_url($url);
-                $cleanLink = preg_replace('/^www\./', '', $urlParts['host']);
-                $getSite->url = $cleanLink;
                 $getSite->save();
 
                 $transaction = "CustomerController@updateSite";
-                $detail = "Müşteri '".$before."' Sitesini ".$cleanLink." Olarak Güncelledi";
+                $detail = "Müşteri '" . $before . "' Sitesini " . $request->site_url . " Olarak Güncelledi";
                 LogSystem::createNewLog($transaction, $detail);
 
                 return redirect()->route('my-sites');
@@ -186,13 +197,13 @@ class CustomerController extends Controller
     public function editLink($id)
     {
         $getPurchasedLink = PurchasedLinksTableModel::find($id);
-        $getSite = LinksTableModel::find($getPurchasedLink->site_id);
+        $getSite = LinksTableModel::find($getPurchasedLink->link_id);
 
         $transaction = "CustomerController@editLink";
-        $detail = "Müşteri '".$getSite->url."' Sitesinden Aldığı Linki Düzenleme Sayfasını Açtı";
+        $detail = "Müşteri '" . $getSite->url . "' Sitesinden Aldığı Linki Düzenleme Sayfasını Açtı";
         LogSystem::createNewLog($transaction, $detail);
 
-        return view('Pages.Customers.edit-link', compact('getPurchasedLink'));
+        return view('Pages.Customers.edit-link', compact('getPurchasedLink', 'getSite'));
     }
 
     public function updateLink(Request $request)
@@ -208,14 +219,20 @@ class CustomerController extends Controller
             $getPurchase->keyword = $request->keyword;
             $getPurchase->save();
 
-            $getSite = LinksTableModel::find($getPurchase->site_id);
+            $getSite = LinksTableModel::find($getPurchase->link_id);
 
             $transaction = "CustomerController@updateLink";
-            $detail = "Müşteri '".$getSite->url."' Sitesinden Aldığı Linkin Kelimelerini '".$request->keyword."' Olarak Güncelledi";
+            $detail = "Müşteri '" . $getSite->url . "' Sitesinden Aldığı Linkin Kelimelerini '" . $request->keyword . "' Olarak Güncelledi";
             LogSystem::createNewLog($transaction, $detail);
 
             return redirect()->route('my-links');
         }
+    }
+
+    public function deleteLink($id)
+    {
+        PurchasedLinksTableModel::find($id)->delete();
+        return redirect()->route('my-links');
     }
 
     public function linkControl(Request $request)
@@ -253,7 +270,7 @@ class CustomerController extends Controller
         $mySites = UserSitesTableModel::where('user_id', $user->id)->get();
 
         $transaction = "CustomerController@buyLink";
-        $detail = "Müşteri '".$link->url."' Sitesinden Link Alma Ekranını Görüntüledi";
+        $detail = "Müşteri '" . $link->url . "' Sitesinden Link Alma Ekranını Görüntüledi";
         LogSystem::createNewLog($transaction, $detail);
 
         return view('Pages.Customers.buy-link', compact('mySites', 'link'));
@@ -291,7 +308,7 @@ class CustomerController extends Controller
             $getUser->save();
 
             $transaction = "CustomerController@buyLinkPost";
-            $detail = "Müşteri '".$link->url."' Sitesinden Kendi '".$getSite->url."' Sitesine '".$request->keywords."' Kelimelerinde Link Satın Aldı";
+            $detail = "Müşteri '" . $link->url . "' Sitesinden Kendi '" . $getSite->url . "' Sitesine '" . $request->keywords . "' Kelimelerinde Link Satın Aldı";
             LogSystem::createNewLog($transaction, $detail);
 
             return redirect()->route('my-links');
@@ -333,7 +350,7 @@ class CustomerController extends Controller
         $newSale->save();
 
         $transaction = "CustomerController@buyCreditPost";
-        $detail = "Müşteri ".$request->amount." Miktarlık Kredi Başvurusu Yaptı";
+        $detail = "Müşteri " . $request->amount . " Miktarlık Kredi Başvurusu Yaptı";
         LogSystem::createNewLog($transaction, $detail);
 
         return redirect()->route('buy-credit');
@@ -518,7 +535,7 @@ class CustomerController extends Controller
         $ticketUser = UsersTableModel::where('id', $ticket->user_id)->first();
 
         $transaction = "CustomerController@addTicketPost";
-        $detail = "Müşteri ".$ticket->id."ID'li Destek Talebinin İçeriğine Baktı";
+        $detail = "Müşteri " . $ticket->id . "ID'li Destek Talebinin İçeriğine Baktı";
         LogSystem::createNewLog($transaction, $detail);
 
         return view('Pages.Tickets.show-ticket', compact(
@@ -531,30 +548,510 @@ class CustomerController extends Controller
     public function myPremiumSites()
     {
         $user = Auth::user();
-        $myPremiumSites = PremiumSitesTableModel::where('user_id', $user->id)->get();
-        return view('Pages.Customers.my-premium-sites', compact('myPremiumSites'));
+        if ($user->is_premium == 0) {
+            return redirect()->route('premium-packages');
+        } else {
+            $myPremiumSites = PremiumSitesTableModel::where('user_id', $user->id)->get();
+            $myPremiumPackage = PremiumPackagesTableModel::find(PremiumSalesTableModel::select('package_id')->where('user_id', $user->id)->where('is_active', 1)->first()->package_id);
+            return view('Pages.Customers.my-premium-sites', compact('myPremiumSites', 'myPremiumPackage'));
+        }
     }
 
     public function addPremiumSiteForm()
     {
         $user = Auth::user();
-        $mySites = UserSitesTableModel::where('user_id',$user->id)->get();
-        $controlledSites = [];
-        foreach ($mySites as $mySite){
-            $control = PremiumSitesTableModel::where('site_id',$mySite->id)->first();
-            if(is_null($control)){
-                $controlledSites[] = [
-                    'site_id' => $mySite->id,
-                    'site_url' => $mySite->url
-                ];
+        if ($user->is_premium == 0) {
+            return redirect()->route('premium-packages');
+        } else {
+            $user = Auth::user();
+            $premiumControl = PremiumSalesTableModel::where('user_id', $user->id)->where('is_active', 1)->first();
+            if (is_null($premiumControl)) {
+                $errorMessage = "Aktif Bir Premium Üyeliğiniz Bulunmamaktadır!";
+                return view('Pages.Customers.add-premium-site', compact('errorMessage'));
+            } else {
+                $myPremiumSites = PremiumSitesTableModel::where('user_id', $user->id)->get();
+                $myPremiumPackage = PremiumPackagesTableModel::find(PremiumSalesTableModel::select('package_id')->where('user_id', $user->id)->where('is_active', 1)->first()->package_id);
+                if (count($myPremiumSites) < $myPremiumPackage->allowed_premium_site) {
+                    $mySites = UserSitesTableModel::where('user_id', $user->id)->get();
+                    $controlledSites = [];
+                    foreach ($mySites as $mySite) {
+                        $control = PremiumSitesTableModel::where('site_id', $mySite->id)->first();
+                        if (is_null($control)) {
+                            $controlledSites[] = [
+                                'site_id' => $mySite->id,
+                                'site_url' => $mySite->url
+                            ];
+                        }
+                    }
+                    return view('Pages.Customers.add-premium-site', compact('controlledSites', 'myPremiumPackage'));
+                } else {
+                    $errorMessage = "Zaten Premium Site(leri)nizi Eklemişsiniz. Paketiniz Daha Fazlasını Eklemenize İzin Vermemektedir!";
+                    return view('Pages.Customers.add-premium-site', compact('errorMessage'));
+                }
             }
         }
-        return view('Pages.Customers.add-premium-site',compact('controlledSites'));
     }
 
     public function addPremiumSitePost(Request $request)
     {
-        return $request->premium_site_id;
+        $user = Auth::user();
+
+        $alexaOfCountryRank = 9999999999;
+        $url = UserSitesTableModel::find($request->premium_site_id)->url;
+        $result = Alexa::UrlInfo($url);
+        $alexaOfGlobalRank = $result->Awis->Results->Result->Alexa->TrafficData->Rank;
+        if (!is_null($result->Awis->Results->Result->Alexa->TrafficData->RankByCountry)) {
+            if (is_array($result->Awis->Results->Result->Alexa->TrafficData->RankByCountry->Country)) {
+                foreach ($result->Awis->Results->Result->Alexa->TrafficData->RankByCountry->Country as $country) {
+                    if (!is_null(@$country->Rank) && (@$country->Rank < @$alexaOfCountryRank)) {
+                        $alexaOfCountryRank = $country->Rank;
+                        $array = (array)$country;
+                        $alexaOfCountry = $array["@Code"];
+                    }
+                }
+            } else {
+                $array = (array)$alexaOfCountryRank = $result->Awis->Results->Result->Alexa->TrafficData->RankByCountry->Country;
+                $alexaOfCountryRank = $array["Rank"];
+                $alexaOfCountry = $array["@Code"];
+            }
+        }
+        if ($alexaOfCountryRank == 9999999999) {
+            $alexaOfCountryRank = 0;
+        }
+        $newPremium = new Premium;
+        $googleIndex = $newPremium->googleIndexCount($url);
+        try {
+            $metaTags = get_meta_tags('https://www.' . $url);
+        } catch (\Exception $exception) {
+            try {
+                $metaTags = get_meta_tags('http://www.' . $url);
+            } catch (\Exception $e) {
+                $metaTags = [];
+            }
+        }
+
+        if (!isset($metaTags["description"])) {
+            $metaTags["description"] = "";
+        }
+        if (!isset($metaTags["keywords"])) {
+            $metaTags["keywords"] = "";
+        }
+        if (!isset($alexaOfCountry)) {
+            $alexaOfCountry = "Yok";
+        }
+
+        $newPremiumSite = new PremiumSitesTableModel;
+        $newPremiumSite->user_id = $user->id;
+        $newPremiumSite->site_id = $request->premium_site_id;
+        if (!is_null($request->enemy_url)) {
+            $enemyUrl = trim($request->enemy_url, '/');
+            if (!preg_match('#^http(s)?://#', $enemyUrl)) {
+                $enemyUrl = 'http://' . $enemyUrl;
+            }
+            $urlParts = parse_url($enemyUrl);
+            $lastUrl = preg_replace('/^www\./', '', $urlParts['host']);
+            $newPremiumSite->enemy_url = $lastUrl;
+        }
+        $newPremiumSite->keyword = $request->keyword;
+        if (!is_null($request->keyword_2)) {
+            $newPremiumSite->keyword_2 = $request->keyword_2;
+        }
+        if (!is_null($request->keyword_3)) {
+            $newPremiumSite->keyword_3 = $request->keyword_3;
+        }
+        if (!is_null($request->keyword_4)) {
+            $newPremiumSite->keyword_4 = $request->keyword_4;
+        }
+        if (!is_null($request->keyword_5)) {
+            $newPremiumSite->keyword_5 = $request->keyword_5;
+        }
+        $newPremiumSite->alexa_global = $alexaOfGlobalRank;
+        $newPremiumSite->alexa_country = $alexaOfCountryRank;
+        $newPremiumSite->alexa_country_code = $alexaOfCountry;
+        $newPremiumSite->google_index = $googleIndex;
+        $newPremiumSite->yandex_index = 0;
+        $newPremiumSite->meta_description = $metaTags["description"];
+        $newPremiumSite->meta_keywords = $metaTags["keywords"];
+        $newPremiumSite->save();
+
+        $rankAnalysis = new Premium;
+        $getRank = $rankAnalysis->findGooglePositionLikeKeyword($request->keyword, $url);
+
+        $newAnalysis = new AnalysisTableModel;
+        $newAnalysis->site_id = $request->premium_site_id;
+        $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+        $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+        $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+        $newAnalysis->keyword = $request->keyword;
+        $newAnalysis->rank = $getRank;
+        $newAnalysis->save();
+
+        if (!is_null($request->enemy_url)) {
+            $rankAnalysisEnemy = new Premium;
+            $getRankEnemy = $rankAnalysisEnemy->findGooglePositionLikeKeyword($request->keyword, $lastUrl);
+
+            $newAnalysis = new EnemyAnalysisTableModel;
+            $newAnalysis->site_id = $request->premium_site_id;
+            $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+            $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+            $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+            $newAnalysis->keyword = $request->keyword;
+            $newAnalysis->rank = $getRankEnemy;
+            $newAnalysis->save();
+        }
+
+        if (!is_null($request->keyword_2)) {
+            $rankAnalysis2 = new Premium;
+            $getRank2 = $rankAnalysis2->findGooglePositionLikeKeyword($request->keyword_2, $url);
+
+            $newAnalysis = new AnalysisTableModel;
+            $newAnalysis->site_id = $request->premium_site_id;
+            $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+            $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+            $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+            $newAnalysis->keyword = $request->keyword_2;
+            $newAnalysis->rank = $getRank2;
+            $newAnalysis->save();
+
+            if (!is_null($request->enemy_url)) {
+                $rankAnalysisEnemy = new Premium;
+                $getRankEnemy = $rankAnalysisEnemy->findGooglePositionLikeKeyword($request->keyword_2, $lastUrl);
+
+                $newAnalysis = new EnemyAnalysisTableModel;
+                $newAnalysis->site_id = $request->premium_site_id;
+                $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+                $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+                $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+                $newAnalysis->keyword = $request->keyword_2;
+                $newAnalysis->rank = $getRankEnemy;
+                $newAnalysis->save();
+            }
+
+        }
+        if (!is_null($request->keyword_3)) {
+            $rankAnalysis3 = new Premium;
+            $getRank3 = $rankAnalysis3->findGooglePositionLikeKeyword($request->keyword_3, $url);
+
+            $newAnalysis = new AnalysisTableModel;
+            $newAnalysis->site_id = $request->premium_site_id;
+            $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+            $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+            $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+            $newAnalysis->keyword = $request->keyword_3;
+            $newAnalysis->rank = $getRank3;
+            $newAnalysis->save();
+
+            if (!is_null($request->enemy_url)) {
+                $rankAnalysisEnemy = new Premium;
+                $getRankEnemy = $rankAnalysisEnemy->findGooglePositionLikeKeyword($request->keyword_3, $lastUrl);
+
+                $newAnalysis = new EnemyAnalysisTableModel;
+                $newAnalysis->site_id = $request->premium_site_id;
+                $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+                $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+                $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+                $newAnalysis->keyword = $request->keyword_3;
+                $newAnalysis->rank = $getRankEnemy;
+                $newAnalysis->save();
+            }
+
+        }
+        if (!is_null($request->keyword_4)) {
+            $rankAnalysis4 = new Premium;
+            $getRank4 = $rankAnalysis4->findGooglePositionLikeKeyword($request->keyword_4, $url);
+
+            $newAnalysis = new AnalysisTableModel;
+            $newAnalysis->site_id = $request->premium_site_id;
+            $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+            $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+            $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+            $newAnalysis->keyword = $request->keyword_4;
+            $newAnalysis->rank = $getRank4;
+            $newAnalysis->save();
+
+            if (!is_null($request->enemy_url)) {
+                $rankAnalysisEnemy = new Premium;
+                $getRankEnemy = $rankAnalysisEnemy->findGooglePositionLikeKeyword($request->keyword_4, $lastUrl);
+
+                $newAnalysis = new EnemyAnalysisTableModel;
+                $newAnalysis->site_id = $request->premium_site_id;
+                $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+                $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+                $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+                $newAnalysis->keyword = $request->keyword_4;
+                $newAnalysis->rank = $getRankEnemy;
+                $newAnalysis->save();
+            }
+
+        }
+        if (!is_null($request->keyword_5)) {
+            $rankAnalysis5 = new Premium;
+            $getRank5 = $rankAnalysis5->findGooglePositionLikeKeyword($request->keyword_5, $url);
+
+            $newAnalysis = new AnalysisTableModel;
+            $newAnalysis->site_id = $request->premium_site_id;
+            $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+            $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+            $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+            $newAnalysis->keyword = $request->keyword_5;
+            $newAnalysis->rank = $getRank5;
+            $newAnalysis->save();
+
+            if (!is_null($request->enemy_url)) {
+                $rankAnalysisEnemy = new Premium;
+                $getRankEnemy = $rankAnalysisEnemy->findGooglePositionLikeKeyword($request->keyword_5, $lastUrl);
+
+                $newAnalysis = new EnemyAnalysisTableModel;
+                $newAnalysis->site_id = $request->premium_site_id;
+                $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+                $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+                $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+                $newAnalysis->keyword = $request->keyword_5;
+                $newAnalysis->rank = $getRankEnemy;
+                $newAnalysis->save();
+            }
+
+        }
+
+        return redirect()->route('my-premium-sites');
+    }
+
+    public function myPremiumSite($id)
+    {
+        $user = Auth::user();
+        if ($user->is_premium == 0) {
+            return redirect()->route('premium-packages');
+        } else {
+            $id = Crypt::decrypt($id);
+            $year = strftime("%Y", strtotime(date("YmdHis")));
+            $month = strftime("%m", strtotime(date("YmdHis")));
+            $day = strftime("%d", strtotime(date("YmdHis")));
+            $site = PremiumSitesTableModel::where('site_id', $id)->first();
+            $url = UserSitesTableModel::find($id)->url;
+            if (is_null(AnalysisTableModel::where('site_id', $id)->where('year', $year)->where('month', $month)->where('day', $day)->where('keyword', $site->keyword)->first())) {
+                $rankAnalysis = new Premium;
+                $getRank = $rankAnalysis->findGooglePositionLikeKeyword($site->keyword, $url);
+                $newAnalysis = new AnalysisTableModel;
+                $newAnalysis->site_id = $id;
+                $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+                $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+                $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+                $newAnalysis->keyword = $site->keyword;
+                $newAnalysis->rank = $getRank;
+                $newAnalysis->save();
+            }
+            if (!is_null($site->enemy_url) && is_null(EnemyAnalysisTableModel::where('site_id', $id)->where('year', $year)->where('month', $month)->where('day', $day)->where('keyword', $site->keyword)->first())) {
+                $rankAnalysisEnemy = new Premium;
+                $getRankEnemy = $rankAnalysisEnemy->findGooglePositionLikeKeyword($site->keyword, $site->enemy_url);
+
+                $newAnalysis = new EnemyAnalysisTableModel;
+                $newAnalysis->site_id = $id;
+                $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+                $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+                $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+                $newAnalysis->keyword = $site->keyword;
+                $newAnalysis->rank = $getRankEnemy;
+                $newAnalysis->save();
+            }
+            if (!is_null($site->keyword_2) && is_null(AnalysisTableModel::where('site_id', $id)->where('year', $year)->where('month', $month)->where('day', $day)->where('keyword', $site->keyword_2)->first())) {
+                $rankAnalysis = new Premium;
+                $getRank = $rankAnalysis->findGooglePositionLikeKeyword($site->keyword_2, $url);
+                $newAnalysis = new AnalysisTableModel;
+                $newAnalysis->site_id = $id;
+                $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+                $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+                $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+                $newAnalysis->keyword = $site->keyword_2;
+                $newAnalysis->rank = $getRank;
+                $newAnalysis->save();
+            }
+            if (!is_null($site->keyword_2) && !is_null($site->enemy_url) && is_null(EnemyAnalysisTableModel::where('site_id', $id)->where('year', $year)->where('month', $month)->where('day', $day)->where('keyword', $site->keyword_2)->first())) {
+                $rankAnalysisEnemy = new Premium;
+                $getRankEnemy = $rankAnalysisEnemy->findGooglePositionLikeKeyword($site->keyword_2, $site->enemy_url);
+
+                $newAnalysis = new EnemyAnalysisTableModel;
+                $newAnalysis->site_id = $id;
+                $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+                $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+                $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+                $newAnalysis->keyword = $site->keyword_2;
+                $newAnalysis->rank = $getRankEnemy;
+                $newAnalysis->save();
+            }
+            if (!is_null($site->keyword_3) && is_null(AnalysisTableModel::where('site_id', $id)->where('year', $year)->where('month', $month)->where('day', $day)->where('keyword', $site->keyword_3)->first())) {
+                $rankAnalysis = new Premium;
+                $getRank = $rankAnalysis->findGooglePositionLikeKeyword($site->keyword_3, $url);
+                $newAnalysis = new AnalysisTableModel;
+                $newAnalysis->site_id = $id;
+                $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+                $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+                $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+                $newAnalysis->keyword = $site->keyword_3;
+                $newAnalysis->rank = $getRank;
+                $newAnalysis->save();
+            }
+            if (!is_null($site->keyword_3) && !is_null($site->enemy_url) && is_null(EnemyAnalysisTableModel::where('site_id', $id)->where('year', $year)->where('month', $month)->where('day', $day)->where('keyword', $site->keyword_3)->first())) {
+                $rankAnalysisEnemy = new Premium;
+                $getRankEnemy = $rankAnalysisEnemy->findGooglePositionLikeKeyword($site->keyword_3, $site->enemy_url);
+
+                $newAnalysis = new EnemyAnalysisTableModel;
+                $newAnalysis->site_id = $id;
+                $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+                $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+                $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+                $newAnalysis->keyword = $site->keyword_3;
+                $newAnalysis->rank = $getRankEnemy;
+                $newAnalysis->save();
+            }
+            if (!is_null($site->keyword_4) && is_null(AnalysisTableModel::where('site_id', $id)->where('year', $year)->where('month', $month)->where('day', $day)->where('keyword', $site->keyword_4)->first())) {
+                $rankAnalysis = new Premium;
+                $getRank = $rankAnalysis->findGooglePositionLikeKeyword($site->keyword, $url);
+                $newAnalysis = new AnalysisTableModel;
+                $newAnalysis->site_id = $id;
+                $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+                $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+                $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+                $newAnalysis->keyword = $site->keyword_4;
+                $newAnalysis->rank = $getRank;
+                $newAnalysis->save();
+            }
+            if (!is_null($site->keyword_4) && !is_null($site->enemy_url) && is_null(EnemyAnalysisTableModel::where('site_id', $id)->where('year', $year)->where('month', $month)->where('day', $day)->where('keyword', $site->keyword_4)->first())) {
+                $rankAnalysisEnemy = new Premium;
+                $getRankEnemy = $rankAnalysisEnemy->findGooglePositionLikeKeyword($site->keyword_4, $site->enemy_url);
+
+                $newAnalysis = new EnemyAnalysisTableModel;
+                $newAnalysis->site_id = $id;
+                $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+                $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+                $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+                $newAnalysis->keyword = $site->keyword_4;
+                $newAnalysis->rank = $getRankEnemy;
+                $newAnalysis->save();
+            }
+            if (!is_null($site->keyword_5) && is_null(AnalysisTableModel::where('site_id', $id)->where('year', $year)->where('month', $month)->where('day', $day)->where('keyword', $site->keyword_5)->first())) {
+                $rankAnalysis = new Premium;
+                $getRank = $rankAnalysis->findGooglePositionLikeKeyword($site->keyword, $url);
+                $newAnalysis = new AnalysisTableModel;
+                $newAnalysis->site_id = $id;
+                $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+                $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+                $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+                $newAnalysis->keyword = $site->keyword_5;
+                $newAnalysis->rank = $getRank;
+                $newAnalysis->save();
+            }
+            if (!is_null($site->keyword_5) && !is_null($site->enemy_url) && is_null(EnemyAnalysisTableModel::where('site_id', $id)->where('year', $year)->where('month', $month)->where('day', $day)->where('keyword', $site->keyword_5)->first())) {
+                $rankAnalysisEnemy = new Premium;
+                $getRankEnemy = $rankAnalysisEnemy->findGooglePositionLikeKeyword($site->keyword_5, $site->enemy_url);
+
+                $newAnalysis = new EnemyAnalysisTableModel;
+                $newAnalysis->site_id = $id;
+                $newAnalysis->year = strftime("%Y", strtotime(date("YmdHis")));
+                $newAnalysis->month = strftime("%m", strtotime(date("YmdHis")));
+                $newAnalysis->day = strftime("%d", strtotime(date("YmdHis")));
+                $newAnalysis->keyword = $site->keyword_5;
+                $newAnalysis->rank = $getRankEnemy;
+                $newAnalysis->save();
+            }
+            $getPremiumSite = PremiumSitesTableModel::where('site_id', $id)->first();
+
+            if (!is_null($getPremiumSite->enemy_url)) {
+                $getWeeklyAnalysisKeywordOne = AnalysisTableModel::where('site_id', $id)->where('keyword', $getPremiumSite->keyword)->orderBy('created_at', 'DESC')->limit(7)->get();
+                $getWeeklyEnemyAnalysisKeywordOne = EnemyAnalysisTableModel::where('site_id', $id)->where('keyword', $getPremiumSite->keyword)->orderBy('created_at', 'DESC')->limit(7)->get();
+                if (!is_null($getPremiumSite->keyword_2)) {
+                    $getWeeklyAnalysisKeywordTwo = AnalysisTableModel::where('site_id', $id)->where('keyword', $getPremiumSite->keyword_2)->orderBy('created_at', 'DESC')->limit(7)->get();
+                    $getWeeklyEnemyAnalysisKeywordTwo = EnemyAnalysisTableModel::where('site_id', $id)->where('keyword', $getPremiumSite->keyword_2)->orderBy('created_at', 'DESC')->limit(7)->get();
+                    if (!is_null($getPremiumSite->keyword_3)) {
+                        $getWeeklyAnalysisKeywordThree = AnalysisTableModel::where('site_id', $id)->where('keyword', $getPremiumSite->keyword_3)->orderBy('created_at', 'DESC')->limit(7)->get();
+                        $getWeeklyEnemyAnalysisKeywordThree = EnemyAnalysisTableModel::where('site_id', $id)->where('keyword', $getPremiumSite->keyword_3)->orderBy('created_at', 'DESC')->limit(7)->get();
+                        if (!is_null($getPremiumSite->keyword_4)) {
+                            $getWeeklyAnalysisKeywordFour = AnalysisTableModel::where('site_id', $id)->where('keyword', $getPremiumSite->keyword_4)->orderBy('created_at', 'DESC')->limit(7)->get();
+                            $getWeeklyEnemyAnalysisKeywordFour = EnemyAnalysisTableModel::where('site_id', $id)->where('keyword', $getPremiumSite->keyword_4)->orderBy('created_at', 'DESC')->limit(7)->get();
+                            if (!is_null($getPremiumSite->keyword_5)) {
+                                $getWeeklyAnalysisKeywordFive = AnalysisTableModel::where('site_id', $id)->where('keyword', $getPremiumSite->keyword_5)->orderBy('created_at', 'DESC')->limit(7)->get();
+                                $getWeeklyEnemyAnalysisKeywordFive = EnemyAnalysisTableModel::where('site_id', $id)->where('keyword', $getPremiumSite->keyword_5)->orderBy('created_at', 'DESC')->limit(7)->get();
+                                return view('Pages.Customers.my-premium-site', compact('getWeeklyAnalysisKeywordOne', 'getWeeklyAnalysisKeywordTwo', 'getWeeklyAnalysisKeywordThree', 'getWeeklyAnalysisKeywordFour', 'getWeeklyAnalysisKeywordFive', 'getWeeklyEnemyAnalysisKeywordOne', 'getWeeklyEnemyAnalysisKeywordTwo', 'getWeeklyEnemyAnalysisKeywordThree', 'getWeeklyEnemyAnalysisKeywordFour', 'getWeeklyEnemyAnalysisKeywordFive', 'getPremiumSite', 'url'));
+                            } else {
+                                return view('Pages.Customers.my-premium-site', compact('getWeeklyAnalysisKeywordOne', 'getWeeklyAnalysisKeywordTwo', 'getWeeklyAnalysisKeywordThree', 'getWeeklyAnalysisKeywordFour', 'getWeeklyEnemyAnalysisKeywordOne', 'getWeeklyEnemyAnalysisKeywordTwo', 'getWeeklyEnemyAnalysisKeywordThree', 'getWeeklyEnemyAnalysisKeywordFour', 'getPremiumSite', 'url'));
+                            }
+                        } else {
+                            return view('Pages.Customers.my-premium-site', compact('getWeeklyAnalysisKeywordOne', 'getWeeklyAnalysisKeywordTwo', 'getWeeklyAnalysisKeywordThree', 'getWeeklyEnemyAnalysisKeywordOne', 'getWeeklyEnemyAnalysisKeywordTwo', 'getWeeklyEnemyAnalysisKeywordThree', 'getPremiumSite', 'url'));
+                        }
+                    } else {
+                        return view('Pages.Customers.my-premium-site', compact('getWeeklyAnalysisKeywordOne', 'getWeeklyAnalysisKeywordTwo', 'getWeeklyEnemyAnalysisKeywordOne', 'getWeeklyEnemyAnalysisKeywordTwo', 'getPremiumSite', 'url'));
+                    }
+                } else {
+                    return view('Pages.Customers.my-premium-site', compact('getWeeklyAnalysisKeywordOne', 'getWeeklyEnemyAnalysisKeywordOne', 'getPremiumSite', 'url'));
+                }
+            } else {
+                $getWeeklyAnalysisKeywordOne = AnalysisTableModel::where('site_id', $id)->where('keyword', $getPremiumSite->keyword)->orderBy('created_at', 'DESC')->limit(7)->get();
+                if (!is_null($getPremiumSite->keyword_2)) {
+                    $getWeeklyAnalysisKeywordTwo = AnalysisTableModel::where('site_id', $id)->where('keyword', $getPremiumSite->keyword_2)->orderBy('created_at', 'DESC')->limit(7)->get();
+                    if (!is_null($getPremiumSite->keyword_3)) {
+                        $getWeeklyAnalysisKeywordThree = AnalysisTableModel::where('site_id', $id)->where('keyword', $getPremiumSite->keyword_3)->orderBy('created_at', 'DESC')->limit(7)->get();
+                        if (!is_null($getPremiumSite->keyword_4)) {
+                            $getWeeklyAnalysisKeywordFour = AnalysisTableModel::where('site_id', $id)->where('keyword', $getPremiumSite->keyword_4)->orderBy('created_at', 'DESC')->limit(7)->get();
+                            if (!is_null($getPremiumSite->keyword_5)) {
+                                $getWeeklyAnalysisKeywordFive = AnalysisTableModel::where('site_id', $id)->where('keyword', $getPremiumSite->keyword_5)->orderBy('created_at', 'DESC')->limit(7)->get();
+                                return view('Pages.Customers.my-premium-site', compact('getWeeklyAnalysisKeywordOne', 'getWeeklyAnalysisKeywordTwo', 'getWeeklyAnalysisKeywordThree', 'getWeeklyAnalysisKeywordFour', 'getWeeklyAnalysisKeywordFive', 'getPremiumSite', 'url'));
+                            } else {
+                                return view('Pages.Customers.my-premium-site', compact('getWeeklyAnalysisKeywordOne', 'getWeeklyAnalysisKeywordTwo', 'getWeeklyAnalysisKeywordThree', 'getWeeklyAnalysisKeywordFour', 'getPremiumSite', 'url'));
+                            }
+                        } else {
+                            return view('Pages.Customers.my-premium-site', compact('getWeeklyAnalysisKeywordOne', 'getWeeklyAnalysisKeywordTwo', 'getWeeklyAnalysisKeywordThree', 'getPremiumSite', 'url'));
+                        }
+                    } else {
+                        return view('Pages.Customers.my-premium-site', compact('getWeeklyAnalysisKeywordOne', 'getWeeklyAnalysisKeywordTwo', 'getPremiumSite', 'url'));
+                    }
+                } else {
+                    return view('Pages.Customers.my-premium-site', compact('getWeeklyAnalysisKeywordOne', 'getPremiumSite', 'url'));
+                }
+            }
+        }
+    }
+
+    public function premiumPackages()
+    {
+        $user = Auth::user();
+        if ($user->is_premium == 1) {
+            return redirect()->route('my-premium-sites');
+        } else {
+            $premiumPackages = PremiumPackagesTableModel::all();
+            return view('Pages.Customers.premium-packages', compact('premiumPackages'));
+        }
+    }
+
+    public function buyPremiumPackage(Request $request)
+    {
+        $user = Auth::user();
+        if (is_null($request->package_id)) {
+            $premiumPackages = PremiumPackagesTableModel::all();
+            $errorMessage = "Hiçbir Paket Seçilmemiş! Lütfen Kontrol Ederek Tekrar Deneyin.";
+            return view('Pages.Customers.premium-packages', compact('premiumPackages', 'errorMessage'));
+        } else {
+            $getPackage = PremiumPackagesTableModel::find($request->package_id);
+            if ($user->balance < $getPackage->price) {
+                $premiumPackages = PremiumPackagesTableModel::all();
+                $errorMessage = "Bakiyeniz Bu Paketi Almak İçin Yeterli Değil! Lütfen Bakiye Yükleyiniz.";
+                return view('Pages.Customers.premium-packages', compact('premiumPackages', 'errorMessage'));
+            } else {
+                $newSale = new PremiumSalesTableModel;
+                $newSale->user_id = $user->id;
+                $newSale->package_id = $getPackage->id;
+                $newSale->purchased_date = date("Y-m-d H:i:s");
+                $newSale->expire_date = strftime("%Y-%m-%d %H:%M:%S", strtotime('+30 days'));
+                $newSale->is_active = 1;
+                $newSale->save();
+
+                $getUser = User::find($user->id);
+                $getUser->balance = $getUser->balance - $getPackage->price;
+                $getUser->is_premium = 1;
+                $getUser->save();
+
+                return redirect()->route('my-premium-sites');
+            }
+        }
     }
 
 }
+

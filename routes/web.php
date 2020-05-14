@@ -1,14 +1,31 @@
 <?php
 
+use App\Helpers\Alexa;
+
 Auth::routes([
     "register" => false
 ]);
 
+Route::get('hadibe',function (){
+    return csrf_token();
+});
 
 Route::get('try-metadata','PremiumController@metadata');
-Route::get('try-links','PremiumController@links');
 
-Route::get('datee',function (){ return strtotime(date("Y-m-d H:i:s")); });
+Route::get('/odeme',function (){
+    return view('gopayment');
+});
+
+Route::get('odeme/basarili',function (){
+    return "basarili";
+});
+
+Route::get('odeme/basarisiz',function (){
+    return "basarisiz";
+});
+
+Route::post('odeme/callback','PayController@payCallback');
+
 
 Route::get('google-api-trial','PremiumController@index')->middleware('auth');
 
@@ -96,6 +113,10 @@ Route::middleware('admin-control')->group(function (){
 
         Route::get('/edit-user-site/{id}','AccountsController@editUserSite')->name('edit-user-site');
         Route::post('/update-user-site','AccountsController@updateUserSite')->name('update-user-site');
+        Route::get('/enable-user-site/{id?}','AccountsController@enableUserSite')->name('enable-user-site');
+        Route::get('/disable-user-site/{id?}','AccountsController@disableUserSite')->name('disable-user-site');
+        Route::get('/enable-user-link/{id?}','AccountsController@enableUserLink')->name('enable-user-link');
+        Route::get('/disable-user-link/{id?}','AccountsController@disableUserLink')->name('disable-user-link');
 
         Route::post('set-account-activated','AccountsController@setAccountActivated')->name('set-account-activated');
         Route::post('set-account-not-banned','AccountsController@setAccountNotBanned')->name('set-account-not-banned');
@@ -176,6 +197,7 @@ Route::middleware('customer-control')->group(function (){
         Route::get('/all-links','CustomerController@allLinks')->name('customer-all-links');
         Route::get('/edit-my-link/{id}','CustomerController@editLink')->name('edit-my-link');
         Route::post('/update-my-link','CustomerController@updateLink')->name('update-my-link');
+        Route::get('/delete-my-link/{id}','CustomerController@deleteLink')->name('delete-my-link');
 
     });
 
@@ -194,6 +216,11 @@ Route::middleware('customer-control')->group(function (){
         Route::get('/my-premium-sites','CustomerController@myPremiumSites')->name('my-premium-sites');
         Route::get('/add-premium-site','CustomerController@addPremiumSiteForm')->name('add-premium-site');
         Route::post('/add-premium-site-post','CustomerController@addPremiumSitePost')->name('add-premium-site-post');
+        Route::get('/my-premium-site/{id?}','CustomerController@myPremiumSite')->name('my-premium-site');
+
+
+        Route::get('/premium-packages','CustomerController@premiumPackages')->name('premium-packages');
+        Route::post('/buy-premium-package','CustomerController@buyPremiumPackage')->name('buy-premium-package');
 
 
         Route::get('/my-links','CustomerController@myLinks')->name('my-links');

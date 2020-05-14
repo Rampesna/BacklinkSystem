@@ -36,15 +36,19 @@ class BlogController extends Controller
         }
     }
 
-    public function single($id, $title)
+    public function single($id)
     {
         $post = BlogTableModel::find($id);
-        $post->views = $post->views + 1;
-        $post->save();
-        $tags = explode(',', $post->seo_keywords);
-        $randoms = BlogTableModel::all()->random(2);
-        $postComments = BlogCommentsTableModel::where('post_id', $post->id)->where('status', 1)->get();
-        return view('Blog.Pages.post', compact('post', 'tags', 'randoms', 'postComments'));
+        if(is_null($post)){
+            return redirect()->route('blog.index');
+        }else{
+            $post->views = $post->views + 1;
+            $post->save();
+            $tags = explode(',', $post->seo_keywords);
+            $randoms = BlogTableModel::all()->random(2);
+            $postComments = BlogCommentsTableModel::where('post_id', $post->id)->where('status', 1)->get();
+            return view('Blog.Pages.post', compact('post', 'tags', 'randoms', 'postComments'));
+        }
     }
 
     public function search(Request $request)

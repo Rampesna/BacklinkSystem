@@ -10,29 +10,23 @@
         @if(count($myPremiumSites) > 0)
             <div class="col-12">
                 <div class="table-responsive">
-
+                    @if(count($myPremiumSites) < $myPremiumPackage->allowed_premium_site)
+                        <a class="btn btn-block btn-outline-info" href="{{route('add-premium-site')}}">Yeni Premium Site Ekle</a>
+                        <hr>
+                    @endif
                     <table id="allSites" class="table header-border table-hover table-custom spacing7">
                         <thead>
                         <tr>
                             <th>URL</th>
-                            <th>İncele</th>
-                            <th>Düzenle</th>
                         </tr>
                         </thead>
                         <tbody>
 
-                        @foreach($mySites as $site)
+                        @foreach($myPremiumSites as $site)
                             <tr>
-                                <td>{{$site->url}}</td>
                                 <td>
-                                    <button @if($user->is_premium == 0) disabled @endif onclick="window.location.href = '{{route('index')}}'" style="color: white" class="btn btn-info">Siteyi Analiz Et <small><i> (Sadece Premium Hesaplar) </i></small></button>
-                                </td>
-                                <td>
-                                    <a href="{{route('edit-site',$site->id)}}" style="color: #00A6C7" class="fa fa-edit"></a>&nbsp;&nbsp;
-                                    <a data-id="{{$site->id}}"
-                                       data-whatever="{{$site->url}}" href="#"
-                                       class="fa fa-trash confirm-delete"
-                                       data-toggle="modal" data-target="#siteDeleteModal" style="text-decoration: none;"></a>
+                                    @php($userSite = App\Models\UserSitesTableModel::find($site->site_id))
+                                    <a style="color: #0c8ec3" href="{{route('my-premium-site',\Illuminate\Support\Facades\Crypt::encrypt($site->site_id))}}">{{$userSite->url}}</a>
                                 </td>
                             </tr>
                         @endforeach

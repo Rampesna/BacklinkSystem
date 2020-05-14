@@ -163,6 +163,11 @@
                                                 <td class="col-8">{{$site->url}}</td>
                                                 <td class="col-4 text-center">
                                                     <a href="{{route('edit-user-site',$site->id)}}" class="btn btn-outline-warning">Düzenle</a>
+                                                    @if($site->is_delete == 0)
+                                                        <a href="{{route('disable-user-site',\Illuminate\Support\Facades\Crypt::encrypt($site->id))}}" class="btn btn-outline-danger">Siteyi Pasife Al</a>
+                                                    @else
+                                                        <a href="{{route('enable-user-site',\Illuminate\Support\Facades\Crypt::encrypt($site->id))}}" class="btn btn-outline-success">Siteyi Aktif Et</a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -183,6 +188,7 @@
                                             <th><strong>Kelimeler</strong></th>
                                             <th class="text-center"><strong>Eklenme Durumu</strong></th>
                                             <th class="text-center"><strong>Link Durumu</strong></th>
+                                            <th class="text-center"><strong>Kontrol</strong></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -201,9 +207,23 @@
                                                     @endif
                                                 </td>
                                                 <td class="text-center">
+                                                    @if($link->is_delete == 0)
+                                                        <span class="text-green">Aktif</span>
+                                                    @else
+                                                        <span class="text-red">Pasif</span>
+                                                    @endif
+                                                </td>
+                                                <td class="text-center">
                                                     <button purchase="{{$link->id}}" class="btn btn-outline-info purchaseControl">Kontrol Et</button>
                                                     <i style="color: orange" id="loading_{{$link->id}}" class="fa fa-spinner rotating"></i>
                                                     <i id="purchase_i_id_{{$link->id}}" class="fa fa-lg"></i>
+                                                </td>
+                                                <td class="text-center">
+                                                    @if($link->is_delete == 0)
+                                                        <a href="{{route('disable-user-link',\Illuminate\Support\Facades\Crypt::encrypt($link->id))}}" class="btn btn-outline-danger">Linki Pasife Al</a>
+                                                    @else
+                                                        <a href="{{route('enable-user-link',\Illuminate\Support\Facades\Crypt::encrypt($link->id))}}" class="btn btn-outline-success">Linki Aktif Et</a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

@@ -27,8 +27,8 @@ class AccountsController extends Controller
     public function accountDetail($id)
     {
         $account = UsersTableModel::find(Crypt::decrypt($id));
-        $accountSites = UserSitesTableModel::where('user_id', $account->id)->where('is_delete', 0)->orderBy('created_at', 'DESC')->get();
-        $accountLinks = PurchasedLinksTableModel::where('user_id', $account->id)->where('is_delete', 0)->orderBy('created_at', 'DESC')->get();
+        $accountSites = UserSitesTableModel::where('user_id', $account->id)->orderBy('created_at', 'DESC')->get();
+        $accountLinks = PurchasedLinksTableModel::where('user_id', $account->id)->orderBy('created_at', 'DESC')->get();
 
         $purchasedCredit = SalesTableModel::where('user_id', $account->id)->where('status', 'accepted')->sum('amount');
         $spentCredit = 0;
@@ -75,7 +75,7 @@ class AccountsController extends Controller
     {
         try {
             $id = Crypt::decrypt($id);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return abort(403);
         }
         $account = UsersTableModel::find($id);
@@ -87,25 +87,25 @@ class AccountsController extends Controller
         $account = UsersTableModel::find($request->id);
         $account->name_surname = $request->name_surname;
         $account->email = $request->email;
-        if(!is_null($request->password)){
+        if (!is_null($request->password)) {
             $account->password = bcrypt($request->password);
         }
         $account->phone = $request->phone;
         $account->balance = $request->balance;
         $account->save();
-        return redirect()->route('edit-account',Crypt::encrypt($account->id));
+        return redirect()->route('edit-account', Crypt::encrypt($account->id));
     }
 
     public function deleteAccount($id)
     {
         try {
             $id = Crypt::decrypt($id);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return abort(403);
         }
-        UserSitesTableModel::where('user_id',$id)->delete();
-        PurchasedLinksTableModel::where('user_id',$id)->delete();
-        UsersTableModel::where('id',$id)->delete();
+        UserSitesTableModel::where('user_id', $id)->delete();
+        PurchasedLinksTableModel::where('user_id', $id)->delete();
+        UsersTableModel::where('id', $id)->delete();
         return redirect()->route('all-accounts');
     }
 
@@ -115,7 +115,7 @@ class AccountsController extends Controller
             return abort(404);
         } else {
             $account = UsersTableModel::find($request->account_id);
-            $getEmailVerification = EmailVerificationsTableModel::where('user_id',$request->account_id)->first();
+            $getEmailVerification = EmailVerificationsTableModel::where('user_id', $request->account_id)->first();
             $account->is_activated = 1;
             $account->save();
             $getEmailVerification->is_used = 1;
@@ -157,6 +157,52 @@ class AccountsController extends Controller
             $account->balance = 0;
             $account->save();
             return redirect()->route('account-detail', Crypt::encrypt($account->id));
+        }
+    }
+
+    public function enableUserSite($id)
+    {
+        try {
+            UserSitesTableModel::find(Crypt::decrypt($id))->update(['is_delete' => 0]);
+            PurchasedLinksTableModel::where('site_id', Crypt::decrypt($id))->update(['is_delete' => 0]);
+            $getUser = UsersTableModel::find(UserSitesTableModel::find(Crypt::decrypt($id))->user_id);
+            return redirect()->route('account-detail', Crypt::encrypt($getUser->id) . "#Profile-new2");
+        }catch (\Exception $exception){
+            return abort(404);
+        }
+    }
+
+    public function disableUserSite($id)
+    {
+        try {
+            UserSitesTableModel::find(Crypt::decrypt($id))->update(['is_delete' => 1]);
+            PurchasedLinksTableModel::where('site_id', Crypt::decrypt($id))->update(['is_delete' => 1]);
+            $getUser = UsersTableModel::find(UserSitesTableModel::find(Crypt::decrypt($id))->user_id);
+            return redirect()->route('account-detail', Crypt::encrypt($getUser->id) . "#Profile-new2");
+        }catch (\Exception $exception){
+            return abort(404);
+        }
+    }
+
+    public function enableUserLink($id)
+    {
+        try {
+            PurchasedLinksTableModel::find(Crypt::decrypt($id))->update(['is_delete' => 0]);
+            $getUser = UsersTableModel::find(PurchasedLinksTableModel::find(Crypt::decrypt($id))->user_id);
+            return redirect()->route('account-detail', Crypt::encrypt($getUser->id) . "#Profile-new2");
+        }catch (\Exception $exception){
+            return abort(404);
+        }
+    }
+
+    public function disableUserLink($id)
+    {
+        try {
+            PurchasedLinksTableModel::find(Crypt::decrypt($id))->update(['is_delete' => 1]);
+            $getUser = UsersTableModel::find(PurchasedLinksTableModel::find(Crypt::decrypt($id))->user_id);
+            return redirect()->route('account-detail', Crypt::encrypt($getUser->id) . "#Profile-new2");
+        }catch (\Exception $exception){
+            return abort(404);
         }
     }
 }

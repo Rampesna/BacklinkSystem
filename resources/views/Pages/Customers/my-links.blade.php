@@ -45,10 +45,33 @@
 
     @if(isset($returnArray))
 
+        <div class="modal fade" id="linkDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Linkinizi Silmek İstediğinize Emin misiniz?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p> • Eğer silme işlemini onaylarsanız bu işlemi geri alamazsınız!</p>
+                        <small style="color: orangered"><i> • Silme işleminden sonra kesinlikle kredi geri ödemesi </i><strong>Yapılmamaktadır!</strong></small>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modal-btn-no" type="button" class="btn btn-secondary" data-dismiss="modal">Hayır
+                        </button>
+                        <button id="btnYesLink" type="submit" class="btn btn-primary">Evet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         @if(count($returnArray) > 0)
             <div class="col-12">
                 <div class="table-responsive">
-                    <table id="allSites" class="table header-border table-hover table-custom spacing7">
+                    <table id="allLinks" class="table header-border table-hover table-custom spacing7">
                         <thead>
                         <tr>
                             <th><strong>Link Alınan Site</strong></th>
@@ -56,7 +79,7 @@
                             <th><strong>Kelimeler</strong></th>
                             <th class="text-center"><strong>Eklenme Durumu</strong></th>
                             <th class="text-center"><strong>Link Durumu</strong></th>
-                            <th class="text-center"><strong>Düzenle</strong></th>
+                            <th class="text-center" colspan="2"><strong>Düzenle</strong></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -87,6 +110,12 @@
                                 </td>
                                 <td class="text-center">
                                     <a href="{{route('edit-my-link',$site["purchase_id"])}}" class="btn btn-outline-warning">Düzenle</a>
+                                </td>
+                                <td class="text-center">
+                                    <a data-id="{{$site["purchase_id"]}}"
+                                       data-whatever="{{$site["purchase_id"]}}" href="#"
+                                       class="btn btn-outline-danger confirm-delete"
+                                       data-toggle="modal" data-target="#linkDeleteModal" style="text-decoration: none;">Sil</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -169,6 +198,28 @@
                     $('#loading_' + p_id).hide();
                 }
             });
+        });
+    </script>
+
+    <script>
+        $('#linkDeleteModal').on('show', function () {
+            var id = $(this).data('id'),
+                removeBtn = $(this).find('.danger');
+        })
+
+        $('#allLinks').on('click', '.confirm-delete', function (e) {
+            e.preventDefault();
+
+            var id = $(this).data('id');
+            $('#linkDeleteModal').data('id', id).modal('show');
+        });
+
+        $('#btnYesLink').click(function () {
+            // handle deletion here
+            var id = $('#linkDeleteModal').data('id');
+            window.location.href = "/customer/delete-my-link/" + id;
+            $('[data-id=' + id + ']').remove();
+            $('#linkDeleteModal').modal('hide');
         });
     </script>
 @stop

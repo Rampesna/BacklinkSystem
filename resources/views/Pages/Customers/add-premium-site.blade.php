@@ -11,26 +11,66 @@
         </div>
     @endif
 
-    <form class="row clearfix" method="post" action="{{route('add-premium-site-post')}}">
-        {{csrf_field()}}
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="card">
+    @if(isset($controlledSites))
+        <form class="row clearfix" method="post" action="{{route('add-premium-site-post')}}">
+            {{csrf_field()}}
+            <div class="container-fluid">
+                <button id="setPremium" type="submit" class="btn btn-block btn-outline-success">Premium Site Olarak Ayarla</button>
+                <hr>
+            </div>
 
-                <div class="body">
-
-                    <div class="form-group">
-                        <label>Premium Olarak Ayarlamak İstediğiniz Siteyi Seçin</label>
-                        <select name="premium_site_id" class="form-control">
-                            @foreach($controlledSites as $site)
-                                <option value="{{$site['site_id']}}">{{$site['site_url']}}</option>
-                            @endforeach
-                        </select>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="card">
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Premium Olarak Ayarlamak İstediğiniz Siteyi Seçin</label>
+                                    <select required name="premium_site_id" class="form-control">
+                                        @foreach($controlledSites as $site)
+                                            <option value="{{$site['site_id']}}">{{$site['site_url']}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            @if($myPremiumPackage->is_enemy_analysis)
+                                <div class="col-12">
+                                    <label>Rakip Analizi İçin Rakibinizi Sitesini Giriniz</label>
+                                    <input required type="text" name="enemy_url" class="form-control">
+                                </div>
+                            @endif
+                        </div>
                     </div>
-                    <input type="submit" value="Premium Site Olarak Ayarla" class="btn btn-block btn-outline-success">
                 </div>
             </div>
-        </div>
-    </form>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="card">
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Analiz İçin İstediğiniz Anahtar Kelimeyi Giriniz</label>
+                                <input required type="text" name="keyword" class="form-control">
+                            </div>
+                        </div>
+                        @for($count = 2 ; $count <= 5 ; $count++)
+                            @if($myPremiumPackage->allowed_keyword_count > $count - 1)
+                                <hr>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>Analiz İçin İstediğiniz {{$count}}. Anahtar Kelimeyi Giriniz</label>
+                                        <input required type="text" name="keyword_{{$count}}" class="form-control">
+                                    </div>
+                                </div>
+                            @endif
+                        @endfor
+                    </div>
+                </div>
+            </div>
+        </form>
+    @endif
 
 @stop
 
@@ -58,60 +98,11 @@
     <script src="{{ asset('assets/js/index.js') }}"></script>
 
     <script>
-        $('#allLinks').DataTable({
-            language: {
-                info: "_TOTAL_ Kayıttan _START_ - _END_ Arasındaki Kayıtlar Gösteriliyor.",
-                infoEmpty: "Gösterilecek Hiç Kayıt Yok.",
-                loadingRecords: "Kayıtlar Yükleniyor.",
-                zeroRecords: "Tablo Boş",
-                search: "Arama:",
-                infoFiltered: "(Yoplam _MAX_ Kayıttan Filtrelenenler)",
-                lengthMenu: "Sayfa Başı _MENU_ Kayıt Göster",
-                /*
-                buttons: {
-                    copyTitle: "Panoya Kopyalandı.",
-                    copySuccess:"Panoya %d Satır Kopyalandı",
-                    copy: "Kopyala",
-                    print: "Yazdır",
-                },
-    */
-                paginate: {
-                    first: "İlk",
-                    previous: "Önceki",
-                    next: "Sonraki",
-                    last: "Son"
-                },
-            },
-            dom: 'frtipl',
-
-            /*
-            buttons: [
-                'copy', 'excel', 'pdf', 'print'
-            ],
-            */
-            responsive: true
+        $("#setPremium").on("click", function() {
+            $(this).prop("readonly", true);
+            $(this).html("<i class=\"fa fa-spinner fa-spin\"></i> <span>Ayarlanıyor...</span>");
         });
     </script>
 
-    <script>
-        $('#linkDeleteModal').on('show', function () {
-            var id = $(this).data('id'),
-                removeBtn = $(this).find('.danger');
-        })
 
-        $('#allLinks').on('click', '.confirm-delete', function (e) {
-            e.preventDefault();
-
-            var id = $(this).data('id');
-            $('#linkDeleteModal').data('id', id).modal('show');
-        });
-
-        $('#btnYesLink').click(function () {
-            // handle deletion here
-            var id = $('#linkDeleteModal').data('id');
-            window.location.href = "/links/delete-link/" + id;
-            $('[data-id=' + id + ']').remove();
-            $('#linkDeleteModal').modal('hide');
-        });
-    </script>
 @stop

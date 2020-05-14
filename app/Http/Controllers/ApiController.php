@@ -17,13 +17,18 @@ class ApiController extends Controller
         }
         $url = General::clearLink($url);
         $getLink = LinksTableModel::where('url', 'LIKE', "%{$url}%")->first();
-        $getPurchasedLinks = PurchasedLinksTableModel::where('link_id', $getLink->id)->get();
+        $getPurchasedLinks = PurchasedLinksTableModel::where('link_id', $getLink->id)->where('is_delete', 0)->get();
         $string = '<div id="bcklnksts" style="display:none">';
         foreach ($getPurchasedLinks as $purchasedLink) {
             $site = UserSitesTableModel::where('id', $purchasedLink->site_id)->first();
 //            $string .= "<a href='http://".$site->url."' target='_blank' title='".$purchasedLink->keyword."'>".$purchasedLink->keyword."</a>";
-            $string .= '
+            if ($site->is_https == 1) {
+                $string .= '
+            <a href="https://www.' . $site->url . '" target="_blank" title="' . $purchasedLink->keyword . '">' . $purchasedLink->keyword . '</a>';
+            } else {
+                $string .= '
             <a href="http://www.' . $site->url . '" target="_blank" title="' . $purchasedLink->keyword . '">' . $purchasedLink->keyword . '</a>';
+            }
         }
         $string .= "
 </div>";
