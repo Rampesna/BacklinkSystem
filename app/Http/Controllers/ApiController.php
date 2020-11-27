@@ -24,10 +24,10 @@ class ApiController extends Controller
 //            $string .= "<a href='http://".$site->url."' target='_blank' title='".$purchasedLink->keyword."'>".$purchasedLink->keyword."</a>";
             if ($site->is_https == 1) {
                 $string .= '
-            <a href="https://www.' . $site->url . '" target="_blank" title="' . $purchasedLink->keyword . '">' . $purchasedLink->keyword . '</a>';
+            <a href="https://' . $site->is_www == 1 ? 'www.' : null . $site->url . '" target="_blank" title="' . $purchasedLink->keyword . '">' . $purchasedLink->keyword . '</a>';
             } else {
                 $string .= '
-            <a href="http://www.' . $site->url . '" target="_blank" title="' . $purchasedLink->keyword . '">' . $purchasedLink->keyword . '</a>';
+            <a href="http://' . $site->is_www == 1 ? 'www.' : null . $site->url . '" target="_blank" title="' . $purchasedLink->keyword . '">' . $purchasedLink->keyword . '</a>';
             }
         }
         $string .= "

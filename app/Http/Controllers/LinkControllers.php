@@ -184,6 +184,7 @@ class LinkControllers extends Controller
 
     public function deleteLink($id)
     {
+	PurchasedLinksTableModel::where('link_id',$id)->delete();
         $link = LinksTableModel::find($id);
         $link->is_delete = 1;
         $link->save();

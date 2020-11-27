@@ -25,6 +25,7 @@
                             <thead>
                             <tr>
                                 <th>Erişim</th>
+                                <th>WWW</th>
                                 <th>&nbsp;</th>
                                 <th>Durum</th>
                                 <th>İşlem</th>
@@ -37,6 +38,12 @@
                                     <select name="http_status" class="custom-select">
                                         <option value="0">http</option>
                                         <option value="1">https</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="is_www" class="custom-select">
+                                        <option value="1">Var</option>
+                                        <option value="0">Yok</option>
                                     </select>
                                 </td>
                                 <td>{{$returnArray["url"]}}</td>

@@ -13,6 +13,14 @@
                     @php($balanceControl = \Illuminate\Support\Facades\Auth::user())
 {{--                    <li><a href="javascript:void(0);" class="search_toggle icon-menu" title="Search Result"><i class="icon-magnifier"></i></a></li>--}}
                     @if($balanceControl->is_admin == 0)
+                        @if($balanceControl->is_premium == 1)
+                            @php($nPremiumSale = \App\Models\PremiumSalesTableModel::where('user_id',$balanceControl->id)->where('is_active',1)->orderBy('updated_at','DESC')->first())
+                            <li><a href="#" style="color: white" class="btn btn-outline-warning">
+                                    Premium Bitimine Kalan Süre -
+                                    {{ \Illuminate\Support\Carbon::create($nPremiumSale->expire_date)->diffInDays(\Illuminate\Support\Carbon::now(), true) }} Gün
+                                    {{ \Illuminate\Support\Carbon::create($nPremiumSale->expire_date)->diffInHours(\Illuminate\Support\Carbon::now(), true) % 24 }} Saat
+                                    </a></li>
+                        @endif
                         <li><a href="{{route('buy-credit')}}" style="color: white" class="btn btn-outline-success">Kalan Bakiye {{$balanceControl->balance}} ₺</a></li>
                     @endif
                     <li><a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="icon-menu"><i class="icon-power"></i></a></li>

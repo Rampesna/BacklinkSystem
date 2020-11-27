@@ -41,6 +41,7 @@
                                 <a href="#account" class="has-arrow"><i class="fa fa-user"></i><span>Hesaplar</span></a>
                                 <ul>
                                     <li class="{{ Request::segment(2) === 'all-accounts' ? 'active' : null }}"><a href="{{route('all-accounts')}}">Tüm Müşteriler</a></li>
+                                    <li class="{{ Request::segment(2) === 'all-premium-accounts' ? 'active' : null }}"><a href="{{route('all-premium-accounts')}}">Premium Müşteriler</a></li>
                                     <li class="{{ Request::segment(2) === 'sold-credits' ? 'active' : null }}"><a href="{{route('sold-credits')}}">Satılan Krediler</a></li>
                                     <li class="{{ Request::segment(2) === 'declined-credits' ? 'active' : null }}"><a href="{{route('declined-credits')}}">Reddedilen Krediler</a></li>
                                     <li class="{{ Request::segment(2) === 'credit-appeals' ? 'active' : null }}"><a href="{{route('credit-appeals')}}">Kredi Başvuruları</a></li>
@@ -79,6 +80,7 @@
                                 <a href="#settings" class="has-arrow"><i class="fa fa-cog"></i><span>Ayarlar</span></a>
                                 <ul>
                                     <li class="{{ Request::segment(2) === 'landing-settings' ? 'active' : null }}"><a href="{{route('landing-settings')}}">Ön Sayfa Ayarları</a></li>
+                                    <li class="{{ Request::segment(2) === 'packages' ? 'active' : null }}"><a href="{{route('packages')}}">Premium Paketler</a></li>
                                 </ul>
                             </li>
                             <li class="{{ Request::segment(1) === 'logs' ? 'active open' : null }}">

@@ -25,6 +25,7 @@
                             <thead>
                             <tr>
                                 <th>Erişim</th>
+                                <th>WWW</th>
                                 <th>Site URL</th>
                                 <th></th>
                             </tr>
@@ -36,6 +37,12 @@
                                     <select name="http_status" class="custom-select">
                                         <option @if($getSite->is_https == 0) selected @endif value="0">http</option>
                                         <option @if($getSite->is_https == 1) selected @endif value="1">https</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="is_www" class="custom-select">
+                                        <option @if($getSite->is_www == 1) selected @endif value="1">Var</option>
+                                        <option @if($getSite->is_www == 0) selected @endif value="0">Yok</option>
                                     </select>
                                 </td>
                                 <td><input class="form-control" type="text" name="site_url" value="{{$getSite->url}}"></td>

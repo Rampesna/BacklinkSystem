@@ -121,6 +121,9 @@ class CustomerController extends Controller
             if ($request->http_status == 1) {
                 $newSite->is_https = 1;
             }
+            if ($request->is_www == 1) {
+                $newSite->is_www = 1;
+            }
             $newSite->save();
 
             $transaction = "CustomerController@addSitePost";
@@ -158,6 +161,11 @@ class CustomerController extends Controller
                     $getSite->is_https = 1;
                 } else {
                     $getSite->is_https = 0;
+                }
+                if ($request->is_www == 1) {
+                    $getSite->is_www = 1;
+                } else {
+                    $getSite->is_www = 0;
                 }
                 $getSite->save();
 
@@ -551,6 +559,10 @@ class CustomerController extends Controller
         if ($user->is_premium == 0) {
             return redirect()->route('premium-packages');
         } else {
+            $transaction = "CustomerController@myPremiumSites";
+            $detail = "Müşteri Kendi Premium Sitelerinin Listesine Baktı";
+            LogSystem::createNewLog($transaction, $detail);
+
             $myPremiumSites = PremiumSitesTableModel::where('user_id', $user->id)->get();
             $myPremiumPackage = PremiumPackagesTableModel::find(PremiumSalesTableModel::select('package_id')->where('user_id', $user->id)->where('is_active', 1)->first()->package_id);
             return view('Pages.Customers.my-premium-sites', compact('myPremiumSites', 'myPremiumPackage'));
@@ -583,6 +595,11 @@ class CustomerController extends Controller
                             ];
                         }
                     }
+
+                    $transaction = "CustomerController@addPremiumSiteForm";
+                    $detail = "Müşteri Premium Site Ayarlama Formunu Açtı";
+                    LogSystem::createNewLog($transaction, $detail);
+
                     return view('Pages.Customers.add-premium-site', compact('controlledSites', 'myPremiumPackage'));
                 } else {
                     $errorMessage = "Zaten Premium Site(leri)nizi Eklemişsiniz. Paketiniz Daha Fazlasını Eklemenize İzin Vermemektedir!";
@@ -813,6 +830,10 @@ class CustomerController extends Controller
 
         }
 
+        $transaction = "CustomerController@addPremiumSitePost";
+        $detail = "Müşteri '".$url."' Sitesini Premium Site Olarak Ayarladı";
+        LogSystem::createNewLog($transaction, $detail);
+
         return redirect()->route('my-premium-sites');
     }
 
@@ -955,6 +976,10 @@ class CustomerController extends Controller
             }
             $getPremiumSite = PremiumSitesTableModel::where('site_id', $id)->first();
 
+            $transaction = "CustomerController@myPremiumSite";
+            $detail = "Müşteri Premium Sitesi Olan '".$url."' Sitesinin Analizlerini İnceledi";
+            LogSystem::createNewLog($transaction, $detail);
+
             if (!is_null($getPremiumSite->enemy_url)) {
                 $getWeeklyAnalysisKeywordOne = AnalysisTableModel::where('site_id', $id)->where('keyword', $getPremiumSite->keyword)->orderBy('created_at', 'DESC')->limit(7)->get();
                 $getWeeklyEnemyAnalysisKeywordOne = EnemyAnalysisTableModel::where('site_id', $id)->where('keyword', $getPremiumSite->keyword)->orderBy('created_at', 'DESC')->limit(7)->get();
@@ -1016,6 +1041,10 @@ class CustomerController extends Controller
         if ($user->is_premium == 1) {
             return redirect()->route('my-premium-sites');
         } else {
+            $transaction = "CustomerController@premiumPackages";
+            $detail = "Müşteri Premium Paketleri İnceledi";
+            LogSystem::createNewLog($transaction, $detail);
+
             $premiumPackages = PremiumPackagesTableModel::all();
             return view('Pages.Customers.premium-packages', compact('premiumPackages'));
         }
@@ -1047,6 +1076,10 @@ class CustomerController extends Controller
                 $getUser->balance = $getUser->balance - $getPackage->price;
                 $getUser->is_premium = 1;
                 $getUser->save();
+
+                $transaction = "CustomerController@buyPremiumPackage";
+                $detail = "Müşteri Yeni Premium Paket Satın Aldı. Satın Alınan Paket '".$getPackage->name."'";
+                LogSystem::createNewLog($transaction, $detail);
 
                 return redirect()->route('my-premium-sites');
             }

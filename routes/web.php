@@ -6,10 +6,6 @@ Auth::routes([
     "register" => false
 ]);
 
-Route::get('hadibe',function (){
-    return csrf_token();
-});
-
 Route::get('try-metadata','PremiumController@metadata');
 
 Route::get('/odeme',function (){
@@ -25,36 +21,6 @@ Route::get('odeme/basarisiz',function (){
 });
 
 Route::post('odeme/callback','PayController@payCallback');
-
-
-Route::get('google-api-trial','PremiumController@index')->middleware('auth');
-
-Route::get('api-trials',function (){
-    $queryString = http_build_query([
-        'access_key' => '8e88b0ecb5406a75f182bfc35a708624',
-        'query' => 'malatya web tasarim',
-        'hl' => 'tr'
-    ]);
-
-    $ch = curl_init(sprintf('%s?%s', 'http://api.serpstack.com/search', $queryString));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    $json = curl_exec($ch);
-    curl_close($ch);
-
-    $api_result = json_decode($json, true);
-
-    return json_encode($api_result);
-
-//    $returnString = "";
-//
-//    $returnString .= "Total results: ". $api_result['search_information']['total_results']. PHP_EOL."\n";
-//
-//    foreach ($api_result['organic_results'] as $number => $result) {
-//        $returnString .= "{$number}. {$result['title']}". PHP_EOL."\n";
-//    }
-//    return $returnString;
-})->middleware('auth');
 
 Route::get('/', function () { return redirect()->route('home'); });
 Route::get('/home', function () { return redirect()->route('home'); });
@@ -97,6 +63,12 @@ Route::middleware('admin-control')->group(function (){
     Route::prefix('account')->group(function (){
         Route::get('/all-accounts','AccountsController@allAccounts')->name('all-accounts');
         Route::get('/account-detail/{id}','AccountsController@accountDetail')->name('account-detail');
+
+        Route::get('/all-premium-accounts','AccountsController@allPremiumAccounts')->name('all-premium-accounts');
+        Route::get('/disable-premium/{id}','AccountsController@disablePremium')->name('disable-premium');
+        Route::get('/account-premium-sites/{id}','AccountsController@accountPremiumSites')->name('account-premium-sites');
+        Route::get('/account-premium-site/{id}','AccountsController@accountPremiumSite')->name('account-premium-site');
+
 
         Route::get('/edit-account/{id}','AccountsController@editAccount')->name('edit-account');
         Route::post('/update-account','AccountsController@updateAccount')->name('update-account');
@@ -161,6 +133,10 @@ Route::middleware('admin-control')->group(function (){
     Route::prefix('settings')->group(function (){
         Route::get('landing-settings','SettingsController@landingSettings')->name('landing-settings');
         Route::post('update-landing-settings','SettingsController@updateLandingSettings')->name('update-landing-settings');
+
+        Route::get('/packages','AccountsController@packages')->name('packages');
+        Route::get('/edit-premium-package/{id}','AccountsController@editPremiumPackage')->name('edit-premium-package');
+        Route::post('/update-premium-package','AccountsController@updatePremiumPackage')->name('update-premium-package');
     });
 
     Route::prefix('admin-blog')->group(function (){
