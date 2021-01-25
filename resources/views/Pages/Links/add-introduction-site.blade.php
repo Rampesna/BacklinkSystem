@@ -4,75 +4,50 @@
 
 @section('content')
 
-
-
-    @if(isset($linkPurchases))
-
-
-        <div class="modal fade" id="linkDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Silmek İstediğinize Emin misiniz?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="modal-btn-no" type="button" class="btn btn-secondary" data-dismiss="modal">Hayır
-                        </button>
-                        <button id="btnYesLink" type="submit" class="btn btn-primary">Evet</button>
-                    </div>
-                </div>
-            </div>
+    @if(isset($errorMessage))
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <i class="fa fa-times-circle"></i> {{$errorMessage}}
         </div>
+    @endif
 
+    <form class="row clearfix" method="post" action="{{route('add-introduction-site-post')}}">
+        {{csrf_field()}}
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="card">
 
-        <div class="row clearfix">
-            <div class="col-lg-12">
-                <div class="card">
-                    <label><a target="_blank" href="{{$link->url}}">{{$link->url}}</a> - Sitesine Alınan Linkler</label>
+                <div class="body">
+
+                    <div class="row">
+                        <div class="col-xl-4">
+                            <div class="form-group">
+                                <label for="introduction_site_url">Tanıtım Sitenizin URL'ini Girin</label>
+                                <input type="text" id="introduction_site_url" name="introduction_site_url" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-xl-4">
+                            <label for="price">Tanıtım Sitesinin Fiyatını Girin</label>
+                            <input type="text" id="price" name="price" class="form-control" required>
+                        </div>
+                        <div class="col-xl-4">
+                            <label for="auto">Eklenme Türü</label>
+                            <select name="auto" id="auto" class="form-control">
+                                <option value="0">Manuel</option>
+                                <option value="1" selected>Otomatik</option>
+                            </select>
+                        </div>
+                    </div>
                     <hr>
-                    <div class="body">
-                        <div class="table-responsive">
-                            <table id="allLinks" class="table table-hover js-basic-example dataTable table-custom spacing5">
-                                <thead>
-                                <tr>
-                                    <th>&nbsp;</th>
-                                    <th>Kullanıcı Adı</th>
-                                    <th>Site URL</th>
-                                    <th>Kelime</th>
-                                    <th>Düzenle</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-
-                                @foreach($linkPurchases as $purchase)
-                                    <tr>
-                                        <td></td>
-                                        <td>{{\App\Models\UsersTableModel::select('username')->where('id',$purchase->user_id)->first()->username}}</td>
-                                        <td>{{\App\Models\UserSitesTableModel::select('url')->where('id',$purchase->site_id)->first()->url}}</td>
-                                        <td>{{$purchase->keyword}}</td>
-                                        <td>
-                                            <i style="color: #00A6C7" class="fa fa-eye"></i>
-                                        </td>
-                                    </tr>
-                                @endforeach
-
-                                </tbody>
-                            </table>
+                    <div class="row">
+                        <div class="col-xl-12 text-right">
+                            <input type="submit" value="Ekle" class="btn btn-outline-success">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-
-
-
-    @endif
+    </form>
 
 @stop
 

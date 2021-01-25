@@ -76,6 +76,15 @@
                             </div>
                         </div>
                     </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="basic-url">Kalan Tanıtım Kredisi</label>
+                            <div class="input-group mb-3">
+                                <input value="{{$account->introduction_balance}}" maxlength="10" required name="introduction_balance" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

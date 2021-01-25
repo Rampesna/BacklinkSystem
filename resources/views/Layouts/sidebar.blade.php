@@ -57,6 +57,14 @@
                                     <li class="{{ Request::segment(2) === 'key-code' ? 'active' : null }}"><a href="{{route('key-code')}}">KODU AL</a></li>
                                 </ul>
                             </li>
+                            <li class="{{ Request::segment(1) === 'introductions' ? 'active open' : null }}">
+                                <a href="#links" class="has-arrow"><i class="fa fa-link"></i><span>Tanıtım Sistemi</span></a>
+                                <ul>
+                                    <li class="{{ Request::segment(2) === 'add-link' ? 'active' : null }}"><a href="{{route('add-introduction-site')}}">Tanıtım Sitesi Ekle</a></li>
+                                    <li class="{{ Request::segment(2) === 'all-links' ? 'active' : null }}"><a href="{{route('all-introduction-sites')}}">Tanıtım Siteleri</a></li>
+                                    <li class="{{ Request::segment(2) === 'waiting-introductions' ? 'active' : null }}"><a href="{{route('waiting-introductions')}}">Bekleyen Tanıtımlar</a></li>
+                                </ul>
+                            </li>
 
                             <li class="{{ Request::segment(1) === 'tickets' ? 'active open' : null }}">
                                 <a href="#tickets" class="has-arrow"><i class="fa fa-ticket"></i><span>Destek Sistemi</span></a>
@@ -102,7 +110,9 @@
                                     <li class="{{ Request::segment(2) === 'my-account' ? 'active' : null }}"><a href="{{route('my-account')}}">Hesap Bilgilerim</a></li>
                                     <li class="{{ Request::segment(2) === 'my-sites' ? 'active' : null }}"><a href="{{route('my-sites')}}">Sitelerim</a></li>
                                     <li class="{{ Request::segment(2) === 'my-links' ? 'active' : null }}"><a href="{{route('my-links')}}">Satın Aldığım Linkler</a></li>
+                                    <li class="{{ Request::segment(2) === 'my-links' ? 'active' : null }}"><a href="{{route('my-introductions')}}">Alınan Tanıtımlar</a></li>
                                     <li class="{{ Request::segment(2) === 'buy-credit' ? 'active' : null }}"><a href="{{route('buy-credit')}}">Kredi Yükle</a></li>
+                                    <li class="{{ Request::segment(2) === 'buy-introduction-credit' ? 'active' : null }}"><a href="{{route('buy-introduction-credit')}}">Tanıtım Kredisi Yükle</a></li>
                                 </ul>
                             </li>
                             <li class="{{ Request::segment(1) === 'customer' ? 'active open' : null }}">
@@ -110,6 +120,12 @@
                                 <ul>
                                     <li class="{{ Request::segment(2) === 'all-links' ? 'active' : null }}"><a href="{{route('customer-all-links')}}">Linkler</a></li>
                                     <li class="{{ Request::segment(2) === 'report-error' ? 'active' : null }}"><a href="{{route('index')}}">Hata Bildir</a></li>
+                                </ul>
+                            </li>
+                            <li class="{{ Request::segment(1) === 'introduction' ? 'active open' : null }}">
+                                <a href="#introduction" class="has-arrow"><i class="fa fa-link"></i><span>Tanıtım Sistemi</span></a>
+                                <ul>
+                                    <li class="{{ Request::segment(2) === 'sites' ? 'active' : null }}"><a href="{{route('customer-introduction-sites')}}">Tanıtım Siteleri</a></li>
                                 </ul>
                             </li>
 

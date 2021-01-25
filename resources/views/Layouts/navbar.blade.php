@@ -22,6 +22,7 @@
                                     </a></li>
                         @endif
                         <li><a href="{{route('buy-credit')}}" style="color: white" class="btn btn-outline-success">Kalan Bakiye {{$balanceControl->balance}} ₺</a></li>
+                        <li><a href="{{route('buy-introduction-credit')}}" style="color: white" class="btn btn-outline-info">Kalan Tanıtım Bakiyesi {{$balanceControl->introduction_balance}} ₺</a></li>
                     @endif
                     <li><a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="icon-menu"><i class="icon-power"></i></a></li>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

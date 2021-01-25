@@ -6,57 +6,58 @@
 
 
 
-    @if(isset($linkPurchases))
-
-
-        <div class="modal fade" id="linkDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Silmek İstediğinize Emin misiniz?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="modal-btn-no" type="button" class="btn btn-secondary" data-dismiss="modal">Hayır
-                        </button>
-                        <button id="btnYesLink" type="submit" class="btn btn-primary">Evet</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    @if(isset($links))
 
 
         <div class="row clearfix">
             <div class="col-lg-12">
                 <div class="card">
-                    <label><a target="_blank" href="{{$link->url}}">{{$link->url}}</a> - Sitesine Alınan Linkler</label>
-                    <hr>
                     <div class="body">
                         <div class="table-responsive">
                             <table id="allLinks" class="table table-hover js-basic-example dataTable table-custom spacing5">
                                 <thead>
                                 <tr>
-                                    <th>&nbsp;</th>
-                                    <th>Kullanıcı Adı</th>
-                                    <th>Site URL</th>
-                                    <th>Kelime</th>
-                                    <th>Düzenle</th>
+                                    <th>Eklenecek Site</th>
+                                    <th>Eklenecek Yazı</th>
+                                    <th class="text-center">Eklenme Türü</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
 
-                                @foreach($linkPurchases as $purchase)
+                                @foreach($links as $link)
                                     <tr>
-                                        <td></td>
-                                        <td>{{\App\Models\UsersTableModel::select('username')->where('id',$purchase->user_id)->first()->username}}</td>
-                                        <td>{{\App\Models\UserSitesTableModel::select('url')->where('id',$purchase->site_id)->first()->url}}</td>
-                                        <td>{{$purchase->keyword}}</td>
+                                        <td>{{\App\IntroductionSite::select('url')->where('id',$link->introduction_site_id)->first()->url}}</td>
                                         <td>
-                                            <i style="color: #00A6C7" class="fa fa-eye"></i>
+                                            @if($link->add_type == 0)
+                                                <textarea class="form-control" rows="3">{!! '<div style="display:none">' . $link->introduction_text . '</div>' !!}</textarea>
+                                            @else
+                                                <textarea class="form-control" rows="3">{!! $link->introduction_text !!}</textarea>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            @if($link->add_type == 0)
+                                                Yazının İçine Gizli Ekle
+                                            @else
+                                                Tüm Yazıyı Değiştir
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <form action="{{route('set-introduction-added')}}" method="post">
+                                                {{csrf_field()}}
+                                                <div class="row">
+                                                    <div class="col-xl-6">
+                                                        <input type="hidden" name="purchase_id" value="{{$link->id}}">
+                                                        <label>Yazının URL'ini Girin</label>
+                                                        <input type="text" class="form-control" name="post_url" required>
+                                                    </div>
+                                                    <div class="col-xl-6">
+                                                        <label></label>
+                                                        <button type="submit" class="btn btn-outline-info btn-block mt-2">Eklendi Olarak Ayarla</button>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -68,9 +69,6 @@
                 </div>
             </div>
         </div>
-
-
-
 
     @endif
 

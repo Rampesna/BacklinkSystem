@@ -1,15 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="82e5bdd0-a8d2-4267-b8ba-aec59ebabab7" name="Default Changelist" comment="" />
+    <list default="true" id="82e5bdd0-a8d2-4267-b8ba-aec59ebabab7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/api.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/api.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/IntroductionPurchase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/IntroductionSalesTableModel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/IntroductionSite.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Pages/Customers/buy-link-batch.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Pages/Customers/my-introductions.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Pages/Links/add-introduction-site.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Pages/Links/all-introduction-sites.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Pages/Links/waiting-introductions.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AccountsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AccountsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CustomerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CustomerController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/LinkControllers.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/LinkControllers.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Auth/register.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Auth/register.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Layouts/navbar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Layouts/navbar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Layouts/sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Layouts/sidebar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Pages/Accounts/edit-account.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Pages/Accounts/edit-account.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Pages/Customers/all-links.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Pages/Customers/all-links.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Pages/Links/link-purchases.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Pages/Links/link-purchases.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -119,11 +145,15 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1hhAuwkGNDyNNXqP7BOi2XW8Xrm" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
@@ -131,8 +161,24 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ik" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../crm" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\talha\PhpstormProjects\backlinkSystem\resources\views\Pages\Links" />
+      <recent name="C:\Users\talha\PhpstormProjects\backlinkSystem\resources\views\Pages\Customers" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\talha\PhpstormProjects\backlinkSystem\resources\views\Pages\Links" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -149,28 +195,43 @@
       <option name="presentableId" value="Default" />
       <updated>1600453177111</updated>
       <workItem from="1600453178200" duration="889000" />
+      <workItem from="1607766682218" duration="2894000" />
+      <workItem from="1607804669820" duration="5623000" />
+      <workItem from="1607855736618" duration="8671000" />
+      <workItem from="1607925289272" duration="28000" />
+      <workItem from="1607925429973" duration="12000" />
+      <workItem from="1608062174143" duration="873000" />
+      <workItem from="1608098158025" duration="19000" />
+      <workItem from="1609061495834" duration="7346000" />
+      <workItem from="1609087201157" duration="3429000" />
+      <workItem from="1609188913387" duration="817000" />
+      <workItem from="1609221657861" duration="78000" />
+      <workItem from="1609307112400" duration="589000" />
+      <workItem from="1609354486215" duration="2504000" />
+      <workItem from="1609393852341" duration="17000" />
+      <workItem from="1609496798400" duration="827000" />
+      <workItem from="1609522942040" duration="61000" />
+      <workItem from="1609672119570" duration="2872000" />
+      <workItem from="1609739309626" duration="31000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="552" y="178" key="#Deployment" timestamp="1600453241038">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="552" y="178" key="#Deployment/0.0.1920.1040@0.0.1920.1040" timestamp="1600453241038" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1600454073525">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1600454073525" />
-    <state x="845" y="250" key="ftp.server.browser" timestamp="1600453238146">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="845" y="250" key="ftp.server.browser/0.0.1920.1040@0.0.1920.1040" timestamp="1600453238146" />
-    <state x="756" y="258" key="webDeployment.PermissionsDialog.Tabs" timestamp="1600453211801">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="756" y="258" key="webDeployment.PermissionsDialog.Tabs/0.0.1920.1040@0.0.1920.1040" timestamp="1600453211801" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

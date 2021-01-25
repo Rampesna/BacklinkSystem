@@ -105,6 +105,11 @@ Route::middleware('admin-control')->group(function (){
         Route::post('/add-link-control', 'LinkControllers@addLinkControl')->name('add-link-control');
         Route::post('/add-link', 'LinkControllers@addLinkPost')->name('add-link-post');
 
+        Route::get('/all-introduction-sites','LinkControllers@allIntroductionSites')->name('all-introduction-sites');
+        Route::get('/add-introduction-site','LinkControllers@addIntroductionSite')->name('add-introduction-site');
+        Route::post('/add-introduction-site-post','LinkControllers@addIntroductionSitePost')->name('add-introduction-site-post');
+        Route::get('/delete-introduction-site/{id}','LinkControllers@deleteIntroductionSite')->name('delete-introduction-site');
+
         Route::get('/edit-link/{id}/{url}','LinkControllers@editLink')->name('edit-link');
         Route::post('/update-link','LinkControllers@updateLink')->name('update-link');
 
@@ -118,6 +123,9 @@ Route::middleware('admin-control')->group(function (){
 
         Route::get('/links-of-waiting-to-be-add','LinkControllers@linksOfWaitingToBeAdd')->name('links-of-waiting-to-be-add');
         Route::post('/set-link-added','LinkControllers@setLinkAdded')->name('set-link-added');
+
+        Route::get('/waiting-introductions','LinkControllers@waitingIntroductions')->name('waiting-introductions');
+        Route::post('/set-introduction-added','LinkControllers@setIntroductionAdded')->name('set-introduction-added');
     });
 
 // Tickets
@@ -188,7 +196,6 @@ Route::middleware('customer-control')->group(function (){
         Route::get('/edit-site/{id}','CustomerController@editSite')->name('edit-site');
         Route::post('/update-site','CustomerController@updateSite')->name('update-site');
 
-
         Route::get('/my-premium-sites','CustomerController@myPremiumSites')->name('my-premium-sites');
         Route::get('/add-premium-site','CustomerController@addPremiumSiteForm')->name('add-premium-site');
         Route::post('/add-premium-site-post','CustomerController@addPremiumSitePost')->name('add-premium-site-post');
@@ -200,11 +207,18 @@ Route::middleware('customer-control')->group(function (){
 
 
         Route::get('/my-links','CustomerController@myLinks')->name('my-links');
-        Route::get('/buy-link/{id}','CustomerController@buyLink')->name('buy-link');
+        Route::get('/my-introductions','CustomerController@myIntroductions')->name('my-introductions');
+        Route::get('/buy-link/{id?}','CustomerController@buyLink')->name('buy-link');
         Route::post('/buy-link-post','CustomerController@buyLinkPost')->name('buy-link-post');
+        Route::get('/buy-link-batch/{id?}','CustomerController@buyLinkBatch')->name('buy-link-batch');
+        Route::post('/buy-link-batch-post','CustomerController@buyLinkBatchPost')->name('buy-link-batch-post');
+
 
         Route::get('/buy-credit','CustomerController@buyCredit')->name('buy-credit');
         Route::post('/buy-credit-post','CustomerController@buyCreditPost')->name('buy-credit-post');
+
+        Route::get('/buy-introduction-credit','CustomerController@buyIntroductionCredit')->name('buy-introduction-credit');
+        Route::post('/buy-introduction-credit-post','CustomerController@buyIntroductionCreditPost')->name('buy-introduction-credit-post');
 
     });
 
@@ -219,6 +233,15 @@ Route::middleware('customer-control')->group(function (){
         Route::get('/my-resolved-tickets/{page?}','CustomerController@resolvedTickets')->name('my-resolved-tickets');
 
         Route::get('/show-my-ticket/{id}','CustomerController@showTicket')->name('show-my-ticket');
+    });
+
+    Route::prefix('introduction')->group(function (){
+
+        Route::get('/sites','CustomerController@IntroductionSites')->name('customer-introduction-sites');
+
+        Route::get('/buy-introduction-site/{id?}','CustomerController@buyIntroductionSite')->name('buy-introduction-site');
+        Route::post('/buy-introduction-site-post','CustomerController@buyIntroductionSitePost')->name('buy-introduction-site-post');
+
     });
 
 });

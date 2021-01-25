@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Alexa;
 use App\Helpers\LogSystem;
+use App\IntroductionPurchase;
+use App\IntroductionSite;
 use App\Models\LinksTableModel;
 use App\Models\PurchasedLinksTableModel;
 use App\Models\UserSitesTableModel;
@@ -184,7 +186,7 @@ class LinkControllers extends Controller
 
     public function deleteLink($id)
     {
-	PurchasedLinksTableModel::where('link_id',$id)->delete();
+        PurchasedLinksTableModel::where('link_id', $id)->delete();
         $link = LinksTableModel::find($id);
         $link->is_delete = 1;
         $link->save();
@@ -204,6 +206,12 @@ class LinkControllers extends Controller
         return view('Pages.Links.links-of-waiting-to-be-add', compact('getLinks'));
     }
 
+    public function waitingIntroductions()
+    {
+        $links = IntroductionPurchase::where('is_added', 0)->get();
+        return view('Pages.Links.waiting-introductions', compact('links'));
+    }
+
     public function setLinkAdded(Request $request)
     {
         if (is_null($request->purchase_id)) {
@@ -214,6 +222,86 @@ class LinkControllers extends Controller
             $getPurchase->save();
             return redirect()->route('links-of-waiting-to-be-add');
         }
+    }
+
+    public function setIntroductionAdded(Request $request)
+    {
+        if (is_null($request->purchase_id)) {
+            return abort(404);
+        } else {
+            $getPurchase = IntroductionPurchase::find($request->purchase_id);
+            $getPurchase->is_added = 1;
+            $getPurchase->save();
+            return redirect()->route('waiting-introductions');
+        }
+    }
+
+    public function allIntroductionSites()
+    {
+        $sites = IntroductionSite::all();
+        return view('Pages.Links.all-introduction-sites', compact('sites'));
+    }
+
+    public function addIntroductionSite()
+    {
+        return view('Pages.Links.add-introduction-site');
+    }
+
+    public function addIntroductionSitePost(Request $request)
+    {
+        if (!is_null(IntroductionSite::where('url', $request->introduction_site_url)->first())) {
+            $errorMessage = "Bu Tanıtım Sitesi Zaten Sistemde Mevcut! Lütfen Kontrol Edin.";
+            return view('Pages.Links.add-introduction-site', compact('errorMessage'));
+        } else {
+            $alexaOfCountryRank = 9999999999;
+            $url = trim($request->introduction_site_url, '/');
+            if (!preg_match('#^http(s)?://#', $url)) {
+                $url = 'http://' . $url;
+            }
+            $urlParts = parse_url($url);
+            $cleanLink = preg_replace('/^www\./', '', $urlParts['host']);
+            $result = Alexa::UrlInfo($cleanLink);
+            $alexaOfGlobalRank = $result->Awis->Results->Result->Alexa->TrafficData->Rank;
+            if (!is_null($result->Awis->Results->Result->Alexa->TrafficData->RankByCountry)) {
+                foreach ($result->Awis->Results->Result->Alexa->TrafficData->RankByCountry->Country as $country) {
+                    if (!is_null(@$country->Rank) && (@$country->Rank < @$alexaOfCountryRank)) {
+                        $alexaOfCountryRank = $country->Rank;
+                        $array = (array)$country;
+                        $alexaOfCountry = $array["@Code"];
+                    }
+                }
+            }
+            if ($alexaOfCountryRank == 9999999999) {
+                $alexaOfCountryRank = 0;
+                $alexaOfCountry = "Yok";
+            }
+            $linkingCount = $result->Awis->Results->Result->Alexa->ContentData->LinksInCount;
+            $returnArray = [
+                "site" => $cleanLink,
+                "global_alexa" => $alexaOfGlobalRank,
+                "country" => @$alexaOfCountry,
+                "country_alexa" => $alexaOfCountryRank,
+                "linking_count" => $linkingCount
+            ];
+
+            $newIntroductionSite = new IntroductionSite;
+            $newIntroductionSite->url = $request->introduction_site_url;
+            $newIntroductionSite->alexa_global = $alexaOfGlobalRank;
+            $newIntroductionSite->country = @$alexaOfCountry;
+            $newIntroductionSite->alexa_country = $alexaOfCountryRank;
+            $newIntroductionSite->price = $request->price;
+            $newIntroductionSite->auto = $request->auto;
+            $newIntroductionSite->save();
+
+            return redirect()->route('all-introduction-sites');
+        }
+    }
+
+    public function deleteIntroductionSite(Request $request)
+    {
+        IntroductionPurchase::where('introduction_site_id', $request->id)->delete();
+        IntroductionSite::find($request->id)->delete();
+        return redirect()->route('all-introduction-sites');
     }
 
 }

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Helpers\Alexa;
 use App\Helpers\LogSystem;
 use App\Helpers\Premium;
+use App\IntroductionPurchase;
+use App\IntroductionSalesTableModel;
+use App\IntroductionSite;
 use App\Models\AnalysisTableModel;
 use App\Models\EnemyAnalysisTableModel;
 use App\Models\LinksTableModel;
@@ -21,6 +24,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 
@@ -271,10 +275,10 @@ class CustomerController extends Controller
         return view('Pages.Customers.all-links', compact('allLinks'));
     }
 
-    public function buyLink($linkID)
+    public function buyLink($id)
     {
         $user = Auth::user();
-        $link = LinksTableModel::where('id', $linkID)->first();
+        $link = LinksTableModel::where('id', $id)->first();
         $mySites = UserSitesTableModel::where('user_id', $user->id)->get();
 
         $transaction = "CustomerController@buyLink";
@@ -282,6 +286,19 @@ class CustomerController extends Controller
         LogSystem::createNewLog($transaction, $detail);
 
         return view('Pages.Customers.buy-link', compact('mySites', 'link'));
+    }
+
+    public function buyLinkBatch($id)
+    {
+        $user = Auth::user();
+        $link = LinksTableModel::where('id', $id)->first();
+        $mySites = UserSitesTableModel::where('user_id', $user->id)->get();
+
+        $transaction = "CustomerController@buyLink";
+        $detail = "Müşteri '" . $link->url . "' Sitesinden Link Alma Ekranını Görüntüledi";
+        LogSystem::createNewLog($transaction, $detail);
+
+        return view('Pages.Customers.buy-link-batch', compact('mySites', 'link'));
     }
 
     public function buyLinkPost(Request $request)
@@ -327,6 +344,61 @@ class CustomerController extends Controller
         }
     }
 
+    public function buyLinkBatchPost(Request $request)
+    {
+//        return $request;
+        $user = Auth::user();
+        $list = [];
+
+        foreach ($request->all() as $key => $data) {
+            if (str_contains($key, 'siteid')) {
+                $exploded = explode('siteid', $key);
+                $keywords = $request->get('keywordsid' . $exploded[1]);
+                $list[$exploded[1]] = $keywords;
+            }
+        }
+
+        $link = LinksTableModel::where('id', $request->link_id)->first();
+
+        foreach ($list as $key => $data) {
+            $purchaseControl = PurchasedLinksTableModel::
+            where('site_id', $request->site_id)->
+            where('link_id', $request->link_id)->
+            where('user_id', $user->id)->
+            first();
+
+            if (is_null($purchaseControl)) {
+                $newPurchase = new PurchasedLinksTableModel;
+                $newPurchase->site_id = $key;
+                $newPurchase->user_id = $user->id;
+                $newPurchase->link_id = $link->id;
+                $newPurchase->keyword = $data;
+                if ($link->add_type == 1) {
+                    $newPurchase->is_added = 1;
+                } else {
+                    $newPurchase->is_added = 0;
+                }
+                $newPurchase->is_reported = 0;
+                $newPurchase->is_seen = 0;
+                $newPurchase->save();
+
+                $getSite = UserSitesTableModel::find($key);
+
+                $getUser = UsersTableModel::where('id', $user->id)->first();
+                $getUser->balance = $getUser->balance - $link->price;
+                $getUser->save();
+
+                $transaction = "CustomerController@buyLinkPost";
+                $detail = "Müşteri '" . $link->url . "' Sitesinden Kendi '" . $getSite->url . "' Sitesine '" . $data . "' Kelimelerinde Link Satın Aldı";
+                LogSystem::createNewLog($transaction, $detail);
+
+            } else {
+                continue;
+            }
+        }
+        return redirect()->route('my-links');
+    }
+
     public function buyCredit()
     {
         $user = Auth::user();
@@ -362,6 +434,42 @@ class CustomerController extends Controller
         LogSystem::createNewLog($transaction, $detail);
 
         return redirect()->route('buy-credit');
+    }
+
+    public function buyIntroductionCredit()
+    {
+        $user = Auth::user();
+        $control = IntroductionSalesTableModel::where('user_id', $user->id)->where('status', 'waiting')->first();
+        if (is_null($control)) {
+            $transaction = "CustomerController@buyIntroductionCredit";
+            $detail = "Müşteri Tanıtım Kredi Başvurusu Sayfasını Görüntüledi";
+            LogSystem::createNewLog($transaction, $detail);
+
+            return view('Pages.Customers.buy-introduction-credit');
+        } else {
+            $errorMessage = "Zaten Onay Bekleyen Bir Ödeme Bildiriminiz Bulunmakta! İşlem Sonlandırılana Kadar Yeni Bir Ödeme Bildiriminde Bulunamazsınız.";
+            return view('Pages.Customers.buy-introduction-credit', compact('errorMessage'));
+        }
+    }
+
+    public function buyIntroductionCreditPost(Request $request)
+    {
+        $user = Auth::user();
+        $newSale = new IntroductionSalesTableModel();
+        $newSale->user_id = $user->id;
+        $newSale->iban = $request->iban;
+        $newSale->name_surname = $request->name_surname;
+        $newSale->amount = $request->amount;
+        $newSale->status = "waiting";
+        $newSale->is_reported = 0;
+        $newSale->is_seen = 0;
+        $newSale->save();
+
+        $transaction = "CustomerController@buyIntroductionCreditPost";
+        $detail = "Müşteri " . $request->amount . " Miktarlık Tanıtım Kredisi Başvurusu Yaptı";
+        LogSystem::createNewLog($transaction, $detail);
+
+        return redirect()->route('buy-introduction-credit');
     }
 
     public function addTicket()
@@ -831,7 +939,7 @@ class CustomerController extends Controller
         }
 
         $transaction = "CustomerController@addPremiumSitePost";
-        $detail = "Müşteri '".$url."' Sitesini Premium Site Olarak Ayarladı";
+        $detail = "Müşteri '" . $url . "' Sitesini Premium Site Olarak Ayarladı";
         LogSystem::createNewLog($transaction, $detail);
 
         return redirect()->route('my-premium-sites');
@@ -977,7 +1085,7 @@ class CustomerController extends Controller
             $getPremiumSite = PremiumSitesTableModel::where('site_id', $id)->first();
 
             $transaction = "CustomerController@myPremiumSite";
-            $detail = "Müşteri Premium Sitesi Olan '".$url."' Sitesinin Analizlerini İnceledi";
+            $detail = "Müşteri Premium Sitesi Olan '" . $url . "' Sitesinin Analizlerini İnceledi";
             LogSystem::createNewLog($transaction, $detail);
 
             if (!is_null($getPremiumSite->enemy_url)) {
@@ -1078,12 +1186,124 @@ class CustomerController extends Controller
                 $getUser->save();
 
                 $transaction = "CustomerController@buyPremiumPackage";
-                $detail = "Müşteri Yeni Premium Paket Satın Aldı. Satın Alınan Paket '".$getPackage->name."'";
+                $detail = "Müşteri Yeni Premium Paket Satın Aldı. Satın Alınan Paket '" . $getPackage->name . "'";
                 LogSystem::createNewLog($transaction, $detail);
 
                 return redirect()->route('my-premium-sites');
             }
         }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    public function IntroductionSites()
+    {
+        $sites = IntroductionSite::where('is_delete', 0)->get();
+
+        return view('Pages.Customers.introduction-sites', [
+            'sites' => $sites
+        ]);
+    }
+
+    public function buyIntroductionSite($id)
+    {
+        $user = Auth::user();
+        $site = IntroductionSite::find($id);
+        $mySites = UserSitesTableModel::where('user_id', $user->id)->get();
+
+        $transaction = "CustomerController@buyIntroductionSite";
+        $detail = "Müşteri '" . $site->url . "' Sitesinden Tanıtım Alma Ekranını Görüntüledi";
+        LogSystem::createNewLog($transaction, $detail);
+
+        return view('Pages.Customers.buy-introduction-site', compact('mySites', 'site'));
+    }
+
+    public function buyIntroductionSitePost(Request $request)
+    {
+//        return $request;
+
+        $introductionSite = IntroductionSite::find($request->introduction_site_id);
+
+        if ($introductionSite->auto == 1) {
+
+            $postList = "";
+
+            $purchases = IntroductionPurchase::where('introduction_site_id', $request->introduction_site_id)->get();
+            foreach ($purchases as $purchase) {
+                $postList .= $purchase->post_id;
+                $purchase == end($purchases) ? $postList .= "," : null;
+            }
+
+            $postdata = http_build_query([
+                'introduction_text' => $request->introduction_text,
+                'postList' => $postList,
+                'add_type' => $request->add_type
+            ]);
+
+            $opts = array('http' =>
+                array(
+                    'method' => 'POST',
+                    'header' => 'Content-type: application/x-www-form-urlencoded',
+                    'content' => $postdata
+                )
+            );
+
+            $context = stream_context_create($opts);
+
+            $response = collect(json_decode(file_get_contents($introductionSite->url . 'wp-includes/api/api.php', false, $context)));
+
+            $newPurchase = new IntroductionPurchase;
+            $newPurchase->user_id = auth()->user()->id;
+            $newPurchase->post_id = $response->get('post_id');
+            $newPurchase->introduction_site_id = $request->introduction_site_id;
+            $newPurchase->introduction_text = $request->introduction_text;
+            $newPurchase->add_type = $request->add_type;
+            $newPurchase->post_url = $introductionSite->url . '/' . $response->get('url');
+            $newPurchase->save();
+
+            $user = UsersTableModel::find(auth()->user()->id);
+            $user->introduction_balance -= $introductionSite->price;
+            $user->save();
+
+            $transaction = "CustomerController@buyIntroductionSitePost";
+            $detail = "Müşteri '" . $introductionSite->url . '/' . $response->get('url') . "' Sitesinden Tanıtım Satın Aldı";
+            LogSystem::createNewLog($transaction, $detail);
+
+            return redirect()->route('my-introductions');
+        } else {
+            $newPurchase = new IntroductionPurchase;
+            $newPurchase->user_id = auth()->user()->id;
+            $newPurchase->post_id = 0;
+            $newPurchase->introduction_site_id = $request->introduction_site_id;
+            $newPurchase->introduction_text = $request->introduction_text;
+            $newPurchase->add_type = $request->add_type;
+            $newPurchase->post_url = '';
+            $newPurchase->save();
+
+            $user = UsersTableModel::find(auth()->user()->id);
+            $user->introduction_balance -= $introductionSite->price;
+            $user->save();
+
+            $transaction = "CustomerController@buyIntroductionSitePost";
+            $detail = "Müşteri '" . $introductionSite->url . "' Sitesinden Tanıtım Satın Aldı";
+            LogSystem::createNewLog($transaction, $detail);
+
+            return redirect()->route('my-introductions');
+        }
+
+
+    }
+
+    public function myIntroductions()
+    {
+        $user = Auth::user();
+        $purchases = IntroductionPurchase::where('user_id', $user->id)->get();
+
+        $transaction = "CustomerController@myIntroductions";
+        $detail = "Müşteri Satın Aldığı Tanıtımları Görüntüledi";
+        LogSystem::createNewLog($transaction, $detail);
+
+        return view('Pages.Customers.my-introductions', compact('purchases'));
     }
 
 }

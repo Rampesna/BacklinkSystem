@@ -154,6 +154,7 @@ class AccountsController extends Controller
         }
         $account->phone = $request->phone;
         $account->balance = $request->balance;
+        $account->introduction_balance = $request->introduction_balance;
         $account->save();
         return redirect()->route('edit-account', Crypt::encrypt($account->id));
     }

@@ -7,7 +7,7 @@
 
 
     @if(\App\Models\UserSitesTableModel::where('user_id',$user->id)->count() > 0)
-        @if(isset($allLinks))
+        @if(isset($sites))
 
             <div class="row clearfix">
                 <div class="col-lg-12">
@@ -20,66 +20,33 @@
                                         <th>&nbsp;</th>
                                         <th>Global Alexa</th>
                                         <th>Ülke Alexa</th>
-                                        <th>Index Sayısı</th>
-                                        <th>Linking In</th>
-                                        <th>DA</th>
-                                        <th>PA</th>
-                                        <th>Tür</th>
-                                        <th>Eklenme Türü</th>
-                                        <th>Adult</th>
                                         <th>Fiyat</th>
-                                        <th>İşlem</th>
+                                        <th></th>
                                     </tr>
                                     </thead>
 
                                     <tbody>
 
-                                    @foreach($allLinks as $link)
+                                    @foreach($sites as $site)
                                         <tr>
                                             <td>
-                                                @if($user->balance > 0)
-                                                    {{$link->url}}
+                                                @if($user->introduction_balance > 0)
+                                                    {{$site->url}}
                                                 @else
-                                                    {!! "<i class='small'>Siteyi Görebilmek İçin Lütfen Kredi Yükleyiniz!</i>" !!}
+                                                    {!! "<i class='small'>Siteyi Görebilmek İçin Lütfen Tanıtım Kredisi Yükleyiniz!</i>" !!}
                                                 @endif
                                             </td>
-                                            <td>{{$link->alexa_global}}</td>
-                                            <td>{{$link->alexa_country}}</td>
-                                            <td>{{$link->google_index_count}}</td>
-                                            <td>{{$link->sites_linking_in}}</td>
-                                            <td>{{$link->da_value}}</td>
-                                            <td>{{$link->pa_value}}</td>
-                                            <td>{{strtoupper($link->type)}}</td>
+                                            <td>{{$site->alexa_global}}</td>
+                                            <td>{{$site->alexa_country}}</td>
                                             <td>
-                                                @if($link->add_type == 1)
-                                                    Otomatik
-                                                @else
-                                                    Manuel
-                                                @endif
+                                                ₺ {{$site->price}}
                                             </td>
-                                            <td>
-                                                @if($link->is_adult == 1)
-                                                    <i style="color: #00aa00" class="fa fa-check"></i>
-                                                @else
-                                                    <i style="color: #8f1f00" class="fa fa-close"></i>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                ₺ {{$link->price}}
-                                            </td>
-                                            <td>
-                                                <button @if($user->balance < $link->price) disabled  @endif onclick="window.location.href = '{{route('buy-link',["id" => $link->id])}}'" style="color: white" class="btn btn-success">
-                                                    @if($user->balance < $link->price)
+                                            <td class="text-right">
+                                                <button @if($user->introduction_balance < $site->price) disabled  @endif onclick="window.location.href = '{{route('buy-introduction-site',["id" => $site->id])}}'" style="color: white" class="btn btn-success">
+                                                    @if($user->introduction_balance < $site->price)
                                                         Yetersiz Kredi
                                                     @else
                                                         Satın Al
-                                                    @endif
-                                                </button>
-                                                <button @if($user->balance < $link->price) disabled  @endif onclick="window.location.href = '{{route('buy-link-batch',["id" => $link->id])}}'" style="color: white" class="btn btn-success">
-                                                    @if($user->balance < $link->price)
-                                                        Yetersiz Kredi
-                                                    @else
-                                                        Toplu Satın Al
                                                     @endif
                                                 </button>
                                             </td>
