@@ -230,6 +230,7 @@ class LinkControllers extends Controller
             return abort(404);
         } else {
             $getPurchase = IntroductionPurchase::find($request->purchase_id);
+            $getPurchase->post_url = $request->post_url;
             $getPurchase->is_added = 1;
             $getPurchase->save();
             return redirect()->route('waiting-introductions');
