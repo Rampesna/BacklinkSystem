@@ -119,6 +119,7 @@
                                 <a href="#customer" class="has-arrow"><i class="fa fa-link"></i><span>Link Sistemi</span></a>
                                 <ul>
                                     <li class="{{ Request::segment(2) === 'all-links' ? 'active' : null }}"><a href="{{route('customer-all-links')}}">Linkler</a></li>
+                                    <li class="{{ Request::segment(2) === 'buy-totally-for-one' ? 'active' : null }}"><a href="{{route('buy-totally-for-one')}}">Toplu Link Al</a></li>
                                     <li class="{{ Request::segment(2) === 'report-error' ? 'active' : null }}"><a href="{{route('index')}}">Hata Bildir</a></li>
                                 </ul>
                             </li>

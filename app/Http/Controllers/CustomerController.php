@@ -1306,5 +1306,58 @@ class CustomerController extends Controller
         return view('Pages.Customers.my-introductions', compact('purchases'));
     }
 
+    public function buyTotallyForOne()
+    {
+        return view('Pages.Customers.buy-totally-for-one', [
+            'sites' => UserSitesTableModel::where('user_id', auth()->user()->id)->get(),
+            'links' => LinksTableModel::where('is_delete', 0)->get()
+        ]);
+    }
+
+    public function buyTotallyForOnePost(Request $request)
+    {
+        $user = Auth::user();
+
+        if ($user->balance < LinksTableModel::whereIn('id', $request->links)->sum('price')) {
+            $errorMessage = "Seçtiğiniz Sitelerin Hepsini Alacak Bakiyeniz Mevcut Değil!";
+            return view('Pages.Customers.buy-totally-for-one', [
+                'sites' => UserSitesTableModel::where('user_id', auth()->user()->id)->get(),
+                'links' => LinksTableModel::where('is_delete', 0)->get(),
+                'errorMessage' => $errorMessage
+            ]);
+        } else {
+            foreach ($request->links as $linkId) {
+                $link = LinksTableModel::where('id', $linkId)->first();
+                $purchaseControl = PurchasedLinksTableModel::
+                where('site_id', $request->site_id)->
+                where('link_id', $link->id)->
+                where('user_id', $user->id)->
+                first();
+
+                if (is_null($purchaseControl)) {
+                    $newPurchase = new PurchasedLinksTableModel;
+                    $newPurchase->site_id = $request->site_id;
+                    $newPurchase->user_id = $user->id;
+                    $newPurchase->link_id = $link->id;
+                    $newPurchase->keyword = $request->keywords;
+                    if ($link->add_type == 1) {
+                        $newPurchase->is_added = 1;
+                    } else {
+                        $newPurchase->is_added = 0;
+                    }
+                    $newPurchase->is_reported = 0;
+                    $newPurchase->is_seen = 0;
+                    $newPurchase->save();
+
+                    $getUser = UsersTableModel::where('id', $user->id)->first();
+                    $getUser->balance = $getUser->balance - $link->price;
+                    $getUser->save();
+                }
+            }
+
+            return redirect()->route('my-links');
+        }
+    }
+
 }
 
