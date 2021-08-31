@@ -21,8 +21,8 @@
                         @foreach($logs as $log)
 
                             <tr>
-                                <td>{{strftime("%Y-%m-%d %H:%M:%S",strtotime($log->created_at))}}</td>
-                                <td>{{$log->username}}</td>
+                                <td>{{@strftime("%Y-%m-%d %H:%M:%S",strtotime(@$log->created_at))}}</td>
+                                <td>{{@$log->username}}</td>
                                 <td><textarea class="form-control bg-dark" disabled>{{$log->detail}}</textarea></td>
                             </tr>
 

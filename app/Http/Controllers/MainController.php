@@ -135,12 +135,12 @@ class MainController extends Controller
 
     public function customerLogs($page = 1)
     {
-        $countControl = CustomerLogsTableModel::all()->count();
+        $countControl = CustomerLogsTableModel::count();
         if (($countControl <= (($page - 1) * 10)) && $countControl > 0) {
             return redirect()->route('customer-logs', 1);
         } else {
             if (is_null($page) || $page == 1) {
-                $logs = CustomerLogsTableModel::orderBy('updated_at', 'DESC')->limit(10)->get();
+                $logs = CustomerLogsTableModel::skip(0)->take(10)->orderBy('updated_at', 'DESC')->get();
             } else {
                 $logs = CustomerLogsTableModel::skip(($page - 1) * 10)->take(10)->orderBy('updated_at', 'DESC')->get();
             }
