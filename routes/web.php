@@ -214,7 +214,7 @@ Route::middleware('customer-control')->group(function () {
         Route::post('/buy-premium-package', 'CustomerController@buyPremiumPackage')->name('buy-premium-package');
 
 
-        Route::get('/my-links', 'CustomerController@myLinks')->name('my-links');
+        Route::get('/my-links/{page?}', 'CustomerController@myLinks')->name('my-links');
         Route::get('/my-introductions', 'CustomerController@myIntroductions')->name('my-introductions');
         Route::get('/buy-link/{id?}', 'CustomerController@buyLink')->name('buy-link');
         Route::post('/buy-link-post', 'CustomerController@buyLinkPost')->name('buy-link-post');
@@ -252,6 +252,11 @@ Route::middleware('customer-control')->group(function () {
 
     });
 
+});
+
+Route::prefix('userNotification')->group(function () {
+    Route::get('lastNotification', 'UserNotificationController@lastNotification')->name('ajax.lastNotification');
+    Route::get('setSeen', 'UserNotificationController@setSeen')->name('ajax.setSeen');
 });
 
 // Blog Area

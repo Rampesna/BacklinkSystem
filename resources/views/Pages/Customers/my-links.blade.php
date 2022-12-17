@@ -79,7 +79,8 @@
                             <th><strong>Kelimeler</strong></th>
                             <th class="text-center"><strong>Eklenme Durumu</strong></th>
                             <th class="text-center"><strong>Link Durumu</strong></th>
-                            <th class="text-center" colspan="2"><strong>Düzenle</strong></th>
+                            <th class="text-center"><strong>Düzenle</strong></th>
+                            <th class="text-center"><strong>Sil</strong></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -121,6 +122,27 @@
                         @endforeach
                         </tbody>
                     </table>
+                    @if($allCount > 0)
+                        @if($page == 1)
+                            @if($allCount > 10)
+                                <ul class="pagination mt-2">
+                                    <li class="page-item"><a style="color:#e9ecef" class="page-link" href="javascript:void(0);">Önceki</a></li>
+                                    <li class="page-item active"><a class="page-link" href="javascript:void(0);">{{$page}}</a></li>
+                                    <li class="page-item"><a class="page-link" href="{{route('my-links',$page + 1)}}">{{$page + 1}}</a></li>
+                                    <li class="page-item"><a class="page-link" href="{{route('my-links',$page + 2)}}">{{$page + 2}}</a></li>
+                                    <li class="page-item"><a class="page-link" href="{{route('my-links',$page + 1)}}">Sonraki</a></li>
+                                </ul>
+                            @endif
+                        @else
+                            <ul class="pagination mt-2">
+                                <li class="page-item"><a class="page-link" href="{{route('my-links',$page - 1)}}">Önceki</a></li>
+                                <li class="page-item"><a class="page-link" href="{{route('my-links',$page - 1)}}">{{$page - 1}}</a></li>
+                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">{{$page}}</a></li>
+                                <li class="page-item"><a class="page-link" href="{{route('my-links',$page + 1)}}">{{$page + 1}}</a></li>
+                                <li class="page-item"><a class="page-link" href="{{route('my-links',$page + 1)}}">Sonraki</a></li>
+                            </ul>
+                        @endif
+                    @endif
                 </div>
             </div>
         @else
@@ -163,7 +185,9 @@
     <script src="{{ asset('assets/js/index.js') }}"></script>
 
     <script>
+
         $(document).ready(function() {
+
             $('.rotating').hide();
             $(".purchaseControl").click(function(e) {
                 $(this).hide();

@@ -88,6 +88,7 @@ class AccountsController extends Controller
 
     public function accountDetail($id)
     {
+        set_time_limit(3600);
         $account = UsersTableModel::find(Crypt::decrypt($id));
         $accountSites = UserSitesTableModel::where('user_id', $account->id)->orderBy('created_at', 'DESC')->get();
         $accountLinks = PurchasedLinksTableModel::where('user_id', $account->id)->orderBy('created_at', 'DESC')->get();

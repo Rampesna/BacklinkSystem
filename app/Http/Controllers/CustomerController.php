@@ -82,7 +82,7 @@ class CustomerController extends Controller
     public function addSiteControl(Request $request)
     {
         if (
-        is_null($request->site_url)
+            is_null($request->site_url)
         ) {
             $errorMessage = "Eksik Bilgiler Mevcut! Lütfen Kontrol Ederek Tekrar Deneyin.";
             return view('Pages.Customers.add-site', compact('errorMessage'));
@@ -182,28 +182,39 @@ class CustomerController extends Controller
         }
     }
 
-    public function myLinks()
+    public function myLinks($page = 1)
     {
         $user = Auth::user();
-        $purchasedLinks = PurchasedLinksTableModel::where('user_id', $user->id)->get();
-        $returnArray = [];
-        foreach ($purchasedLinks as $purchasedLink) {
-            $getLink = LinksTableModel::select('url')->where('id', $purchasedLink->link_id)->first();
-            $getSite = UserSitesTableModel::select('url')->where('id', $purchasedLink->site_id)->first();
-            $returnArray[] = [
-                "purchase_id" => $purchasedLink->id,
-                "site_url" => $getSite->url,
-                "link_url" => $getLink->url,
-                "keywords" => $purchasedLink->keyword,
-                "is_added" => $purchasedLink->is_added
-            ];
+        $countControl = PurchasedLinksTableModel::where('user_id', $user->id)->count();
+        if (($countControl <= (($page - 1) * 10)) && $countControl > 0) {
+            return redirect()->route('my-links', 1);
+        } else {
+            if (is_null($page) || $page == 1) {
+                $purchasedLinks = PurchasedLinksTableModel::where('user_id', $user->id)->orderBy('created_at', 'desc')->limit(10)->get();
+            } else {
+                $purchasedLinks = PurchasedLinksTableModel::where('user_id', $user->id)->orderBy('created_at', 'desc')->skip(($page - 1) * 10)->take(10)->get();
+            }
+            $allCount = PurchasedLinksTableModel::where('user_id', $user->id)->orderBy('created_at', 'desc')->count();
+//            $purchasedLinks = PurchasedLinksTableModel::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+            $returnArray = [];
+            foreach ($purchasedLinks as $purchasedLink) {
+                $getLink = LinksTableModel::select('url')->where('id', $purchasedLink->link_id)->first();
+                $getSite = UserSitesTableModel::select('url')->where('id', $purchasedLink->site_id)->first();
+                $returnArray[] = [
+                    "purchase_id" => $purchasedLink->id,
+                    "site_url" => $getSite->url,
+                    "link_url" => $getLink->url,
+                    "keywords" => $purchasedLink->keyword,
+                    "is_added" => $purchasedLink->is_added
+                ];
+            }
+
+            $transaction = "CustomerController@myLinks";
+            $detail = "Müşteri Satın Aldığı Linkleri Görüntüledi";
+            LogSystem::createNewLog($transaction, $detail);
+
+            return view('Pages.Customers.my-links', compact('returnArray', 'allCount', 'page'));
         }
-
-        $transaction = "CustomerController@myLinks";
-        $detail = "Müşteri Satın Aldığı Linkleri Görüntüledi";
-        LogSystem::createNewLog($transaction, $detail);
-
-        return view('Pages.Customers.my-links', compact('returnArray'));
     }
 
     public function editLink($id)
